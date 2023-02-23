@@ -30,14 +30,18 @@ namespace Semester2Prototype
             int count = _messages.Count - 1;
             foreach (string message in _messages)
             {
-                spriteBatch.DrawString(_messageBoxFont, message, new Vector2(_position.X + 10, _position.Y + +5 + (20 * count)), Color.White);
+                spriteBatch.DrawString(_messageBoxFont, 
+                    message, 
+                    new Vector2(
+                        (_position.X - _image.Width/2) + 10, 
+                        (_position.Y - _image.Height / 2) +5 + (20 * count)), 
+                    Color.White);
                 count--;
             }
         }
 
         public void AddMessage(string message)
         {
-
             _messages.Add(message);
         }
         public void ClearMessage()

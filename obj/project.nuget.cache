@@ -1,11 +1,13 @@
 {
   "version": 2,
-  "dgSpecHash": "vCoxhzrzIj5aK3fBlPpNEJUDVJ0PyzSZQlwerk1ujCEIoHls8uw9COX+/3jaxSyHKgEV/6T3hlTbFdOVWXQdnQ==",
+  "dgSpecHash": "6xAK5B9pG23Q/sM21JioA69TVB9PEeqbgpwI2zHHVgGe+ElrQYAoSpSdkiP1nQhvnYbsSvKEA5MKnH7XUH6NUA==",
   "success": true,
-  "projectFilePath": "C:\\Users\\ec2125920\\Semester2Project\\Semester2Prototype.csproj",
+  "projectFilePath": "C:\\Users\\danie\\receivedGitHub\\Semester2Project\\Semester2Prototype.csproj",
   "expectedPackageFiles": [
-    "C:\\Users\\ec2125920\\.nuget\\packages\\monogame.content.builder.task\\3.8.1.303\\monogame.content.builder.task.3.8.1.303.nupkg.sha512",
-    "C:\\Users\\ec2125920\\.nuget\\packages\\monogame.framework.desktopgl\\3.8.1.303\\monogame.framework.desktopgl.3.8.1.303.nupkg.sha512"
+    "C:\\Users\\danie\\.nuget\\packages\\monogame.content.builder.task\\3.8.1.303\\monogame.content.builder.task.3.8.1.303.nupkg.sha512",
+    "C:\\Users\\danie\\.nuget\\packages\\monogame.framework.desktopgl\\3.8.1.303\\monogame.framework.desktopgl.3.8.1.303.nupkg.sha512",
+    "C:\\Users\\danie\\.nuget\\packages\\newtonsoft.json\\13.0.2\\newtonsoft.json.13.0.2.nupkg.sha512",
+    "C:\\Users\\danie\\.nuget\\packages\\weatherapi-csharp\\0.4.1\\weatherapi-csharp.0.4.1.nupkg.sha512"
   ],
   "logs": []
 }
