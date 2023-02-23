@@ -14,8 +14,12 @@ namespace Semester2Prototype
 
         public Player(Texture2D image, Vector2 position, Point point):base(image, position) 
         { 
-            _center =  new Vector2(position.X+16,position.Y+16);
             _point= point;
+        }
+
+        public override void Update(List<Sprite> sprites)
+        {
+            _center =  new Vector2(_position.X+16,_position.Y+16);
         }
 
 

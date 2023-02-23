@@ -22,6 +22,8 @@ namespace Semester2Prototype
             _image = image;
             _position = position;
             _sourceRect = new Rectangle(0, 0, image.Width, image.Height);
+            _center = new Vector2(image.Width / 2,image.Height / 2);
+
         }
 
 
@@ -36,15 +38,9 @@ namespace Semester2Prototype
                 _image, 
                 _position, 
                 _sourceRect, 
-                _color);
+                _color,0f,new Vector2(_sourceRect.Width/2,_sourceRect.Height/2),1f,SpriteEffects.None,1f
+                );
 
-            /*,
-                0f,
-                _center,
-                1f,
-                SpriteEffects.None,
-                0f
-            */
 
         }
 

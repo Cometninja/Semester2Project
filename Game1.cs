@@ -16,6 +16,8 @@ namespace Semester2Prototype
         private SpriteBatch _spriteBatch;
         private List<Sprite> _sprites = new List<Sprite>(); 
 
+        static Moving moving = Moving.Still;
+       
         Point _playerPoint = new Point (0, 0);
         Player player;
         Texture2D square,playerSpriteSheet;
@@ -63,7 +65,7 @@ namespace Semester2Prototype
                 sprite.Update(_sprites);
             }
             Tile playerPos = _sprites.OfType<Tile>().Where(tile => tile._point == player._point).First();
-            PlayerControls(_sprites.OfType<Player>().First());
+            PlayerMove(_sprites.OfType<Player>().First());
             base.Update(gameTime);
         }
 
@@ -80,22 +82,64 @@ namespace Semester2Prototype
         }
         static void PlayerControls(Player player)
         {
+
             if (Keyboard.GetState().IsKeyDown(Keys.Up))
             {
-                player._position.Y--;
+                moving = Moving.Up;
             }
             else if (Keyboard.GetState().IsKeyDown(Keys.Down))
             {
-                player._position.Y++;
+                moving = Moving.Down;
             }
             else if (Keyboard.GetState().IsKeyDown(Keys.Right))
             {
-                player._position.X++;
+                moving = Moving.Right;
             }
             else if (Keyboard.GetState().IsKeyDown(Keys.Left))
             {
-                player._position.X--;
+                moving = Moving.Left;
             }
+        }
+
+        static void PlayerMove(Player player)
+        {
+
+            switch(moving)
+            {
+                case Moving.Up:
+                    player._position.Y--;
+                    if (player._position.Y % 50 == 0)
+                    {
+                        moving = Moving.Still;
+                    }
+                    break;
+                case Moving.Down:
+                    player._position.Y++;
+                    if (player._position.Y % 50 == 0)
+                    {
+                        moving = Moving.Still;
+                    }
+                    break;
+                case Moving.Right:
+                    player._position.X++;
+                    if (player._position.Y % 50 == 0)
+                    {
+                        moving = Moving.Still;
+                    }
+                    break;
+                case Moving.Left:
+                    player._position.X--;
+                    if (player._position.X % 50 == 0)
+                    {
+                        moving = Moving.Still;
+                    }
+                    break;
+                    
+                default:
+                    PlayerControls(player);
+                    break;
+            }
+
         }
         static List<Rectangle> GetPlayerImage()
         {
