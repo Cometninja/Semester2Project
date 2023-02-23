@@ -14,21 +14,12 @@ namespace Semester2Prototype
     {
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
-
         private List<Sprite> _sprites = new List<Sprite>(); 
 
         Point _playerPoint = new Point (0, 0);
-
         Player player;
         Texture2D square,playerSpriteSheet;
-
-
-
-
-
         Point point= new Point(1000,1000);
-
-        
 
         public Game1()
         {
@@ -41,11 +32,7 @@ namespace Semester2Prototype
         {
             _graphics.PreferredBackBufferWidth= point.X;
             _graphics.PreferredBackBufferHeight = point.Y;
-
-
             _graphics.ApplyChanges();
-            // TODO: Add your initialization logic here
-
             base.Initialize();
         }
 
@@ -54,9 +41,6 @@ namespace Semester2Prototype
             _spriteBatch = new SpriteBatch(GraphicsDevice);
             square = Content.Load<Texture2D>("whiteSquare");
             playerSpriteSheet = Content.Load<Texture2D>("chpepper1squirePNG");
-
-
-            // TODO: use this.Content to load your game content here
 
             for(int col = 0,y = 0; col < point.Y; col += square.Width, y++)
             {
@@ -67,7 +51,6 @@ namespace Semester2Prototype
             }
             player = new Player(playerSpriteSheet,new Vector2(50,50),_playerPoint);
             player._sourceRect = GetPlayerImage()[0];
-            
             _sprites.Add(player);
         }
 
@@ -79,18 +62,8 @@ namespace Semester2Prototype
             {
                 sprite.Update(_sprites);
             }
-
             Tile playerPos = _sprites.OfType<Tile>().Where(tile => tile._point == player._point).First();
-
             PlayerControls(_sprites.OfType<Player>().First());
-
-
-
-
-
-
-            // TODO: Add your update logic here
-
             base.Update(gameTime);
         }
 
@@ -98,30 +71,21 @@ namespace Semester2Prototype
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
             _spriteBatch.Begin();
-
-
             foreach(Sprite sprite in _sprites) 
             {
                 sprite.Draw(_spriteBatch);
             }
-
-
             base.Draw(gameTime);
             _spriteBatch.End();
-
         }
         static void PlayerControls(Player player)
         {
             if (Keyboard.GetState().IsKeyDown(Keys.Up))
             {
                 player._position.Y--;
-                
-
-
             }
             else if (Keyboard.GetState().IsKeyDown(Keys.Down))
             {
-
                 player._position.Y++;
             }
             else if (Keyboard.GetState().IsKeyDown(Keys.Right))
@@ -132,7 +96,6 @@ namespace Semester2Prototype
             {
                 player._position.X--;
             }
-            
         }
         static List<Rectangle> GetPlayerImage()
         {
@@ -145,10 +108,6 @@ namespace Semester2Prototype
             downAnimation.Add(new Rectangle(0, 0, 32, 32));
             downAnimation.Add(new Rectangle(32, 0, 32, 32));
             downAnimation.Add(new Rectangle(64, 0, 32, 32));
-
-
-
-
             return downAnimation;
         }
     }
