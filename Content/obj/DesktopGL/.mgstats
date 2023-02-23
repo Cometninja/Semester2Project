@@ -1,5 +1,0 @@
-Source File,Dest File,Processor Type,Content Type,Source File Size,Dest File Size,Build Seconds
-"C:/Users/ec2125920/Semester2Project/Content/chpepper1squirePNG.png","C:/Users/ec2125920/Semester2Project/Content/bin/DesktopGL/chpepper1squirePNG.xnb","TextureProcessor","Texture2DContent",2976,49237,0.1061502
-"C:/Users/ec2125920/Semester2Project/Content/mainFont.spritefont","C:/Users/ec2125920/Semester2Project/Content/bin/DesktopGL/mainFont.xnb","FontDescriptionProcessor","SpriteFontContent",2068,21535,0.1823106
-"C:/Users/ec2125920/Semester2Project/Content/MessageBox.png","C:/Users/ec2125920/Semester2Project/Content/bin/DesktopGL/MessageBox.xnb","TextureProcessor","Texture2DContent",730,240085,0.0094701
-"C:/Users/ec2125920/Semester2Project/Content/whiteSquare.png","C:/Users/ec2125920/Semester2Project/Content/bin/DesktopGL/whiteSquare.xnb","TextureProcessor","Texture2DContent",227,10085,0.0016645
