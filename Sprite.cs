@@ -3,9 +3,6 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
-
-
-
 namespace Semester2Prototype
 {
     internal class Sprite
@@ -32,14 +29,18 @@ namespace Semester2Prototype
 
         }
 
-        public void Draw(SpriteBatch spriteBatch)
+        public virtual void Draw(SpriteBatch spriteBatch)
         {
             spriteBatch.Draw(
                 _image, 
                 _position, 
                 _sourceRect, 
-                _color,0f,new Vector2(_sourceRect.Width/2,_sourceRect.Height/2),1f,SpriteEffects.None,1f
-                );
+                _color,
+                0f,
+                new Vector2(_sourceRect.Width/2,_sourceRect.Height/2),
+                1f,
+                SpriteEffects.None,
+                1f);
 
 
         }

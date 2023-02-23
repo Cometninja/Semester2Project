@@ -7,6 +7,7 @@ using System.Reflection;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using System.Diagnostics;
 
 namespace Semester2Prototype
 {
@@ -19,13 +20,17 @@ namespace Semester2Prototype
 
         static Random random = new Random();
         static Moving moving = Moving.Still;
-        static int animationCount = 0;
-       
-        Point _playerPoint = new Point (0, 0);
-        Player player;
-        Texture2D square,playerSpriteSheet;
-        Point point= new Point(1000,1000);
+        static int animationCount = 0, tickCount;
+        static SpriteFont _mainfont;
+        static Player player;
+        static MessageBox messageBox;
 
+        Point _playerPoint = new Point (0, 0);
+        Texture2D square,playerSpriteSheet,messageBoxImage;
+        Point point= new Point(1000,1000);
+        List<Tile> tiles = new List<Tile>();
+
+        
         public Game1()
         {
             _graphics = new GraphicsDeviceManager(this);
@@ -35,7 +40,7 @@ namespace Semester2Prototype
 
         protected override void Initialize()
         {
-            _graphics.ToggleFullScreen();
+            
             _graphics.ApplyChanges();
             base.Initialize();
         }
@@ -43,8 +48,12 @@ namespace Semester2Prototype
         protected override void LoadContent()
         {
             _spriteBatch = new SpriteBatch(GraphicsDevice);
+            
             square = Content.Load<Texture2D>("whiteSquare");
             playerSpriteSheet = Content.Load<Texture2D>("chpepper1squirePNG");
+            messageBoxImage = Content.Load<Texture2D>("MessageBox");
+            _mainfont = Content.Load<SpriteFont>("mainFont");
+
 
             for(int col = 0,y = 0; col < point.Y; col += square.Width, y++)
             {
@@ -54,6 +63,9 @@ namespace Semester2Prototype
                 }
             }
             player = new Player(playerSpriteSheet,new Vector2(50,50),_playerPoint);
+            _sprites.Add( new MessageBox(messageBoxImage, new Vector2(_graphics.PreferredBackBufferWidth/2, _graphics.PreferredBackBufferHeight / 2),_mainfont));
+
+            
             player._sourceRect = GetPlayerImage()[0][0];
             _sprites.Add(player);
         }
@@ -62,11 +74,21 @@ namespace Semester2Prototype
         {
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
+
+            player = _sprites.OfType<Player>().FirstOrDefault();
+            messageBox = _sprites.OfType<MessageBox>().FirstOrDefault();
+            
+            
+            
+
             foreach(Sprite sprite in _sprites) 
             {
                 sprite.Update(_sprites);
             }
+            
             Tile playerPos = _sprites.OfType<Tile>().Where(tile => tile._point == player._point).First();
+            tiles = _sprites.OfType<Tile>().ToList();
+            
             PlayerMove(_sprites.OfType<Player>().First());
             base.Update(gameTime);
         }
@@ -101,6 +123,10 @@ namespace Semester2Prototype
             {
                 moving = Moving.Left;
             }
+            else if (Keyboard.GetState().IsKeyDown(Keys.Space)) 
+            {
+                messageBox.AddMessage("Testing");
+            }
         }
 
         static void PlayerMove(Player player)
@@ -109,8 +135,9 @@ namespace Semester2Prototype
             {
                 
                 case Moving.Up:
-                    player._position.Y--;
                     
+                    player._sourceRect = GetPlayerImage()[1][animationCount];
+                    player._position.Y--;
                     if (player._position.Y % 50 == 0)
                     {
                         moving = Moving.Still;
@@ -126,6 +153,8 @@ namespace Semester2Prototype
                     }
                     break;
                 case Moving.Right:
+                    player._sourceRect = GetPlayerImage()[2][animationCount];
+                    
                     player._position.X++;
                     if (player._position.X % 50 == 0)
                     {
@@ -133,6 +162,8 @@ namespace Semester2Prototype
                     }
                     break;
                 case Moving.Left:
+                    player._sourceRect = GetPlayerImage()[3][animationCount];
+                    
                     player._position.X--;
                     if (player._position.X % 50 == 0)
                     {
@@ -144,14 +175,21 @@ namespace Semester2Prototype
                     PlayerControls(player);
                     break;
             }
-            if (animationCount == 3) 
-            { 
-                animationCount = 0;
-            }
-            else
+            
+            tickCount++;
+            if (tickCount % 10 == 0)
             {
-                animationCount++;
+
+                if (animationCount == 3)
+                {
+                    animationCount = 0;
+                }
+                else
+                {
+                    animationCount++;
+                }
             }
+            { }
         }
         static List<List<Rectangle>> GetPlayerImage()
         {
@@ -188,9 +226,6 @@ namespace Semester2Prototype
             animations[3].Add(new Rectangle(0, 32, 32, 32));
             animations[3].Add(new Rectangle(32, 32, 32, 32));
             animations[3].Add(new Rectangle(64, 32, 32, 32));
-
-
-
             
             return animations;
         }

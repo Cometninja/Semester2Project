@@ -4,10 +4,14 @@
   <Platform>DesktopGL</Platform>
   <Config />
   <SourceFiles>
-    <File>C:/Users/danie/Desktop/ServerProject/SimpleServer/Semester2Prototype/Content/chpepper1squirePNG.png</File>
-    <File>C:/Users/danie/Desktop/ServerProject/SimpleServer/Semester2Prototype/Content/whiteSquare.png</File>
+    <File>C:/Users/ec2125920/Semester2Project/Content/chpepper1squirePNG.png</File>
+    <File>C:/Users/ec2125920/Semester2Project/Content/mainFont.spritefont</File>
+    <File>C:/Users/ec2125920/Semester2Project/Content/MessageBox.png</File>
+    <File>C:/Users/ec2125920/Semester2Project/Content/whiteSquare.png</File>
   </SourceFiles>
   <DestFiles>
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
     <File xsi:nil="true" />
     <File xsi:nil="true" />
   </DestFiles>

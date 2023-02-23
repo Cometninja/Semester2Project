@@ -52,3 +52,7 @@ C:\Users\ec2125920\Semester2Project\obj\Debug\net6.0\refint\Semester2Prototype.d
 C:\Users\ec2125920\Semester2Project\obj\Debug\net6.0\Semester2Prototype.pdb
 C:\Users\ec2125920\Semester2Project\obj\Debug\net6.0\Semester2Prototype.genruntimeconfig.cache
 C:\Users\ec2125920\Semester2Project\obj\Debug\net6.0\ref\Semester2Prototype.dll
+C:\Users\ec2125920\Semester2Project\bin\Debug\net6.0\Content\MessageBox.xnb
+C:\Users\ec2125920\Semester2Project\bin\Debug\net6.0\Content\mainFont.xnb
+C:\Users\ec2125920\Semester2Project\bin\Debug\net6.0\Newtonsoft.Json.dll
+C:\Users\ec2125920\Semester2Project\bin\Debug\net6.0\WeatherAPI-CSharp.dll
