@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System;
 using System.IO;
 using System.Linq;
 using System.Net.Http.Headers;
@@ -14,9 +15,11 @@ namespace Semester2Prototype
     {
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
-        private List<Sprite> _sprites = new List<Sprite>(); 
+        private List<Sprite> _sprites = new List<Sprite>();
 
+        static Random random = new Random();
         static Moving moving = Moving.Still;
+        static int animationCount = 0;
        
         Point _playerPoint = new Point (0, 0);
         Player player;
@@ -32,8 +35,7 @@ namespace Semester2Prototype
 
         protected override void Initialize()
         {
-            _graphics.PreferredBackBufferWidth= point.X;
-            _graphics.PreferredBackBufferHeight = point.Y;
+            _graphics.ToggleFullScreen();
             _graphics.ApplyChanges();
             base.Initialize();
         }
@@ -52,7 +54,7 @@ namespace Semester2Prototype
                 }
             }
             player = new Player(playerSpriteSheet,new Vector2(50,50),_playerPoint);
-            player._sourceRect = GetPlayerImage()[0];
+            player._sourceRect = GetPlayerImage()[0][0];
             _sprites.Add(player);
         }
 
@@ -103,17 +105,20 @@ namespace Semester2Prototype
 
         static void PlayerMove(Player player)
         {
-
             switch(moving)
             {
+                
                 case Moving.Up:
                     player._position.Y--;
+                    
                     if (player._position.Y % 50 == 0)
                     {
                         moving = Moving.Still;
                     }
                     break;
                 case Moving.Down:
+                    player._sourceRect = GetPlayerImage()[0][animationCount];
+
                     player._position.Y++;
                     if (player._position.Y % 50 == 0)
                     {
@@ -122,7 +127,7 @@ namespace Semester2Prototype
                     break;
                 case Moving.Right:
                     player._position.X++;
-                    if (player._position.Y % 50 == 0)
+                    if (player._position.X % 50 == 0)
                     {
                         moving = Moving.Still;
                     }
@@ -139,20 +144,55 @@ namespace Semester2Prototype
                     PlayerControls(player);
                     break;
             }
-
+            if (animationCount == 3) 
+            { 
+                animationCount = 0;
+            }
+            else
+            {
+                animationCount++;
+            }
         }
-        static List<Rectangle> GetPlayerImage()
+        static List<List<Rectangle>> GetPlayerImage()
         {
             // 32x,64x,96x
             // 32y,64y,96y,128y
-           
-            List<Rectangle> downAnimation = new List<Rectangle>();
+            
+            List<List<Rectangle>> animations = new List<List<Rectangle>>();
 
-            downAnimation.Add(new Rectangle(32, 0, 32, 32));
-            downAnimation.Add(new Rectangle(0, 0, 32, 32));
-            downAnimation.Add(new Rectangle(32, 0, 32, 32));
-            downAnimation.Add(new Rectangle(64, 0, 32, 32));
-            return downAnimation;
+
+            for (int i = 0; i < 4; i++)
+            {
+                animations.Add(new List<Rectangle>());
+            }
+            // Down animation
+            animations[0].Add(new Rectangle(32, 0, 32, 32));
+            animations[0].Add(new Rectangle(0, 0, 32, 32));
+            animations[0].Add(new Rectangle(32, 0, 32, 32));
+            animations[0].Add(new Rectangle(64, 0, 32, 32));
+            
+            // Up animation
+            animations[1].Add(new Rectangle(32, 96, 32, 32));
+            animations[1].Add(new Rectangle(0, 96, 32, 32));
+            animations[1].Add(new Rectangle(32, 96, 32, 32));
+            animations[1].Add(new Rectangle(64, 96, 32, 32));
+            
+            // Right animation
+            animations[2].Add(new Rectangle(32, 64, 32, 32));
+            animations[2].Add(new Rectangle(0, 64, 32, 32));
+            animations[2].Add(new Rectangle(32, 64, 32, 32));
+            animations[2].Add(new Rectangle(64, 64, 32, 32));
+
+            // Left animation
+            animations[3].Add(new Rectangle(32, 32, 32, 32));
+            animations[3].Add(new Rectangle(0, 32, 32, 32));
+            animations[3].Add(new Rectangle(32, 32, 32, 32));
+            animations[3].Add(new Rectangle(64, 32, 32, 32));
+
+
+
+            
+            return animations;
         }
     }
 

@@ -21,12 +21,5 @@ namespace Semester2Prototype
         {
             _center =  new Vector2(_position.X+16,_position.Y+16);
         }
-
-
-
-
-
-
-
     }
 }
