@@ -5,6 +5,7 @@ using System.Diagnostics;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using static System.Net.Mime.MediaTypeNames;
 
 
 namespace Semester2Prototype
@@ -37,6 +38,7 @@ namespace Semester2Prototype
 
         public override void Update(List<Sprite> sprites)
         {
+            _centerBox = new Rectangle((int)(_position.X + _image.Width / 2) - 20, (int)(_position.Y + _image.Width / 2) - 20, 40, 40);
             _messageBox = sprites.OfType<MessageBox>().First();
             Player player = sprites.OfType<Player>().First();
             if (_centerBox.Contains(player._center))

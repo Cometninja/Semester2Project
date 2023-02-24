@@ -18,6 +18,7 @@ namespace Semester2Prototype
         private SpriteBatch _spriteBatch;
 
         static List<Sprite> _sprites = new List<Sprite>();
+        static List<Tile> tiles = new List<Tile>();
         static Random _random = new Random();
         static Moving _moving = Moving.Still;
         static int _animationCount = 0, tickCount, testCount;
@@ -30,7 +31,6 @@ namespace Semester2Prototype
         Point _playerPoint = new Point (0, 0);
         Texture2D square,playerSpriteSheet,messageBoxImage;
         Point point= new Point(1000,1000);
-        List<Tile> tiles = new List<Tile>();
 
         
         public Game1()
@@ -170,14 +170,25 @@ namespace Semester2Prototype
 
         static void PlayerMove(Player player)
         {
+            Tile sourceTile = _sprites.OfType<Tile>().FirstOrDefault();
             switch(_moving)
             {
                 
                 case Moving.Up:
                     
                     player._sourceRect = GetPlayerImage()[1][_animationCount];
-                    player._position.Y--;
-                    if (player._position.Y % 50 == 0)
+                    if (player._position.Y == 150)
+                    {
+                        foreach (Tile tile in tiles) 
+                        { 
+                            tile._position.Y++;
+                        }
+                    }
+                    else 
+                    {
+                        player._position.Y--;
+                    }
+                    if (player._position.Y % 50 == 0 && sourceTile._position.Y % 50 == 0)
                     {
                         _moving = Moving.Still;
                         player._sourceRect = GetPlayerImage()[1][0];
@@ -185,9 +196,18 @@ namespace Semester2Prototype
                     break;
                 case Moving.Down:
                     player._sourceRect = GetPlayerImage()[0][_animationCount];
-
-                    player._position.Y++;
-                    if (player._position.Y % 50 == 0)
+                    if (player._position.Y == 350)
+                    {
+                        foreach (Tile tile in tiles)
+                        {
+                            tile._position.Y--;
+                        }
+                    }
+                    else
+                    {
+                        player._position.Y++;
+                    }
+                    if (player._position.Y % 50 == 0 && sourceTile._position.Y % 50 == 0)
                     {
                         _moving = Moving.Still;
                         player._sourceRect = GetPlayerImage()[0][0];
@@ -195,9 +215,18 @@ namespace Semester2Prototype
                     break;
                 case Moving.Right:
                     player._sourceRect = GetPlayerImage()[2][_animationCount];
-                    
-                    player._position.X++;
-                    if (player._position.X % 50 == 0)
+                    if (player._position.X == 500)
+                    {
+                        foreach (Tile tile in tiles)
+                        {
+                            tile._position.X--;
+                        }
+                    }
+                    else
+                    {
+                        player._position.X++;
+                    }
+                    if (player._position.X % 50 == 0 && sourceTile._position.X % 50 == 0)
                     {
                         _moving = Moving.Still;
                         player._sourceRect = GetPlayerImage()[2][0];
@@ -205,9 +234,18 @@ namespace Semester2Prototype
                     break;
                 case Moving.Left:
                     player._sourceRect = GetPlayerImage()[3][_animationCount];
-                    
-                    player._position.X--;
-                    if (player._position.X % 50 == 0)
+                    if (player._position.X == 300)
+                    {
+                        foreach (Tile tile in tiles)
+                        {
+                            tile._position.X++;
+                        }
+                    }
+                    else
+                    {
+                        player._position.X--;
+                    }
+                    if (player._position.X % 50 == 0 && sourceTile._position.X % 50 == 0)
                     {
                         _moving = Moving.Still;
                         player._sourceRect = GetPlayerImage()[3][0];
