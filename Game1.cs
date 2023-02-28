@@ -27,9 +27,10 @@ namespace Semester2Prototype
         static PlayerFacing _playerFacing = PlayerFacing.Down;
         static int _animationCount = 0, tickCount, testCount;
         static bool _isSpacePressed,_isEPressed;
+        static Journal _journal;
 
         Point _playerPoint = new Point (0, 0);
-        Texture2D square,playerSpriteSheet,messageBoxImage;
+        Texture2D square,playerSpriteSheet,messageBoxImage,_journalImage;
         Point point= new Point(1000,1000);
 
         
@@ -55,6 +56,7 @@ namespace Semester2Prototype
             playerSpriteSheet = Content.Load<Texture2D>("DetectiveSpriteSheet");
             messageBoxImage = Content.Load<Texture2D>("MessageBox");
             _mainfont = Content.Load<SpriteFont>("mainFont");
+            _journalImage = Content.Load<Texture2D>("journal");
 
             for(int col = 0,y = 0; col < point.Y; col += square.Width, y++)
             {
@@ -69,6 +71,7 @@ namespace Semester2Prototype
                     new Vector2(_graphics.PreferredBackBufferWidth/2, 
                         _graphics.PreferredBackBufferHeight - messageBoxImage.Height/2),
                     _mainfont));
+            _sprites.Add(new Journal(_journalImage,new Vector2(0,0)));
             _player._sourceRect = GetPlayerImage()[0][0];
             _sprites.Add(_player);
         }
@@ -216,6 +219,15 @@ namespace Semester2Prototype
                     _messageBox.AddMessage("its not an interactive object idiot!!!!");
                 }
             }
+            _journal = _sprites.OfType<Journal>().FirstOrDefault();
+            if (Keyboard.GetState().IsKeyDown(Keys.P))
+            {
+                _journal.DisplayJournal = true;
+            }
+            else
+            {
+                _journal.DisplayJournal = false;
+            }
         }
 
         static void PlayerMove(Player player)
@@ -361,6 +373,6 @@ namespace Semester2Prototype
             return animations;
         }
     }
-
     enum Moving { Still,Down,Up,Left,Right }
+    enum GameState { GameStart,GamePlaying,JournalScreen}
 }
