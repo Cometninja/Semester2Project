@@ -25,6 +25,18 @@
 /processorParam:TextureFormat=Color
 /build:chpepper1squirePNG.png
 
+#begin DetectiveSpriteSheet.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:DetectiveSpriteSheet.png
+
 #begin mainFont.spritefont
 /importer:FontDescriptionImporter
 /processor:FontDescriptionProcessor

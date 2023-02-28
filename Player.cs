@@ -19,7 +19,8 @@ namespace Semester2Prototype
 
         public override void Update(List<Sprite> sprites)
         {
-            _center =  new Vector2(_position.X+16,_position.Y+16);
+            _center =  new Vector2(_position.X+16,_position.Y+30);
         }
     }
+    enum PlayerFacing { Up,Down,Left,Right }
 }

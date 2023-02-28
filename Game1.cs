@@ -11,7 +11,6 @@ using System.Diagnostics;
 
 namespace Semester2Prototype
 {
-
     public class Game1 : Game
     {
         private GraphicsDeviceManager _graphics;
@@ -20,13 +19,14 @@ namespace Semester2Prototype
         static List<Sprite> _sprites = new List<Sprite>();
         static List<Tile> tiles = new List<Tile>();
         static Random _random = new Random();
-        static Moving _moving = Moving.Still;
-        static int _animationCount = 0, tickCount, testCount;
         static SpriteFont _mainfont;
         static Player _player;
         static MessageBox _messageBox;
-        static bool _isSpacePressed;
         static Tile _playerPos;
+        static Moving _moving = Moving.Still;
+        static PlayerFacing _playerFacing = PlayerFacing.Down;
+        static int _animationCount = 0, tickCount, testCount;
+        static bool _isSpacePressed,_isEPressed;
 
         Point _playerPoint = new Point (0, 0);
         Texture2D square,playerSpriteSheet,messageBoxImage;
@@ -42,7 +42,7 @@ namespace Semester2Prototype
 
         protected override void Initialize()
         {
-            
+            _graphics.ToggleFullScreen();
             _graphics.ApplyChanges();
             base.Initialize();
         }
@@ -52,7 +52,7 @@ namespace Semester2Prototype
             _spriteBatch = new SpriteBatch(GraphicsDevice);
             
             square = Content.Load<Texture2D>("whiteSquare");
-            playerSpriteSheet = Content.Load<Texture2D>("chpepper1squirePNG");
+            playerSpriteSheet = Content.Load<Texture2D>("DetectiveSpriteSheet");
             messageBoxImage = Content.Load<Texture2D>("MessageBox");
             _mainfont = Content.Load<SpriteFont>("mainFont");
 
@@ -108,11 +108,22 @@ namespace Semester2Prototype
         {
             Tile newTile = _sprites.OfType<Tile>().Where(tile => tile._point == newTilePoint).FirstOrDefault();
 
-            if (newTile._tileState == TileState.Wall)
+            if (newTile._tileState != TileState.Empty)
             {
                 return false;
             }
             else return true;
+
+        }
+        static bool CheckInteractiveTile(Point newTilePoint)
+        {
+            Tile newTile = _sprites.OfType<Tile>().Where(tile => tile._point == newTilePoint).FirstOrDefault();
+
+            if (newTile._tileState == TileState.Interactive)
+            {
+                return true;
+            }
+            else return false;
 
         }
         static void PlayerControls(Player player)
@@ -121,6 +132,8 @@ namespace Semester2Prototype
 
             if (Keyboard.GetState().IsKeyDown(Keys.Up))
             {
+                player._sourceRect = GetPlayerImage()[1][0];
+                _playerFacing = PlayerFacing.Up;
                 if (CheckNewTile(new Point(playerPoint.X, playerPoint.Y - 1)))
                 {
                     _moving = Moving.Up;
@@ -130,6 +143,8 @@ namespace Semester2Prototype
             }
             else if (Keyboard.GetState().IsKeyDown(Keys.Down))
             {
+                _playerFacing = PlayerFacing.Down;
+                player._sourceRect = GetPlayerImage()[0][0];
                 if (CheckNewTile(new Point(playerPoint.X, playerPoint.Y + 1)))
                 {
                     _moving = Moving.Down;
@@ -139,6 +154,9 @@ namespace Semester2Prototype
             }
             else if (Keyboard.GetState().IsKeyDown(Keys.Right))
             {
+                player._sourceRect = GetPlayerImage()[2][0];
+
+                _playerFacing = PlayerFacing.Right;
                 if (CheckNewTile(new Point(playerPoint.X+1, playerPoint.Y)))
                 {
                     _moving = Moving.Right;
@@ -148,12 +166,15 @@ namespace Semester2Prototype
             }
             else if (Keyboard.GetState().IsKeyDown(Keys.Left))
             {
+
+                _playerFacing = PlayerFacing.Left;
+                player._sourceRect = GetPlayerImage()[3][0];
+                
                 if (CheckNewTile(new Point(playerPoint.X-1, playerPoint.Y)))
                 {
                     _moving = Moving.Left;
                 }
                 else _messageBox.AddMessage("You can't walk through walls......");
-
             }
             else if (Keyboard.GetState().IsKeyDown(Keys.Space) && !_isSpacePressed) 
             {
@@ -161,10 +182,39 @@ namespace Semester2Prototype
                 _isSpacePressed = true;
                 testCount++;
             }
-
             if (!Keyboard.GetState().IsKeyDown(Keys.Space) && _isSpacePressed) 
             {
                 _isSpacePressed = false;
+            }
+            if (Keyboard.GetState().IsKeyDown(Keys.E) && !_isEPressed)
+            {
+                Point checkPoint = player._point;
+                switch (_playerFacing)
+                {
+                    case PlayerFacing.Up:
+                        checkPoint.Y--;
+                        break;
+                    case PlayerFacing.Down: 
+                        checkPoint.Y++;
+                        
+                        break;
+                    case PlayerFacing.Right: 
+                        checkPoint.X++;
+                        
+                        break;
+                    case PlayerFacing.Left:
+                        checkPoint.X--;
+                        
+                        break;
+                }
+                if (CheckInteractiveTile(checkPoint))
+                {
+                    _messageBox.AddMessage("it an interactive object!!!");
+                }
+                else
+                {
+                    _messageBox.AddMessage("its not an interactive object idiot!!!!");
+                }
             }
         }
 
@@ -285,28 +335,28 @@ namespace Semester2Prototype
                 animations.Add(new List<Rectangle>());
             }
             // Down animation
-            animations[0].Add(new Rectangle(32, 0, 32, 32));
-            animations[0].Add(new Rectangle(0, 0, 32, 32));
-            animations[0].Add(new Rectangle(32, 0, 32, 32));
-            animations[0].Add(new Rectangle(64, 0, 32, 32));
+            animations[0].Add(new Rectangle(0, 0, 36, 52));
+            animations[0].Add(new Rectangle(36, 0, 36, 52));
+            animations[0].Add(new Rectangle(0, 0, 36, 52));
+            animations[0].Add(new Rectangle(72, 0, 36, 52));
             
             // Up animation
-            animations[1].Add(new Rectangle(32, 96, 32, 32));
-            animations[1].Add(new Rectangle(0, 96, 32, 32));
-            animations[1].Add(new Rectangle(32, 96, 32, 32));
-            animations[1].Add(new Rectangle(64, 96, 32, 32));
+            animations[3].Add(new Rectangle(0, 156, 36, 52));
+            animations[3].Add(new Rectangle(36, 156, 36, 52));
+            animations[3].Add(new Rectangle(0, 156, 36, 52));
+            animations[3].Add(new Rectangle(72, 156, 36, 52));
             
             // Right animation
-            animations[2].Add(new Rectangle(32, 64, 32, 32));
-            animations[2].Add(new Rectangle(0, 64, 32, 32));
-            animations[2].Add(new Rectangle(32, 64, 32, 32));
-            animations[2].Add(new Rectangle(64, 64, 32, 32));
+            animations[2].Add(new Rectangle(0, 104, 36, 52));
+            animations[2].Add(new Rectangle(36, 104, 36, 52));
+            animations[2].Add(new Rectangle(0, 104, 36, 52));
+            animations[2].Add(new Rectangle(72, 104, 36, 52));
 
             // Left animation
-            animations[3].Add(new Rectangle(32, 32, 32, 32));
-            animations[3].Add(new Rectangle(0, 32, 32, 32));
-            animations[3].Add(new Rectangle(32, 32, 32, 32));
-            animations[3].Add(new Rectangle(64, 32, 32, 32));
+            animations[1].Add(new Rectangle(0, 52, 36, 52));
+            animations[1].Add(new Rectangle(36, 52, 36, 52));
+            animations[1].Add(new Rectangle(0, 52, 36, 52));
+            animations[1].Add(new Rectangle(72, 52, 36, 52));
             
             return animations;
         }

@@ -33,6 +33,12 @@ namespace Semester2Prototype
                 _origonalColor = Color.Firebrick;
             }
 
+            if (_point.X == 10 && _point.Y == 5)
+            {
+                _tileState = TileState.Interactive;
+                _origonalColor = Color.Blue;
+            }
+
 
         }
 
