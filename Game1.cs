@@ -30,9 +30,10 @@ namespace Semester2Prototype
         static Journal _journal;
 
         Point _playerPoint = new Point (0, 0);
-        Texture2D square,playerSpriteSheet,messageBoxImage,_journalImage;
+        Texture2D square,playerSpriteSheet,messageBoxImage,_journalImage, _wallSpriteSheet;
         Point point= new Point(1000,1000);
 
+        Wall _wall;
         
         public Game1()
         {
@@ -43,7 +44,6 @@ namespace Semester2Prototype
 
         protected override void Initialize()
         {
-            _graphics.ToggleFullScreen();
             _graphics.ApplyChanges();
             base.Initialize();
         }
@@ -57,6 +57,7 @@ namespace Semester2Prototype
             messageBoxImage = Content.Load<Texture2D>("MessageBox");
             _mainfont = Content.Load<SpriteFont>("mainFont");
             _journalImage = Content.Load<Texture2D>("journal");
+            _wallSpriteSheet = Content.Load<Texture2D>("walltest");
 
             for(int col = 0,y = 0; col < point.Y; col += square.Width, y++)
             {
@@ -65,6 +66,9 @@ namespace Semester2Prototype
                     _sprites.Add(new Tile(square, new Vector2(row, col),new Point(x,y)));
                 }
             }
+
+            _wall = new Wall(_wallSpriteSheet, new Vector2(0, 0), new Point(-1, -1));
+
             _player = new Player(playerSpriteSheet,new Vector2(400,250),_playerPoint);
             _sprites.Add( 
                 new MessageBox(messageBoxImage, 
@@ -104,7 +108,10 @@ namespace Semester2Prototype
             {
                 sprite.Draw(_spriteBatch);
             }
+            
             base.Draw(gameTime);
+            _wall.DrawWall(_spriteBatch);
+
             _spriteBatch.End();
         }
         static bool CheckNewTile(Point newTilePoint)
