@@ -13,20 +13,20 @@ namespace Semester2Prototype
         public Rectangle _sourceRect;
 
 
-
+        
         public Sprite(Texture2D image, Vector2 position)
         {
             _image = image;
             _position = position;
             _sourceRect = new Rectangle(0, 0, image.Width, image.Height);
-            _center = new Vector2(image.Width / 2,image.Height / 2);
+            _center = new Vector2(_sourceRect.Width / 2,_sourceRect.Height / 2);
 
         }
 
 
         public virtual void Update(List<Sprite> sprites)
         {
-
+          
         }
 
         public virtual void Draw(SpriteBatch spriteBatch)
