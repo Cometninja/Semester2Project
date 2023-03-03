@@ -26,7 +26,7 @@ namespace Semester2Prototype
             _bounds = new Rectangle((int)_position.X, (int)_position.Y, _image.Width, _image.Height);
             _point = point;
             _center = new Vector2(image.Width / 2, image.Height / 2);
-            _centerBox = new Rectangle((int)(_position.X), (int)(_position.Y) - 20,40,40);
+            _centerBox = new Rectangle((int)(_position.X), (int)(_position.Y),50,50);
             _origonalColor = _color;
             if (_point.X == 0 || _point.X == 16 || _point.Y == 0 || _point.Y == 10)
             {
@@ -43,7 +43,7 @@ namespace Semester2Prototype
 
         public override void Update(List<Sprite> sprites)
         {
-            _centerBox = new Rectangle((int)(_position.X + _image.Width / 2) - 20, (int)(_position.Y + _image.Width / 2) - 20, 40, 40);
+            _centerBox = new Rectangle((int)(_position.X), (int)(_position.Y),50,50);
             _messageBox = sprites.OfType<MessageBox>().First();
             Player player = sprites.OfType<Player>().First();
             if (_centerBox.Contains(player._center))

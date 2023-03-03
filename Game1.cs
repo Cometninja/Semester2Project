@@ -16,8 +16,8 @@ namespace Semester2Prototype
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
 
+        static VarCollection _varCollection = new VarCollection();
         static List<Sprite> _sprites = new List<Sprite>();
-        static List<Tile> tiles = new List<Tile>();
         static Random _random = new Random();
         static SpriteFont _mainfont;
         static Player _player;
@@ -28,7 +28,7 @@ namespace Semester2Prototype
         Point _playerPoint = new Point(0, 0);
         Texture2D square, playerSpriteSheet, messageBoxImage, _journalImage, _wallSpriteSheet,_floorSpriteSheet;
 
-        public Point _windowSize = new Point(600, 400);
+        public Point _windowSize = _varCollection._windowSize;
         Point point = new Point(1000, 1000);
 
         Wall _wall;
@@ -76,8 +76,8 @@ namespace Semester2Prototype
                     new Vector2(_graphics.PreferredBackBufferWidth / 2,
                         _graphics.PreferredBackBufferHeight - messageBoxImage.Height / 2),
                     _mainfont));
-            _sprites.Add(new Journal(_journalImage, new Vector2(0, 0),_mainfont));
             _sprites.Add(_player);
+            _sprites.Add(new Journal(_journalImage, new Vector2(0, 0),_mainfont));
         }
 
         protected override void Update(GameTime gameTime)
@@ -95,7 +95,6 @@ namespace Semester2Prototype
             //_wall.Update(_sprites);
 
             _playerPos = _sprites.OfType<Tile>().Where(tile => tile._point == _player._point).First();
-            tiles = _sprites.OfType<Tile>().ToList();
 
             _player.PlayerMove(_sprites.OfType<Player>().First());
             base.Update(gameTime);
