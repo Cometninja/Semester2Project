@@ -5,7 +5,6 @@ using System.Diagnostics;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
-using static System.Net.Mime.MediaTypeNames;
 
 
 namespace Semester2Prototype
@@ -22,15 +21,17 @@ namespace Semester2Prototype
         public TileState _tileState = TileState.Empty;
         public Tile(Texture2D image, Vector2 position , Point point) : base(image, position)
         {
+            _sourceRect = new Rectangle(1, 1, 50, 50);
+
             _bounds = new Rectangle((int)_position.X, (int)_position.Y, _image.Width, _image.Height);
             _point = point;
             _center = new Vector2(image.Width / 2, image.Height / 2);
-            _centerBox = new Rectangle((int)(_position.X + image.Width/2)-20, (int)(_position.Y + image.Width / 2) - 20,40,40);
+            _centerBox = new Rectangle((int)(_position.X), (int)(_position.Y),50,50);
             _origonalColor = _color;
             if (_point.X == 0 || _point.X == 16 || _point.Y == 0 || _point.Y == 10)
             {
                 _tileState = TileState.Wall;
-                _origonalColor = Color.Firebrick;
+                _sourceRect = new Rectangle(1, 52, 50, 50);
             }
 
             if (_point.X == 10 && _point.Y == 5)
@@ -38,13 +39,11 @@ namespace Semester2Prototype
                 _tileState = TileState.Interactive;
                 _origonalColor = Color.Blue;
             }
-
-
         }
 
         public override void Update(List<Sprite> sprites)
         {
-            _centerBox = new Rectangle((int)(_position.X + _image.Width / 2) - 20, (int)(_position.Y + _image.Width / 2) - 20, 40, 40);
+            _centerBox = new Rectangle((int)(_position.X), (int)(_position.Y),50,50);
             _messageBox = sprites.OfType<MessageBox>().First();
             Player player = sprites.OfType<Player>().First();
             if (_centerBox.Contains(player._center))
@@ -63,6 +62,21 @@ namespace Semester2Prototype
                 _messageSent = false;
             }
             base.Update(sprites);
+        }
+
+        public override void Draw(SpriteBatch spriteBatch)
+        {
+            spriteBatch.Draw(
+                _image,
+                _position,
+                _sourceRect,
+                _color,
+                0f,
+                new Vector2(50 / 2, 50 / 2),
+                1f,
+                SpriteEffects.None,
+                1f);
+
         }
     }
     enum TileState { Empty,Interactive,Wall}
