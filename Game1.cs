@@ -29,7 +29,7 @@ namespace Semester2Prototype
         static bool _threadStarted = false;
 
         Point _playerPoint = new Point(0, 0);
-        static Texture2D square, playerSpriteSheet, messageBoxImage, _journalImage, _wallSpriteSheet,_floorSpriteSheet;
+        static Texture2D square, playerSpriteSheet, messageBoxImage, _journalImage, _wallSpriteSheet,_floorSpriteSheet, _npcSpriteSheet;
 
         public Point _windowSize = new Point(1000, 500);
         static Point point = new Point(1500, 1250);
@@ -63,7 +63,7 @@ namespace Semester2Prototype
             _journalImage = Content.Load<Texture2D>("LargeJournal");
             _wallSpriteSheet = Content.Load<Texture2D>("walltest");
             _floorSpriteSheet = Content.Load<Texture2D>("FloorTileSpriteSheet");
-
+            _npcSpriteSheet = Content.Load<Texture2D>("NPCspritesheet");
 
             MakeFloorPlan();
            
@@ -76,6 +76,7 @@ namespace Semester2Prototype
                         _graphics.PreferredBackBufferHeight - messageBoxImage.Height / 2),
                     _mainfont));
             _sprites.Add(_player);
+            _sprites.Add(new NPC(_npcSpriteSheet,new Vector2(600,250)));
             _sprites.Add(new Journal(_journalImage, new Vector2(0, 0),_mainfont));
             thread = new Thread(new ThreadStart(MoveThePlayer));
         }
@@ -134,6 +135,5 @@ namespace Semester2Prototype
         }
     }
 
-    enum Moving { Still,Down,Up,Left,Right }
-    enum GameState { GameStart,GamePlaying,JournalScreen}
+    
 }

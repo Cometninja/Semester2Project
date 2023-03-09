@@ -248,6 +248,5 @@ namespace Semester2Prototype
             return ints;
         }
     }
-    enum FloorLevel { GroundFLoor,FirstFloor,SecondFLoor}
-    enum TileState { Empty,Interactive,Wall}
+  
 }

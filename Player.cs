@@ -11,9 +11,12 @@ namespace Semester2Prototype
     internal class Player : Sprite
     { 
         public Point _point;
-        static PlayerFacing _playerFacing = PlayerFacing.Down;
+        static Facing _playerFacing = Facing.Down;
         static Moving _moving = Moving.Still;
         static List<Sprite> _sprites;
+        static List<NPC> _npcList;
+        
+        
         static int _animationCount = 0, tickCount, testCount;
         MessageBox _messageBox;
         static bool _isSpacePressed, _isEPressed,_isPPressed;
@@ -35,6 +38,8 @@ namespace Semester2Prototype
         {
             _sprites = sprites;
             tiles = _sprites.OfType<Tile>().ToList();
+            _npcList = _sprites.OfType<NPC>().ToList();
+
             _messageBox = _sprites.OfType<MessageBox>().FirstOrDefault();
             _center =  new Vector2(_position.X+16,_position.Y+30);
         }
@@ -46,7 +51,7 @@ namespace Semester2Prototype
             if (Keyboard.GetState().IsKeyDown(Keys.Up))
             {
                 player._sourceRect = GetPlayerImage()[1][0];
-                _playerFacing = PlayerFacing.Up;
+                _playerFacing = Facing.Up;
                 if (CheckNewTile(new Point(playerPoint.X, playerPoint.Y - 1)))
                 {
                     _moving = Moving.Up;
@@ -56,7 +61,7 @@ namespace Semester2Prototype
             }
             else if (Keyboard.GetState().IsKeyDown(Keys.Down))
             {
-                _playerFacing = PlayerFacing.Down;
+                _playerFacing = Facing.Down;
                 player._sourceRect = GetPlayerImage()[0][0];
                 if (CheckNewTile(new Point(playerPoint.X, playerPoint.Y + 1)))
                 {
@@ -69,7 +74,7 @@ namespace Semester2Prototype
             {
                 player._sourceRect = GetPlayerImage()[2][0];
 
-                _playerFacing = PlayerFacing.Right;
+                _playerFacing = Facing.Right;
                 if (CheckNewTile(new Point(playerPoint.X + 1, playerPoint.Y)))
                 {
                     _moving = Moving.Right;
@@ -80,7 +85,7 @@ namespace Semester2Prototype
             else if (Keyboard.GetState().IsKeyDown(Keys.Left))
             {
 
-                _playerFacing = PlayerFacing.Left;
+                _playerFacing = Facing.Left;
                 player._sourceRect = GetPlayerImage()[3][0];
 
                 if (CheckNewTile(new Point(playerPoint.X - 1, playerPoint.Y)))
@@ -104,18 +109,18 @@ namespace Semester2Prototype
                 Point checkPoint = player._point;
                 switch (_playerFacing)
                 {
-                    case PlayerFacing.Up:
+                    case Facing.Up:
                         checkPoint.Y--;
                         break;
-                    case PlayerFacing.Down:
+                    case Facing.Down:
                         checkPoint.Y++;
 
                         break;
-                    case PlayerFacing.Right:
+                    case Facing.Right:
                         checkPoint.X++;
 
                         break;
-                    case PlayerFacing.Left:
+                    case Facing.Left:
                         checkPoint.X--;
 
                         break;
@@ -160,6 +165,7 @@ namespace Semester2Prototype
         public void PlayerMove(Player player)
         {
             Tile sourceTile = _sprites.OfType<Tile>().FirstOrDefault();
+            
             switch (_moving)
             {
 
@@ -172,6 +178,11 @@ namespace Semester2Prototype
                         {
                             tile._position.Y++;
                         }
+                        foreach(NPC npc in _npcList)
+                        {
+                            npc._position.Y++;
+                        }
+                        
                     }
                     else
                     {
@@ -190,6 +201,10 @@ namespace Semester2Prototype
                         foreach (Tile tile in tiles)
                         {
                             tile._position.Y--;
+                        }
+                        foreach (NPC npc in _npcList)
+                        {
+                            npc._position.Y--;
                         }
                     }
                     else
@@ -210,6 +225,10 @@ namespace Semester2Prototype
                         {
                             tile._position.X--;
                         }
+                        foreach (NPC npc in _npcList)
+                        {
+                            npc._position.X--;
+                        }
                     }
                     else
                     {
@@ -228,6 +247,10 @@ namespace Semester2Prototype
                         foreach (Tile tile in tiles)
                         {
                             tile._position.X++;
+                        }
+                        foreach (NPC npc in _npcList)
+                        {
+                            npc._position.X++;
                         }
                     }
                     else
@@ -259,7 +282,6 @@ namespace Semester2Prototype
                     _animationCount++;
                 }
             }
-            { }
         }
         static List<List<Rectangle>> GetPlayerImage()
         {
@@ -330,5 +352,5 @@ namespace Semester2Prototype
             return goals;
         }
     }
-    enum PlayerFacing { Up,Down,Left,Right }
+   
 }
