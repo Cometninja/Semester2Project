@@ -9,7 +9,7 @@ using System.Linq;
 namespace Semester2Prototype
 {
     internal class Player : Sprite
-    {
+    { 
         public Point _point;
         static PlayerFacing _playerFacing = PlayerFacing.Down;
         static Moving _moving = Moving.Still;

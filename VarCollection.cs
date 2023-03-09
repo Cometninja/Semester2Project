@@ -9,7 +9,6 @@ namespace Semester2Prototype
 {
     internal class VarCollection
     {
-        public Point _windowSize = new Point(600, 400);
 
         public int test = 0;
         public VarCollection() { }

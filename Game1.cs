@@ -8,6 +8,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System.Diagnostics;
+using System.Threading;
 
 namespace Semester2Prototype
 {
@@ -24,12 +25,14 @@ namespace Semester2Prototype
         static MessageBox _messageBox;
         static Tile _playerPos;
         static Journal _journal;
+        Thread thread;
+        static bool _threadStarted = false;
 
         Point _playerPoint = new Point(0, 0);
-        Texture2D square, playerSpriteSheet, messageBoxImage, _journalImage, _wallSpriteSheet,_floorSpriteSheet;
+        static Texture2D square, playerSpriteSheet, messageBoxImage, _journalImage, _wallSpriteSheet,_floorSpriteSheet;
 
-        public Point _windowSize = _varCollection._windowSize;
-        Point point = new Point(1000, 1000);
+        public Point _windowSize = new Point(1000, 500);
+        static Point point = new Point(1500, 1250);
 
         Wall _wall;
 
@@ -45,6 +48,7 @@ namespace Semester2Prototype
             _graphics.PreferredBackBufferWidth = _windowSize.X;
             _graphics.PreferredBackBufferHeight = _windowSize.Y;
             _graphics.ApplyChanges();
+            
             base.Initialize();
         }
 
@@ -60,15 +64,10 @@ namespace Semester2Prototype
             _wallSpriteSheet = Content.Load<Texture2D>("walltest");
             _floorSpriteSheet = Content.Load<Texture2D>("FloorTileSpriteSheet");
 
-            for (int col = 0, y = 0; col < point.Y; col += 50, y++)
-            {
-                for (int row = 0, x = 0; row < point.Y; row += 50, x++)
-                {
-                    _sprites.Add(new Tile(_floorSpriteSheet, new Vector2(row, col), new Point(x, y)));
-                }
-            }
 
-            _wall = new Wall(_wallSpriteSheet, new Vector2(0, 0), new Point(-1, -1));
+            MakeFloorPlan();
+           
+
 
             _player = new Player(playerSpriteSheet, new Vector2(400, 250), _playerPoint);
             _sprites.Add(
@@ -78,6 +77,7 @@ namespace Semester2Prototype
                     _mainfont));
             _sprites.Add(_player);
             _sprites.Add(new Journal(_journalImage, new Vector2(0, 0),_mainfont));
+            thread = new Thread(new ThreadStart(MoveThePlayer));
         }
 
         protected override void Update(GameTime gameTime)
@@ -85,7 +85,6 @@ namespace Semester2Prototype
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
 
-            _player = _sprites.OfType<Player>().FirstOrDefault();
             _messageBox = _sprites.OfType<MessageBox>().FirstOrDefault();
 
             foreach (Sprite sprite in _sprites)
@@ -95,8 +94,13 @@ namespace Semester2Prototype
             //_wall.Update(_sprites);
 
             _playerPos = _sprites.OfType<Tile>().Where(tile => tile._point == _player._point).First();
+            //if (!_threadStarted)
+            //{
+            //    thread.Start();
+            //    _threadStarted = true;
+            //}
+            MoveThePlayer();
 
-            _player.PlayerMove(_sprites.OfType<Player>().First());
             base.Update(gameTime);
         }
 
@@ -114,7 +118,22 @@ namespace Semester2Prototype
 
             _spriteBatch.End();
         }
+        static void MakeFloorPlan()
+        {
+            for (int col = 0, y = 0; col < point.Y; col += 50, y++)
+            {
+                for (int row = 0, x = 0; row < point.X; row += 50, x++)
+                {
+                    _sprites.Add(new Tile(_floorSpriteSheet, new Vector2(row, col), new Point(x, y)));
+                }
+            }
+        }
+        static void MoveThePlayer()
+        {
+            _player.PlayerMove(_player);
+        }
     }
+
     enum Moving { Still,Down,Up,Left,Right }
     enum GameState { GameStart,GamePlaying,JournalScreen}
 }

@@ -16,7 +16,7 @@ namespace Semester2Prototype
         public bool DisplayJournal = false;
         static MessageBox _messageBox;
         static SpriteFont _font;
-        static Point _windowSize = varCollection._windowSize;
+        static Point _windowSize = new Point(1000, 500);
         static Vector2 _centerScreen = new Vector2(_windowSize.X / 2,_windowSize.Y / 2);
         static List<string> _journalMessages = new List<string>();
         static string _message = "";
