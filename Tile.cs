@@ -91,6 +91,8 @@ namespace Semester2Prototype
                     {
                         _tileState = TileState.Interactive;
                         _origonalColor = Color.Blue;
+                        _sourceRect = new Rectangle(52,1,50,50);
+                        
                     }
                 break;
                 case FloorLevel.FirstFloor:
