@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System.Linq;
 using System.Collections;
+using System;
 
 namespace Semester2Prototype
 {
@@ -15,6 +16,8 @@ namespace Semester2Prototype
         public Moving _moving = Moving.Down;
         public Facing _facing = Facing.Down;
         public Point _NPCPoint;
+        Random _random = new Random();
+
 
         static int _animationCount = 0, tickCount, testCount;
         List<Sprite> _sprites = new List<Sprite>();
@@ -171,11 +174,7 @@ namespace Semester2Prototype
             { 
                 if (nextTile._tileState != TileState.Empty) 
                 {
-                    _moving++;
-                    if ((int)_moving == 5)
-                    {
-                        _moving = 0;
-                    }
+                   _moving = (Moving)_random.Next(1,5);
                 }
             }
 
