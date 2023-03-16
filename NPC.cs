@@ -12,11 +12,12 @@ namespace Semester2Prototype
 
         List<List<Rectangle>> _rectangles = new List<List<Rectangle>>();
         Vector2 _startingPosition;
-        public Moving _moving = Moving.Still;
+        public Moving _moving = Moving.Down;
         public Facing _facing = Facing.Down;
+        public Point _NPCPoint;
 
         static int _animationCount = 0, tickCount, testCount;
-
+        List<Sprite> _sprites = new List<Sprite>();
 
 
 
@@ -29,6 +30,10 @@ namespace Semester2Prototype
 
         public override void Update(List<Sprite> sprites)
         {
+            _center = new Vector2(_position.X + 16, _position.Y + 30);
+
+            _sprites = sprites;
+            NPC_Controls();
             NPC_Move();
 
 
@@ -123,19 +128,57 @@ namespace Semester2Prototype
         }
         public void NPC_Controls()
         {
+            Player player = _sprites.OfType<Player>().FirstOrDefault();
+            Tile tile = _sprites.OfType<Tile>().FirstOrDefault();
             //TODO add in NPC Moving
-            if ( _position.X % 50 == 0 && _position.Y % 50 == 0) 
+            if ( (_position.X - tile._position.X) % 50 == 0 && (_position.Y - tile._position.Y) % 50 == 0) 
             {
-                _moving++;
-                if ((int)_moving == 4) 
-                { 
-                _moving = 0;
+                CheckNextTile();
+            }
+        }
+
+        public void CheckNextTile()
+        {
+            Point nextTilePoint = Point.Zero;
+            foreach(Tile tile in _sprites.OfType<Tile>().ToList())
+            {
+                if (tile._centerBox.Contains(this._center))
+                {
+                    this._NPCPoint = tile._point;
+                    nextTilePoint = _NPCPoint;
+                    break;
+                }
+            }
+            switch (this._facing)
+            {
+                case Facing.Up:
+                    nextTilePoint.Y--;
+                    break;
+                case Facing.Down: 
+                    nextTilePoint.Y++;
+                    break;
+                case Facing.Left:
+                    nextTilePoint.X--;
+                    break;
+                case Facing.Right:
+                    nextTilePoint.X++;
+                    break;
+            }
+
+            Tile nextTile = _sprites.OfType<Tile>().Where(tile => tile._point == nextTilePoint).First();
+
+            if (nextTile != null) 
+            { 
+                if (nextTile._tileState != TileState.Empty) 
+                {
+                    _moving++;
+                    if ((int)_moving == 5)
+                    {
+                        _moving = 0;
+                    }
                 }
             }
 
-
-            
         }
-
     }
 }

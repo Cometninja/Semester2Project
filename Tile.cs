@@ -14,7 +14,7 @@ namespace Semester2Prototype
         List<List<int>> ints = new List<List<int>>();
 
         Rectangle _bounds;
-        Rectangle _centerBox;
+        public Rectangle _centerBox;
         Color _origonalColor;
         MessageBox _messageBox;
         bool _messageSent;
@@ -47,6 +47,7 @@ namespace Semester2Prototype
             {
                 player._point = _point; 
             }
+
             base.Update(sprites);
         }
 
