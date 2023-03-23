@@ -16,23 +16,16 @@ namespace Semester2Prototype
         static Moving _moving = Moving.Still;
         static List<Sprite> _sprites;
         static List<NPC> _npcList;
-
         bool DebugBounds;
-
         Texture2D _debugImage;
-
         static Rectangle detection;
-
-
         static int _animationCount = 0, tickCount, testCount;
         MessageBox _messageBox;
         static bool _isSpacePressed, _isEPressed,_isPPressed;
         static Journal _journal;
         static List<Tile> tiles;
         Dictionary<string, bool> _goals;
-
         static VarCollection varCollection = new VarCollection();
-
 
         public Player(Texture2D image, Vector2 position, Point point):base(image, position) 
         { 
@@ -40,7 +33,6 @@ namespace Semester2Prototype
             _sourceRect = GetPlayerImage()[0][0];
             _goals = SetGoals();
         }
-
         public override void Update(List<Sprite> sprites)
         {
             _bounds = new Rectangle((int)_position.X, (int)_position.Y, _sourceRect.Width, _sourceRect.Height);
@@ -51,7 +43,6 @@ namespace Semester2Prototype
             _messageBox = _sprites.OfType<MessageBox>().FirstOrDefault();
             _center =  new Vector2(_position.X+16,_position.Y+30);
         }
-
         public void PlayerControls(Player player)
         {
             Point playerPoint = player._point;
@@ -191,6 +182,20 @@ namespace Semester2Prototype
                     default:
                         break;
                 }
+                NPC npc = _sprites.OfType<NPC>().FirstOrDefault();
+                if (npc != null)
+                {
+                    if (detection.Contains(npc._center))
+                    {
+                        
+                        _messageBox.AddMessage("NPC");
+                    }
+                }
+
+
+
+
+
             }
             else if (Keyboard.GetState().IsKeyUp(Keys.E))
             {
@@ -198,7 +203,6 @@ namespace Semester2Prototype
             }
 
         }
-
         public void PlayerMove(Player player)
         {
             Tile sourceTile = _sprites.OfType<Tile>().FirstOrDefault();
@@ -388,12 +392,10 @@ namespace Semester2Prototype
             
             return goals;
         }
-
         public void GetDebugImage(Texture2D image)
         {
             _debugImage = image;
         }
-
         public override void Draw(SpriteBatch spriteBatch)
         {
             if (DebugBounds)

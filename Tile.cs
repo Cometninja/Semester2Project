@@ -12,45 +12,35 @@ namespace Semester2Prototype
     internal class Tile : Sprite
     {
         List<List<int>> ints = new List<List<int>>();
-
         Rectangle _bounds;
         public Rectangle _centerBox;
         Color _origonalColor;
         MessageBox _messageBox;
         bool _messageSent;
         public FloorLevel _floorLevel = FloorLevel.GroundFLoor;
-
         public Point _point;
         public TileState _tileState = TileState.Empty;
         public Tile(Texture2D image, Vector2 position , Point point) : base(image, position)
         {
             _sourceRect = new Rectangle(1, 1, 50, 50);
-
             _bounds = new Rectangle((int)_position.X, (int)_position.Y, _image.Width, _image.Height);
             _point = point;
             _center = new Vector2(image.Width / 2, image.Height / 2);
             _centerBox = new Rectangle((int)(_position.X), (int)(_position.Y),50,50);
             _origonalColor = _color;
-
             ints = LayoutRoom();
-        
             SetUpFLoorPlan();
-            
         }
-
         public override void Update(List<Sprite> sprites)
         {
-
             _centerBox = new Rectangle((int)(_position.X), (int)(_position.Y),50,50);
             Player player = sprites.OfType<Player>().First();
             if (_centerBox.Contains(player._center))
             {
                 player._point = _point; 
             }
-
             base.Update(sprites);
         }
-
         public override void Draw(SpriteBatch spriteBatch)
         {
             if (_position.X < 800 && _position.X > 0 && _position.Y < 800 && _position.Y > 0)
@@ -67,7 +57,6 @@ namespace Semester2Prototype
                     1f);
             }
         }
-
         public void SetUpFLoorPlan()
         {
             switch (_floorLevel)

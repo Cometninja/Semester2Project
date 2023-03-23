@@ -10,20 +10,15 @@ namespace Semester2Prototype
 {
     internal class NPC : Sprite
     {
-
         List<List<Rectangle>> _rectangles = new List<List<Rectangle>>();
         Vector2 _startingPosition;
-        public Moving _moving = Moving.Down;
+        public Moving _moving = Moving.Still;
         public Facing _facing = Facing.Down;
         public Point _NPCPoint;
         Random _random = new Random();
         float _speed = 0.5f;
-
-
         static int _animationCount = 0, tickCount, testCount;
         List<Sprite> _sprites = new List<Sprite>();
-
-
 
         public NPC(Texture2D image, Vector2 position) : base(image, position) 
         {
@@ -31,7 +26,6 @@ namespace Semester2Prototype
             _rectangles = GetNPCImage();
             _sourceRect = _rectangles[0][0];
         }
-
         public override void Update(List<Sprite> sprites)
         {
             _center = new Vector2(_position.X + 16, _position.Y + 30);
@@ -43,8 +37,6 @@ namespace Semester2Prototype
 
             base.Update(sprites);
         }
-
-
         static List<List<Rectangle>> GetNPCImage()
         {
             // 32x,64x,96x
@@ -83,7 +75,6 @@ namespace Semester2Prototype
 
             return animations;
         }
-
         public void NPC_Move()
         {
             switch (_moving)
@@ -140,7 +131,6 @@ namespace Semester2Prototype
                 CheckNextTile();
             }
         }
-
         public void CheckNextTile()
         {
             Point nextTilePoint = Point.Zero;
@@ -175,7 +165,11 @@ namespace Semester2Prototype
             { 
                 if (nextTile._tileState != TileState.Empty) 
                 {
-                   _moving = (Moving)_random.Next(1,5);
+                    Moving placeholder = _moving;
+                    while(_moving == placeholder) 
+                    { 
+                        _moving = (Moving)_random.Next(1,5);
+                    }
                 }
             }
         }
