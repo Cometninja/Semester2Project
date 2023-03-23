@@ -12,16 +12,18 @@ namespace Semester2Prototype
     {
         List<List<Rectangle>> _rectangles = new List<List<Rectangle>>();
         Vector2 _startingPosition;
-        public Moving _moving = Moving.Still;
+        public Moving _moving = Moving.Down;
         public Facing _facing = Facing.Down;
         public Point _NPCPoint;
+        public string _name;
         Random _random = new Random();
         float _speed = 0.5f;
         static int _animationCount = 0, tickCount, testCount;
         List<Sprite> _sprites = new List<Sprite>();
 
-        public NPC(Texture2D image, Vector2 position) : base(image, position) 
+        public NPC(Texture2D image, Vector2 position,string name) : base(image, position) 
         {
+            _name = name;
             _startingPosition = position;
             _rectangles = GetNPCImage();
             _sourceRect = _rectangles[0][0];
@@ -172,6 +174,12 @@ namespace Semester2Prototype
                     }
                 }
             }
+        }
+
+        public void StartDialog(MessageBox messageBox)
+        {
+            messageBox.AddMessage($"hello i am a NPC, My name is {_name}");
+            this._moving = Moving.Still;
         }
     }
 }

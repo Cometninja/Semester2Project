@@ -26,6 +26,8 @@ namespace Semester2Prototype
         static List<Tile> tiles;
         Dictionary<string, bool> _goals;
         static VarCollection varCollection = new VarCollection();
+        public bool _changeGameState;
+        public GameState _gameState = GameState.GamePlaying;
 
         public Player(Texture2D image, Vector2 position, Point point):base(image, position) 
         { 
@@ -187,21 +189,16 @@ namespace Semester2Prototype
                 {
                     if (detection.Contains(npc._center))
                     {
-                        
-                        _messageBox.AddMessage("NPC");
+                        _gameState = GameState.Dialoge;
+                        _changeGameState = true;
+                        npc.StartDialog(_messageBox);
                     }
                 }
-
-
-
-
-
             }
             else if (Keyboard.GetState().IsKeyUp(Keys.E))
             {
                 DebugBounds= false;
             }
-
         }
         public void PlayerMove(Player player)
         {
@@ -223,7 +220,6 @@ namespace Semester2Prototype
                         {
                             npc._position.Y++;
                         }
-                        
                     }
                     else
                     {
@@ -289,6 +285,7 @@ namespace Semester2Prototype
                         {
                             tile._position.X++;
                         }
+                        
                         foreach (NPC npc in _npcList)
                         {
                             npc._position.X++;
@@ -404,7 +401,5 @@ namespace Semester2Prototype
             }
             base.Draw(spriteBatch);
         }
-
     }
-   
 }

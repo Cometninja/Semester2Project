@@ -25,12 +25,15 @@ namespace Semester2Prototype
         static MessageBox _messageBox;
         static Tile _playerPos;
         static Journal _journal;
-        Thread thread;
-        static bool _threadStarted = false;
+        static bool _isEscapedPressed;
+
+
+
+        static GameState _gameState = GameState.GamePlaying;
+
 
         Point _playerPoint = new Point(0, 0);
         static Texture2D square, playerSpriteSheet, messageBoxImage, _journalImage, _wallSpriteSheet,_floorSpriteSheet, _npcSpriteSheet;
-
         public Point _windowSize = new Point(1000, 500);
         static Point point = new Point(1500, 1250);
 
@@ -74,7 +77,7 @@ namespace Semester2Prototype
                         _graphics.PreferredBackBufferHeight - messageBoxImage.Height / 2),
                     _mainfont));
             _sprites.Add(_player);
-            _sprites.Add(new NPC(_npcSpriteSheet,new Vector2(600,250)));
+            _sprites.Add(new NPC(_npcSpriteSheet,new Vector2(600,250),"bob"));
             _sprites.Add(new Journal(_journalImage, new Vector2(0, 0),_mainfont));
 
             _player.GetDebugImage(square);
@@ -82,25 +85,36 @@ namespace Semester2Prototype
 
         protected override void Update(GameTime gameTime)
         {
-            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
-                Exit();
+            
 
             _messageBox = _sprites.OfType<MessageBox>().FirstOrDefault();
-
+            
             foreach (Sprite sprite in _sprites)
             {
                 sprite.Update(_sprites);
             }
-            //_wall.Update(_sprites);
 
-            _playerPos = _sprites.OfType<Tile>().Where(tile => tile._point == _player._point).First();
-            //if (!_threadStarted)
-            //{
-            //    thread.Start();
-            //    _threadStarted = true;
-            //}
-            MoveThePlayer();
-
+            switch (_gameState)
+            {
+                case GameState.GameStart:
+                    break;
+                case GameState.GamePlaying:
+                    if (Keyboard.GetState().IsKeyDown(Keys.Escape) && !_isEscapedPressed)
+                        Exit();
+                    else if (Keyboard.GetState().IsKeyUp(Keys.Escape) && _isEscapedPressed)
+                    {
+                        _isEscapedPressed = false;
+                    }
+                    _playerPos = _sprites.OfType<Tile>().Where(tile => tile._point == _player._point).First();
+                    MoveThePlayer();
+                    break;
+                case GameState.JournalScreen:
+                    break;
+                case GameState.Dialoge:
+                    DialogueControls();
+                    break;
+            }
+            GameStateChange(_sprites);
             base.Update(gameTime);
         }
 
@@ -112,6 +126,18 @@ namespace Semester2Prototype
             {
                 sprite.Draw(_spriteBatch);
             }
+            switch (_gameState)
+            {
+                case GameState.GameStart:
+                    break;
+                case GameState.GamePlaying:
+                    break;
+                case GameState.JournalScreen:
+                    break;
+                case GameState.Dialoge:
+                    break;
+            }
+
 
             base.Draw(gameTime);
             //_wall.DrawWall(_spriteBatch);
@@ -131,6 +157,23 @@ namespace Semester2Prototype
         static void MoveThePlayer()
         {
             _player.PlayerMove(_player);
+        }
+
+        static void GameStateChange(List<Sprite> sprites)
+        {
+            if (_player._changeGameState)
+            {
+                _gameState = _player._gameState;
+                _player._changeGameState = false;
+            }
+        }
+        static void DialogueControls()
+        {
+            if (Keyboard.GetState().IsKeyDown(Keys.Escape)&& !_isEscapedPressed)
+            {
+                _isEscapedPressed = true;
+                _gameState = GameState.GamePlaying;
+            }
         }
     }
 
