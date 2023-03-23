@@ -34,8 +34,6 @@ namespace Semester2Prototype
         public Point _windowSize = new Point(1000, 500);
         static Point point = new Point(1500, 1250);
 
-        Wall _wall;
-
         public Game1()
         {
             _graphics = new GraphicsDeviceManager(this);
