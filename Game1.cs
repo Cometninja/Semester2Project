@@ -78,7 +78,8 @@ namespace Semester2Prototype
             _sprites.Add(_player);
             _sprites.Add(new NPC(_npcSpriteSheet,new Vector2(600,250)));
             _sprites.Add(new Journal(_journalImage, new Vector2(0, 0),_mainfont));
-            thread = new Thread(new ThreadStart(MoveThePlayer));
+
+            _player.GetDebugImage(square);
         }
 
         protected override void Update(GameTime gameTime)

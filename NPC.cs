@@ -17,6 +17,7 @@ namespace Semester2Prototype
         public Facing _facing = Facing.Down;
         public Point _NPCPoint;
         Random _random = new Random();
+        float _speed = 0.5f;
 
 
         static int _animationCount = 0, tickCount, testCount;
@@ -90,22 +91,22 @@ namespace Semester2Prototype
                 case Moving.Up:
                     _sourceRect = GetNPCImage()[1][_animationCount];
                     _facing = Facing.Up; 
-                    _position.Y--;
+                    _position.Y -= _speed;
                     break;
                 case Moving.Down:
                     _sourceRect = GetNPCImage()[0][_animationCount];
                     _facing = Facing.Down; 
-                    _position.Y++;
+                    _position.Y += _speed;
                     break;
                 case Moving.Left:
                     _sourceRect = GetNPCImage()[3][_animationCount];
                     _facing = Facing.Left; 
-                    _position.X--;
+                    _position.X -= _speed;
                     break;
                 case Moving.Right:
                     _sourceRect = GetNPCImage()[2][_animationCount];
                     _facing = Facing.Right; 
-                    _position.X++;
+                    _position.X += _speed;
                     break;
                 default:
                     
@@ -177,7 +178,6 @@ namespace Semester2Prototype
                    _moving = (Moving)_random.Next(1,5);
                 }
             }
-
         }
     }
 }

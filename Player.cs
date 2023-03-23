@@ -8,6 +8,7 @@ using System.Linq;
 
 namespace Semester2Prototype
 {
+    
     internal class Player : Sprite
     { 
         public Point _point;
@@ -15,8 +16,14 @@ namespace Semester2Prototype
         static Moving _moving = Moving.Still;
         static List<Sprite> _sprites;
         static List<NPC> _npcList;
-        
-        
+
+        bool DebugBounds;
+
+        Texture2D _debugImage;
+
+        static Rectangle detection;
+
+
         static int _animationCount = 0, tickCount, testCount;
         MessageBox _messageBox;
         static bool _isSpacePressed, _isEPressed,_isPPressed;
@@ -36,6 +43,7 @@ namespace Semester2Prototype
 
         public override void Update(List<Sprite> sprites)
         {
+            _bounds = new Rectangle((int)_position.X, (int)_position.Y, _sourceRect.Width, _sourceRect.Height);
             _sprites = sprites;
             tiles = _sprites.OfType<Tile>().ToList();
             _npcList = _sprites.OfType<NPC>().ToList();
@@ -160,6 +168,35 @@ namespace Semester2Prototype
             {
                 _isPPressed = false;
             }
+
+            if (Keyboard.GetState().IsKeyDown(Keys.E))
+            {
+                DebugBounds = true;
+                detection = _bounds;
+                
+                switch (_playerFacing)
+                {
+                    case Facing.Up:
+                        detection.Y -= 50;
+                        break;
+                    case Facing.Down:
+                        detection.Y += 50;
+                        break;
+                    case Facing.Right:
+                        detection.X += 50;
+                        break;
+                    case Facing.Left:
+                        detection.X -= 50;
+                        break;
+                    default:
+                        break;
+                }
+            }
+            else if (Keyboard.GetState().IsKeyUp(Keys.E))
+            {
+                DebugBounds= false;
+            }
+
         }
 
         public void PlayerMove(Player player)
@@ -351,6 +388,21 @@ namespace Semester2Prototype
             
             return goals;
         }
+
+        public void GetDebugImage(Texture2D image)
+        {
+            _debugImage = image;
+        }
+
+        public override void Draw(SpriteBatch spriteBatch)
+        {
+            if (DebugBounds)
+            {
+                spriteBatch.Draw(_debugImage, detection, Color.Red);
+            }
+            base.Draw(spriteBatch);
+        }
+
     }
    
 }

@@ -10,6 +10,7 @@ namespace Semester2Prototype
         public Texture2D _image;
         public Vector2 _position,_center;
         public Color _color = Color.White;
+        public Rectangle _bounds;
         public Rectangle _sourceRect;
 
 
@@ -19,6 +20,7 @@ namespace Semester2Prototype
             _image = image;
             _position = position;
             _sourceRect = new Rectangle(0, 0, image.Width, image.Height);
+            _bounds = new Rectangle((int)_position.X, (int)_position.Y, _sourceRect.Width, _sourceRect.Height);
             _center = new Vector2(_sourceRect.Width / 2,_sourceRect.Height / 2);
 
         }
