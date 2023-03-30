@@ -91,37 +91,121 @@ namespace Semester2Prototype
                     break;
             }
         }
-        public List<List<int>> LayoutRoom()
+        public List<List<int>> LayoutRoom(FloorLevel level)
         {
             List<List<int>> ints = new List<List<int>>();
 
             int[,] XYWalls = new int[,] { { 6,17,21,25} };
 
-            int[] X0 = new int[] { 0 }; 
-            int[] X1 = new int[] { 6,17,21,25};
-            int[] X2 = new int[] { 21,25};
-            int[] X3 = new int[] {6,17,21,25 };
-            int[] X4 = new int[] {1,2,3,4,5,6,7,8,9,10,11,13,14,15,16,17,21,22,24,25,26,28 };
-            int[] X5 = new int[] {6,17};
-            int[] X6 = new int[] { 6,17};
-            int[] X7 = new int[] { 6,17};
-            int[] X8 = new int[] { 6,17};
-            int[] X9 = new int[] { 6,17};
-            int[] X10 = new int[] { 1,2,4,5,6,7,8,9,10,12,13,17,};
-            int[] X11 = new int[] {13,17 };
-            int[] X12 = new int[] { 13,17};
-            int[] X13 = new int[] {13,17 };
-            int[] X14 = new int[] { 1,2,4,5,6,7,8,10,11,12,13,14,15,16,17,};
-            int[] X15 = new int[] {7,17 };
-            int[] X16 = new int[] {7,17,18,19,24,25,26,27,28 };
-            int[] X17 = new int[] {7,17 };
-            int[] X18 = new int[] {7,8,9,10,11,12,13,14,15,16,17};
-            int[] X19 = new int[] { 0};
-            int[] X20 = new int[] {25,26,27,28 };
-            int[] X21 = new int[] {24 };
-            int[] X22 = new int[] { 0};
-            int[] X23 = new int[] { 24};
-            int[] X24 = new int[] { 0};
+            int[] X0; 
+            int[] X1; 
+            int[] X2; 
+            int[] X3; 
+            int[] X4; 
+            int[] X5; 
+            int[] X6; 
+            int[] X7; 
+            int[] X8; 
+            int[] X9; 
+            int[] X10;
+            int[] X11;
+            int[] X12;
+            int[] X13;
+            int[] X14;
+            int[] X15;
+            int[] X16;
+            int[] X17;
+            int[] X18;
+            int[] X19;
+            int[] X20;
+            int[] X21;
+            int[] X22;
+            int[] X23;
+            int[] X24;
+            switch (level)
+            {
+                case FloorLevel.FirstFloor:
+                    X0 = new int[] { };
+                    X1 = new int[] { };
+                    X2 = new int[] { };
+                    X3 = new int[] { };
+                    X4 = new int[] { };
+                    X5 = new int[] { };
+                    X6 = new int[] { };
+                    X7 = new int[] { };
+                    X8 = new int[] { };
+                    X9 = new int[] { };
+                    X10 = new int[] { };
+                    X11 = new int[] { };
+                    X12 = new int[] { };
+                    X13 = new int[] { };
+                    X14 = new int[] { };
+                    X15 = new int[] { };
+                    X16 = new int[] { };
+                    X17 = new int[] { };
+                    X18 = new int[] { };
+                    X19 = new int[] { };
+                    X20 = new int[] { };
+                    X21 = new int[] { };
+                    X22 = new int[] { };
+                    X23 = new int[] { };
+                    X24 = new int[] { };
+                    break;
+                case FloorLevel.SecondFLoor:
+                    X0 = new int[] { };
+                    X1 = new int[] { };
+                    X2 = new int[] { };
+                    X3 = new int[] { };
+                    X4 = new int[] { };
+                    X5 = new int[] { };
+                    X6 = new int[] { };
+                    X7 = new int[] { };
+                    X8 = new int[] { };
+                    X9 = new int[] { };
+                    X10 = new int[] { };
+                    X11 = new int[] { };
+                    X12 = new int[] { };
+                    X13= new int[] { };
+                    X14 = new int[] { };
+                    X15 = new int[] { };
+                    X16 = new int[] { };
+                    X17 = new int[] { };
+                    X18 = new int[] { };
+                    X19 = new int[] { };
+                    X20 = new int[] { };
+                    X21 = new int[] { };
+                    X22 = new int[] { };
+                    X23 = new int[] { };
+                    X24 = new int[] { };
+                    break;
+                case FloorLevel.GroundFLoor:
+                    X0 = new int[] { 0 };
+                    X1 = new int[] { 6, 17, 21, 25 };
+                    X2 = new int[] { 21, 25 };
+                    X3 = new int[] { 6, 17, 21, 25 };
+                    X4 = new int[] { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 13, 14, 15, 16, 17, 21, 22, 24, 25, 26, 28 };
+                    X5 = new int[] { 6, 17 };
+                    X6 = new int[] { 6, 17 };
+                    X7 = new int[] { 6, 17 };
+                    X8 = new int[] { 6, 17 };
+                    X9 = new int[] { 6, 17 };
+                    X10 = new int[] { 1, 2, 4, 5, 6, 7, 8, 9, 10, 12, 13, 17, };
+                    X11 = new int[] { 13, 17 };
+                    X12 = new int[] { 13, 17 };
+                    X13 = new int[] { 13, 17 };
+                    X14 = new int[] { 1, 2, 4, 5, 6, 7, 8, 10, 11, 12, 13, 14, 15, 16, 17, };
+                    X15 = new int[] { 7, 17 };
+                    X16 = new int[] { 7, 17, 18, 19, 24, 25, 26, 27, 28 };
+                    X17 = new int[] { 7, 17 };
+                    X18 = new int[] { 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17 };
+                    X19 = new int[] { 0 };
+                    X20 = new int[] { 25, 26, 27, 28 };
+                    X21 = new int[] { 24 };
+                    X22 = new int[] { 0 };
+                    X23 = new int[] { 24 };
+                    X24 = new int[] { 0 };
+                    break;
+            }
             
             
             
@@ -135,9 +219,6 @@ namespace Semester2Prototype
 
             for(int i  = 1; i < 29; i++)
             {
-
-
-                
                 if (X1.Contains(i))
                 {
                     ints[1].Add(i);
