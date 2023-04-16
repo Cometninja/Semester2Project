@@ -20,6 +20,9 @@ namespace Semester2Prototype
         float _speed = 0.5f;
         static int _animationCount = 0, tickCount, testCount;
         List<Sprite> _sprites = new List<Sprite>();
+        public bool _dialoge = false;
+        public string[] dialoges = new string[] {"hello", "Test 1","Test 2","Test 3" }; 
+
 
         public NPC(Texture2D image, Vector2 position,string name) : base(image, position) 
         {
@@ -178,6 +181,7 @@ namespace Semester2Prototype
 
         public void StartDialog(MessageBox messageBox)
         {
+            _dialoge = true;   
             messageBox.AddMessage($"hello i am a NPC, My name is {_name}");
             this._moving = Moving.Still;
         }

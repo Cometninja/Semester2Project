@@ -28,7 +28,7 @@ namespace Semester2Prototype
             _center = new Vector2(image.Width / 2, image.Height / 2);
             _centerBox = new Rectangle((int)(_position.X), (int)(_position.Y),50,50);
             _origonalColor = _color;
-            ints = LayoutRoom();
+            ints = LayoutRoom(_floorLevel);
             SetUpFLoorPlan();
         }
         public override void Update(List<Sprite> sprites)
@@ -178,7 +178,7 @@ namespace Semester2Prototype
                     X23 = new int[] { };
                     X24 = new int[] { };
                     break;
-                case FloorLevel.GroundFLoor:
+                default:
                     X0 = new int[] { 0 };
                     X1 = new int[] { 6, 17, 21, 25 };
                     X2 = new int[] { 21, 25 };

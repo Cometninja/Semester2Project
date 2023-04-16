@@ -17,7 +17,6 @@ namespace Semester2Prototype
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
 
-        static VarCollection _varCollection = new VarCollection();
         static List<Sprite> _sprites = new List<Sprite>();
         static Random _random = new Random();
         static SpriteFont _mainfont;
@@ -26,7 +25,8 @@ namespace Semester2Prototype
         static Tile _playerPos;
         static Journal _journal;
         static bool _isEscapedPressed;
-
+        static MessageBox _dialogeBox;
+        
 
 
         static GameState _gameState = GameState.GamePlaying;
@@ -67,7 +67,10 @@ namespace Semester2Prototype
             _npcSpriteSheet = Content.Load<Texture2D>("NPCspritesheet");
 
             MakeFloorPlan();
-           
+            _dialogeBox = new MessageBox(messageBoxImage,
+                    new Vector2(_graphics.PreferredBackBufferWidth / 2,
+                        _graphics.PreferredBackBufferHeight - messageBoxImage.Height / 2),
+                    _mainfont);
 
 
             _player = new Player(playerSpriteSheet, new Vector2(400, 250), _playerPoint);
@@ -85,7 +88,6 @@ namespace Semester2Prototype
 
         protected override void Update(GameTime gameTime)
         {
-            
 
             _messageBox = _sprites.OfType<MessageBox>().FirstOrDefault();
             
@@ -135,6 +137,7 @@ namespace Semester2Prototype
                 case GameState.JournalScreen:
                     break;
                 case GameState.Dialoge:
+                    _dialogeBox.Draw(_spriteBatch);
                     break;
             }
 
@@ -169,12 +172,16 @@ namespace Semester2Prototype
         }
         static void DialogueControls()
         {
+            NPC npc = _sprites.OfType<NPC>().Where(x => x._dialoge == true).FirstOrDefault();
             if (Keyboard.GetState().IsKeyDown(Keys.Escape)&& !_isEscapedPressed)
             {
                 _isEscapedPressed = true;
                 _gameState = GameState.GamePlaying;
             }
+            
         }
+
+
     }
 
     
