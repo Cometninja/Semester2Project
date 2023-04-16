@@ -113,6 +113,7 @@ namespace Semester2Prototype
                 case GameState.JournalScreen:
                     break;
                 case GameState.Dialoge:
+                    _player._dialoge.DialogeUpdate();
                     DialogueControls();
                     break;
             }
@@ -137,7 +138,9 @@ namespace Semester2Prototype
                 case GameState.JournalScreen:
                     break;
                 case GameState.Dialoge:
-                    _dialogeBox.Draw(_spriteBatch);
+                    _player._dialoge.DialogeDraw(_spriteBatch);
+
+
                     break;
             }
 
@@ -176,8 +179,10 @@ namespace Semester2Prototype
             if (Keyboard.GetState().IsKeyDown(Keys.Escape)&& !_isEscapedPressed)
             {
                 _isEscapedPressed = true;
+                npc._moving = npc._lastMove;
                 _gameState = GameState.GamePlaying;
             }
+
             
         }
 

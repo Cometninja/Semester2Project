@@ -28,12 +28,21 @@ namespace Semester2Prototype
         static VarCollection varCollection = new VarCollection();
         public bool _changeGameState;
         public GameState _gameState = GameState.GamePlaying;
+        public Dialoge _dialoge;
+
+        public List<string> _playerDialoge = new List<string>();
+
+
 
         public Player(Texture2D image, Vector2 position, Point point):base(image, position) 
         { 
             _point= point;
             _sourceRect = GetPlayerImage()[0][0];
             _goals = SetGoals();
+            _playerDialoge.Add("What is your name?");
+            _playerDialoge.Add("where were you the night of the murder?");
+            _playerDialoge.Add("whats your job?");
+            _playerDialoge.Add("Did you Kill the Man?");
         }
         public override void Update(List<Sprite> sprites)
         {
@@ -184,14 +193,16 @@ namespace Semester2Prototype
                     default:
                         break;
                 }
-                NPC npc = _sprites.OfType<NPC>().FirstOrDefault();
-                if (npc != null)
+                List<NPC> npcList = _sprites.OfType<NPC>().ToList();
+                foreach (NPC npc in npcList)
                 {
                     if (detection.Contains(npc._center))
                     {
-                        _gameState = GameState.Dialoge;
                         _changeGameState = true;
-                        npc.StartDialog(_messageBox);
+                        npc.StartDialog();
+                        _dialoge = new Dialoge(player, npc,_messageBox._image,_messageBox._messageBoxFont);
+                        _gameState = GameState.Dialoge;
+                        break;
                     }
                 }
             }

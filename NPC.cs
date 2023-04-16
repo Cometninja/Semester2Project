@@ -10,9 +10,11 @@ namespace Semester2Prototype
 {
     internal class NPC : Sprite
     {
+
         List<List<Rectangle>> _rectangles = new List<List<Rectangle>>();
         Vector2 _startingPosition;
-        public Moving _moving = Moving.Down;
+        public Moving _moving = Moving.Still;
+        public Moving _lastMove;
         public Facing _facing = Facing.Down;
         public Point _NPCPoint;
         public string _name;
@@ -21,8 +23,7 @@ namespace Semester2Prototype
         static int _animationCount = 0, tickCount, testCount;
         List<Sprite> _sprites = new List<Sprite>();
         public bool _dialoge = false;
-        public string[] dialoges = new string[] {"hello", "Test 1","Test 2","Test 3" }; 
-
+        public string[] _npcDialoge;
 
         public NPC(Texture2D image, Vector2 position,string name) : base(image, position) 
         {
@@ -30,6 +31,7 @@ namespace Semester2Prototype
             _startingPosition = position;
             _rectangles = GetNPCImage();
             _sourceRect = _rectangles[0][0];
+            _npcDialoge = new string[] { $"{_name}", "Standing here", "butler", "I Killed Him" };
         }
         public override void Update(List<Sprite> sprites)
         {
@@ -114,7 +116,6 @@ namespace Semester2Prototype
             tickCount++;
             if (tickCount % 10 == 0)
             {
-
                 if (_animationCount == 3)
                 {
                     _animationCount = 0;
@@ -179,10 +180,10 @@ namespace Semester2Prototype
             }
         }
 
-        public void StartDialog(MessageBox messageBox)
+        public void StartDialog()
         {
-            _dialoge = true;   
-            messageBox.AddMessage($"hello i am a NPC, My name is {_name}");
+            _dialoge = true;
+            _lastMove = _moving;
             this._moving = Moving.Still;
         }
     }

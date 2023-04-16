@@ -8,7 +8,7 @@ namespace Semester2Prototype
     internal class MessageBox : Sprite
     {
         List<string> _messages = new List<string>();
-        SpriteFont _messageBoxFont;
+        public SpriteFont _messageBoxFont;
 
         public MessageBox(Texture2D image, Vector2 position, SpriteFont font) : base(image, position)
         {
