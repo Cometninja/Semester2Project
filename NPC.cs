@@ -5,6 +5,8 @@ using Microsoft.Xna.Framework.Input;
 using System.Linq;
 using System.Collections;
 using System;
+using System.Diagnostics;
+using System.IO;
 
 namespace Semester2Prototype
 {
@@ -31,7 +33,8 @@ namespace Semester2Prototype
             _startingPosition = position;
             _rectangles = GetNPCImage();
             _sourceRect = _rectangles[0][0];
-            _npcDialoge = new string[] { $"{_name}", "Standing here", "butler", "I Killed Him" };
+            _npcDialoge = new string[] { $"{_name}", "nothing", "Something","Nick Did it!!"};
+            
         }
         public override void Update(List<Sprite> sprites)
         {
@@ -185,6 +188,19 @@ namespace Semester2Prototype
             _dialoge = true;
             _lastMove = _moving;
             this._moving = Moving.Still;
+        }
+
+        static string[] GetDialoge()
+        {
+
+
+            //string data = File.ReadAllText("./Content/NPCDialoge.txt");
+
+
+            //string[] results = data.Split('-');
+
+
+            return new string[] { "1","2","3","4"};
         }
     }
 }

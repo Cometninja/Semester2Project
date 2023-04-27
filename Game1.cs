@@ -12,8 +12,10 @@ using System.Threading;
 
 namespace Semester2Prototype
 {
+    
     public class Game1 : Game
     {
+        
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
 
@@ -27,7 +29,7 @@ namespace Semester2Prototype
         static bool _isEscapedPressed;
         static MessageBox _dialogeBox;
         
-
+        static DanTestingMenu _danTestingMenu;
 
         static GameState _gameState = GameState.GamePlaying;
 
@@ -80,8 +82,24 @@ namespace Semester2Prototype
                         _graphics.PreferredBackBufferHeight - messageBoxImage.Height / 2),
                     _mainfont));
             _sprites.Add(_player);
+
+
             _sprites.Add(new NPC(_npcSpriteSheet,new Vector2(600,250),"bob"));
+            _sprites.Add(new NPC(_npcSpriteSheet,new Vector2(650,250),"Dan"));
+            _sprites.Add(new NPC(_npcSpriteSheet,new Vector2(700,250),"Linus"));
+            _sprites.Add(new NPC(_npcSpriteSheet,new Vector2(750,250),"Kyle"));
+            _sprites.Add(new NPC(_npcSpriteSheet,new Vector2(800,250),"Oscar"));
+           // _sprites.Add(new NPC(_npcSpriteSheet,new Vector2(850,250),"Nick"));
+
+
+
+
+
+
             _sprites.Add(new Journal(_journalImage, new Vector2(0, 0),_mainfont));
+
+
+            _danTestingMenu = new DanTestingMenu(this);
 
             _player.GetDebugImage(square);
         }
@@ -99,6 +117,7 @@ namespace Semester2Prototype
             switch (_gameState)
             {
                 case GameState.GameStart:
+                    _danTestingMenu.Update(gameTime);
                     break;
                 case GameState.GamePlaying:
                     if (Keyboard.GetState().IsKeyDown(Keys.Escape) && !_isEscapedPressed)
@@ -182,12 +201,6 @@ namespace Semester2Prototype
                 npc._moving = npc._lastMove;
                 _gameState = GameState.GamePlaying;
             }
-
-            
         }
-
-
     }
-
-    
 }

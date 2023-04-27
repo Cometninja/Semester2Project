@@ -125,24 +125,24 @@ namespace Semester2Prototype
             switch (level)
             {
                 case FloorLevel.FirstFloor:
-                    X0 = new int[] { };
-                    X1 = new int[] { };
-                    X2 = new int[] { };
-                    X3 = new int[] { };
-                    X4 = new int[] { };
-                    X5 = new int[] { };
-                    X6 = new int[] { };
-                    X7 = new int[] { };
-                    X8 = new int[] { };
-                    X9 = new int[] { };
-                    X10 = new int[] { };
+                    X0 = new int[] { 0 };
+                    X1 = new int[] { 10,20,24 };
+                    X2 = new int[] { 10,20,24 };
+                    X3 = new int[] { 10,20,24 };
+                    X4 = new int[] { 10,20};
+                    X5 = new int[] { 1, 2, 3, 4, 5, 10,11,12,13,14,15,20,24};
+                    X6 = new int[] { 5,10,15,20,24};
+                    X7 = new int[] { 10,20,24};
+                    X8 = new int[] { 5,10,15,20,24,25,26,27,28};
+                    X9 = new int[] { 5,10 };
+                    X10 = new int[] { 1,2,3,4,5,6,8,9,10,11,12,13,14,15,16,18,19,20};
                     X11 = new int[] { };
-                    X12 = new int[] { };
+                    X12 = new int[] { 24,25,26,27,28};
                     X13 = new int[] { };
-                    X14 = new int[] { };
-                    X15 = new int[] { };
-                    X16 = new int[] { };
-                    X17 = new int[] { };
+                    X14 = new int[] {1,2,4,5,6,7,8,9,10,11,12,14,15,16,17,18,19,20 };
+                    X15 = new int[] { 5,10,15,20};
+                    X16 = new int[] { 5,10,15,20,24,25,26,27,28 };
+                    X17 = new int[] {  };
                     X18 = new int[] { };
                     X19 = new int[] { };
                     X20 = new int[] { };
@@ -152,7 +152,7 @@ namespace Semester2Prototype
                     X24 = new int[] { };
                     break;
                 case FloorLevel.SecondFLoor:
-                    X0 = new int[] { };
+                    X0 = new int[] { 0};
                     X1 = new int[] { };
                     X2 = new int[] { };
                     X3 = new int[] { };
