@@ -17,7 +17,7 @@ namespace Semester2Prototype
         Color _origonalColor;
         MessageBox _messageBox;
         bool _messageSent;
-        public FloorLevel _floorLevel = FloorLevel.GroundFLoor;
+        public FloorLevel _floorLevel = FloorLevel.FirstFloor;
         public Point _point;
         public TileState _tileState = TileState.Empty;
         public Tile(Texture2D image, Vector2 position , Point point) : base(image, position)
@@ -59,43 +59,29 @@ namespace Semester2Prototype
         }
         public void SetUpFLoorPlan()
         {
-            switch (_floorLevel)
+            if (_point.X == 0 || _point.X == 29 || _point.Y == 0 || _point.Y == 24)
             {
-                case FloorLevel.GroundFLoor:
+                _tileState = TileState.Wall;
+                _sourceRect = new Rectangle(1, 52, 50, 50);
+            }
 
-                    if (_point.X == 0 || _point.X == 29 || _point.Y == 0 || _point.Y == 24)
-                    {
-                        _tileState = TileState.Wall;
-                        _sourceRect = new Rectangle(1, 52, 50, 50);
-                    }
+            if (ints[_point.Y].Contains(_point.X))
+            {   
+                _tileState = TileState.Wall;
+                _sourceRect = new Rectangle(1, 52, 50, 50);
+            }
 
-                    if (ints[_point.Y].Contains(_point.X))
-                    {   
-                        _tileState = TileState.Wall;
-                        _sourceRect = new Rectangle(1, 52, 50, 50);
-                    }
-
-
-
-                    if (_point.X == 10 && _point.Y == 5)
-                    {
-                        _tileState = TileState.Interactive;
-                        _origonalColor = Color.Blue;
-                        _sourceRect = new Rectangle(52,1,50,50);
-                        
-                    }
-                break;
-                case FloorLevel.FirstFloor:
-                    break;
-                case FloorLevel.SecondFLoor:
-                    break;
+            if (_point.X == 10 && _point.Y == 5)
+            {
+                _tileState = TileState.Interactive;
+                _origonalColor = Color.Blue;
+                _sourceRect = new Rectangle(52,1,50,50);
             }
         }
         public List<List<int>> LayoutRoom(FloorLevel level)
         {
             List<List<int>> ints = new List<List<int>>();
 
-            int[,] XYWalls = new int[,] { { 6,17,21,25} };
 
             int[] X0; 
             int[] X1; 
@@ -142,41 +128,41 @@ namespace Semester2Prototype
                     X14 = new int[] {1,2,4,5,6,7,8,9,10,11,12,14,15,16,17,18,19,20 };
                     X15 = new int[] { 5,10,15,20};
                     X16 = new int[] { 5,10,15,20,24,25,26,27,28 };
-                    X17 = new int[] {  };
-                    X18 = new int[] { };
-                    X19 = new int[] { };
-                    X20 = new int[] { };
-                    X21 = new int[] { };
-                    X22 = new int[] { };
-                    X23 = new int[] { };
-                    X24 = new int[] { };
+                    X17 = new int[] {  10,20,24};
+                    X18 = new int[] { 5,10,15,20,24};
+                    X19 = new int[] {5,6,7,8,9,10,15,16,17,18,19,20,24 };
+                    X20 = new int[] {10,20 };
+                    X21 = new int[] { 10,20,24};
+                    X22 = new int[] { 10, 20, 24 };
+                    X23 = new int[] { 10, 20, 24 };
+                    X24 = new int[] { 0};
                     break;
                 case FloorLevel.SecondFLoor:
-                    X0 = new int[] { 0};
-                    X1 = new int[] { };
-                    X2 = new int[] { };
-                    X3 = new int[] { };
-                    X4 = new int[] { };
-                    X5 = new int[] { };
-                    X6 = new int[] { };
-                    X7 = new int[] { };
-                    X8 = new int[] { };
-                    X9 = new int[] { };
-                    X10 = new int[] { };
-                    X11 = new int[] { };
-                    X12 = new int[] { };
-                    X13= new int[] { };
-                    X14 = new int[] { };
-                    X15 = new int[] { };
-                    X16 = new int[] { };
-                    X17 = new int[] { };
-                    X18 = new int[] { };
-                    X19 = new int[] { };
-                    X20 = new int[] { };
-                    X21 = new int[] { };
-                    X22 = new int[] { };
-                    X23 = new int[] { };
-                    X24 = new int[] { };
+                    X0 = new int[] { 0 };
+                    X1 = new int[] { 10, 20, 24 };
+                    X2 = new int[] { 10, 20, 24 };
+                    X3 = new int[] { 10, 20, 24 };
+                    X4 = new int[] { 10, 20 };
+                    X5 = new int[] { 1, 2, 3, 4, 5, 10, 11, 12, 13, 14, 15, 20, 24 };
+                    X6 = new int[] { 5, 10, 15, 20, 24 };
+                    X7 = new int[] { 10, 20, 24 };
+                    X8 = new int[] { 5, 10, 15, 20, 24, 25, 26, 27, 28 };
+                    X9 = new int[] { 5, 10 ,24};
+                    X10 = new int[] { 1, 2, 3, 4, 5, 6, 8, 9, 10, 11, 12, 13, 14, 15, 16, 18, 19, 20 ,24};
+                    X11 = new int[] { 24};
+                    X12 = new int[] { 24, 25, 26, 27, 28 };
+                    X13 = new int[] { };
+                    X14 = new int[] { 1, 2, 4, 5, 6, 7, 8, 9, 10, 11, 12, 14, 15, 16, 17, 18, 19, 20 };
+                    X15 = new int[] { 5, 10, 15, 20 };
+                    X16 = new int[] { 5, 10, 15, 20, 24, 25, 26, 27, 28 };
+                    X17 = new int[] { 10, 20, 24 };
+                    X18 = new int[] { 5, 10, 15, 20, 24 };
+                    X19 = new int[] { 5, 6, 7, 8, 9, 10, 15, 16, 17, 18, 19, 20, 24 };
+                    X20 = new int[] { 10, 20 };
+                    X21 = new int[] { 10, 20, 24 };
+                    X22 = new int[] { 10, 20, 24 };
+                    X23 = new int[] { 10, 20, 24 };
+                    X24 = new int[] { 0 };
                     break;
                 default:
                     X0 = new int[] { 0 };
