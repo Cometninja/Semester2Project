@@ -19,23 +19,26 @@ namespace Semester2Prototype
 
         static List<Sprite> _sprites = new List<Sprite>();
         static Random _random = new Random();
-        static SpriteFont _mainfont;
+        public SpriteFont _mainfont, buttonFont;
         static Player _player;
         static MessageBox _messageBox;
         static Tile _playerPos;
         static Journal _journal;
-        static bool _isEscapedPressed;
+        public bool _isEscapedPressed;
         static MessageBox _dialogeBox;
-        
 
+        static Menus _menus;
 
-        static GameState _gameState = GameState.GamePlaying;
+        static GameState _gameState = GameState.MainMenu;
 
 
         Point _playerPoint = new Point(0, 0);
         static Texture2D square, playerSpriteSheet, messageBoxImage, _journalImage, _wallSpriteSheet,_floorSpriteSheet, _npcSpriteSheet;
+        public Texture2D _rectangleTxr, _backgroundTxr, buttonTexture;
         public Point _windowSize = new Point(1000, 500);
         static Point point = new Point(1500, 1250);
+
+        string Text;
 
         public Game1()
         {
@@ -66,6 +69,11 @@ namespace Semester2Prototype
             _floorSpriteSheet = Content.Load<Texture2D>("FloorTileSpriteSheet");
             _npcSpriteSheet = Content.Load<Texture2D>("NPCspritesheet");
 
+            buttonFont = Content.Load<SpriteFont>("UI/Fonts/Font");
+            buttonTexture = Content.Load<Texture2D>("UI/Controls/Button");
+            _rectangleTxr = Content.Load<Texture2D>("UI/RectangleTxr");
+            _backgroundTxr = Content.Load<Texture2D>("UI/Txr_Background");
+
             MakeFloorPlan();
             _dialogeBox = new MessageBox(messageBoxImage,
                     new Vector2(_graphics.PreferredBackBufferWidth / 2,
@@ -84,6 +92,8 @@ namespace Semester2Prototype
             _sprites.Add(new Journal(_journalImage, new Vector2(0, 0),_mainfont));
 
             _player.GetDebugImage(square);
+
+            _menus = new Menus(this);
         }
 
         protected override void Update(GameTime gameTime)
@@ -98,11 +108,15 @@ namespace Semester2Prototype
 
             switch (_gameState)
             {
+                case GameState.MainMenu:
+                    _menus.Update(gameTime);
+                    _gameState = _menus._gameState;
+                    break;
                 case GameState.GameStart:
                     break;
                 case GameState.GamePlaying:
                     if (Keyboard.GetState().IsKeyDown(Keys.Escape) && !_isEscapedPressed)
-                        Exit();
+                        _gameState = GameState.MainMenu;
                     else if (Keyboard.GetState().IsKeyUp(Keys.Escape) && _isEscapedPressed)
                     {
                         _isEscapedPressed = false;
@@ -116,6 +130,7 @@ namespace Semester2Prototype
                     _player._dialoge.DialogeUpdate();
                     DialogueControls();
                     break;
+                
             }
             GameStateChange(_sprites);
             base.Update(gameTime);
@@ -131,6 +146,9 @@ namespace Semester2Prototype
             }
             switch (_gameState)
             {
+                case GameState.MainMenu:
+                    _menus.Draw(_spriteBatch);
+                    break;
                 case GameState.GameStart:
                     break;
                 case GameState.GamePlaying:
