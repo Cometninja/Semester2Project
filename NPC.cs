@@ -41,8 +41,8 @@ namespace Semester2Prototype
             _center = new Vector2(_position.X + 16, _position.Y + 30);
 
             _sprites = sprites;
-            NPC_Controls();
-            NPC_Move();
+            //NPC_Controls();
+            //NPC_Move();
 
 
             base.Update(sprites);

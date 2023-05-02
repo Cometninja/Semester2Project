@@ -13,7 +13,7 @@ namespace Semester2Prototype
     {
         Texture2D _wallSpriteSheet,leftWall,rightWall;
         int number = 0;
-        public Wall(Texture2D wallSpriteSheet, Vector2 position, Point point) :base(wallSpriteSheet, position, point) 
+        public Wall(Texture2D wallSpriteSheet, Vector2 position, Point point) :base(wallSpriteSheet, position, point,new Game1()) 
         {
             _wallSpriteSheet= wallSpriteSheet;
         }

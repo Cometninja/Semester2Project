@@ -3,8 +3,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System.Linq;
-
-
+using System.Net.Http.Headers;
 
 namespace Semester2Prototype
 {
@@ -20,7 +19,7 @@ namespace Semester2Prototype
         Texture2D _debugImage;
         static Rectangle detection;
         static int _animationCount = 0, tickCount, testCount;
-        MessageBox _messageBox;
+        public MessageBox _messageBox;
         static bool _isSpacePressed, _isEPressed,_isPPressed;
         static Journal _journal;
         static List<Tile> tiles;
@@ -53,6 +52,9 @@ namespace Semester2Prototype
 
             _messageBox = _sprites.OfType<MessageBox>().FirstOrDefault();
             _center =  new Vector2(_position.X+16,_position.Y+30);
+
+            
+            
         }
         public void PlayerControls(Player player)
         {
@@ -106,7 +108,7 @@ namespace Semester2Prototype
             }
             else if (Keyboard.GetState().IsKeyDown(Keys.Space) && !_isSpacePressed)
             {
-                _messageBox.AddMessage($"Testing {testCount}.");
+                _messageBox.AddMessage(player._point.ToString());
                 _isSpacePressed = true;
                 testCount++;
             }
@@ -145,6 +147,7 @@ namespace Semester2Prototype
                     _messageBox.AddMessage("its not an interactive object idiot!!!!");
                 }
                 
+               
             }
             _journal = _sprites.OfType<Journal>().FirstOrDefault();
             if (Keyboard.GetState().IsKeyDown(Keys.P) && !_isPPressed && !_journal.DisplayJournal)
@@ -412,5 +415,7 @@ namespace Semester2Prototype
             }
             base.Draw(spriteBatch);
         }
+
+       
     }
 }

@@ -17,11 +17,14 @@ namespace Semester2Prototype
         Color _origonalColor;
         MessageBox _messageBox;
         bool _messageSent;
-        public FloorLevel _floorLevel = FloorLevel.FirstFloor;
+        public FloorLevel _floorLevel;
         public Point _point;
         public TileState _tileState = TileState.Empty;
-        public Tile(Texture2D image, Vector2 position , Point point) : base(image, position)
+        static Game1 _game1;
+
+        public Tile(Texture2D image, Vector2 position , Point point, Game1 game1) : base(image, position)
         {
+            _game1 = game1;
             _sourceRect = new Rectangle(1, 1, 50, 50);
             _bounds = new Rectangle((int)_position.X, (int)_position.Y, _image.Width, _image.Height);
             _point = point;
@@ -29,6 +32,7 @@ namespace Semester2Prototype
             _centerBox = new Rectangle((int)(_position.X), (int)(_position.Y),50,50);
             _origonalColor = _color;
             ints = LayoutRoom(_floorLevel);
+            _floorLevel = _game1._floorLevel;
             SetUpFLoorPlan();
         }
         public override void Update(List<Sprite> sprites)

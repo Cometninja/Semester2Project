@@ -28,13 +28,14 @@ namespace Semester2Prototype
         static Journal _journal;
         static bool _isEscapedPressed;
         static MessageBox _dialogeBox;
-        
         static DanTestingMenu _danTestingMenu;
 
         static GameState _gameState = GameState.GamePlaying;
 
 
         Point _playerPoint = new Point(0, 0);
+        
+        public FloorLevel _floorLevel = FloorLevel.GroundFLoor;
         static Texture2D square, playerSpriteSheet, messageBoxImage, _journalImage, _wallSpriteSheet,_floorSpriteSheet, _npcSpriteSheet;
         public Point _windowSize = new Point(1000, 500);
         static Point point = new Point(1500, 1250);
@@ -128,6 +129,7 @@ namespace Semester2Prototype
                     }
                     _playerPos = _sprites.OfType<Tile>().Where(tile => tile._point == _player._point).First();
                     MoveThePlayer();
+                    CheckChangeLevel();
                     break;
                 case GameState.JournalScreen:
                     break;
@@ -169,13 +171,13 @@ namespace Semester2Prototype
 
             _spriteBatch.End();
         }
-        static void MakeFloorPlan()
+        public void MakeFloorPlan()
         {
             for (int col = 0, y = 0; col < point.Y; col += 50, y++)
             {
                 for (int row = 0, x = 0; row < point.X; row += 50, x++)
                 {
-                    _sprites.Add(new Tile(_floorSpriteSheet, new Vector2(row, col), new Point(x, y)));
+                    _sprites.Add(new Tile(_floorSpriteSheet, new Vector2(row, col), new Point(x, y),this));
                 }
             }
         }
@@ -202,5 +204,49 @@ namespace Semester2Prototype
                 _gameState = GameState.GamePlaying;
             }
         }
+
+        public void CheckChangeLevel()
+        {
+            switch (_floorLevel)
+            {
+                case FloorLevel.GroundFLoor:
+                    int[] groundUp = new int[] { 17, 18, 19 };
+                    if (_player._point.X == 24 && groundUp.Contains(_player._point.Y))
+                    {
+                        _messageBox.AddMessage("going UP");
+                        _floorLevel = FloorLevel.FirstFloor;
+                    }
+                    
+                    break;
+                case FloorLevel.FirstFloor:
+                    int[] firstDown = new int[] { 13,14,15 };
+                    int[] firstUp = new int[] { 9,10,11 };
+                    if (_player._point.X == 24 && firstDown.Contains(_player._point.Y))
+                    {
+                        _messageBox.AddMessage("going Down");
+                        _floorLevel = FloorLevel.GroundFLoor;
+                    }
+                    else if (_player._point.X == 24 && firstUp.Contains(_player._point.Y))
+                    {
+                        _messageBox.AddMessage("going UP");
+                        _floorLevel = FloorLevel.SecondFLoor;
+                    }
+                    break;
+
+                case FloorLevel.SecondFLoor:
+                    int[] SecondDown = new int[] { 13, 14, 15 };
+
+                    if (_player._point.X == 24 && SecondDown.Contains(_player._point.Y))
+                    {
+                        _messageBox.AddMessage("going Down");
+                        _floorLevel = FloorLevel.FirstFloor;
+                    }
+                    break;
+            }
+
+
+
+        }
+    
     }
 }
