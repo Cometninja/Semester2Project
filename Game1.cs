@@ -1,21 +1,16 @@
-﻿using System.Collections.Generic;
-using System;
-using System.IO;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
-using System.Net.Http.Headers;
-using System.Reflection;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
-using System.Diagnostics;
-using System.Threading;
 
 namespace Semester2Prototype
 {
-    
+
     public class Game1 : Game
     {
-        
+
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
 
@@ -34,9 +29,9 @@ namespace Semester2Prototype
 
 
         Point _playerPoint = new Point(0, 0);
-        
+
         public FloorLevel _floorLevel = FloorLevel.GroundFLoor;
-        static Texture2D square, playerSpriteSheet, messageBoxImage, _journalImage, _wallSpriteSheet,_floorSpriteSheet, _npcSpriteSheet;
+        static Texture2D square, playerSpriteSheet, messageBoxImage, _journalImage, _wallSpriteSheet, _floorSpriteSheet, _npcSpriteSheet;
         public Point _windowSize = new Point(1000, 500);
         static Point point = new Point(1500, 1250);
 
@@ -52,7 +47,7 @@ namespace Semester2Prototype
             _graphics.PreferredBackBufferWidth = _windowSize.X;
             _graphics.PreferredBackBufferHeight = _windowSize.Y;
             _graphics.ApplyChanges();
-            
+
             base.Initialize();
         }
 
@@ -85,19 +80,19 @@ namespace Semester2Prototype
             _sprites.Add(_player);
 
 
-            _sprites.Add(new NPC(_npcSpriteSheet,new Vector2(600,250),"bob"));
-            _sprites.Add(new NPC(_npcSpriteSheet,new Vector2(650,250),"Dan"));
-            _sprites.Add(new NPC(_npcSpriteSheet,new Vector2(700,250),"Linus"));
-            _sprites.Add(new NPC(_npcSpriteSheet,new Vector2(750,250),"Kyle"));
-            _sprites.Add(new NPC(_npcSpriteSheet,new Vector2(800,250),"Oscar"));
-           // _sprites.Add(new NPC(_npcSpriteSheet,new Vector2(850,250),"Nick"));
+            _sprites.Add(new NPC(_npcSpriteSheet, new Vector2(600, 250), "bob"));
+            _sprites.Add(new NPC(_npcSpriteSheet, new Vector2(650, 250), "Dan"));
+            _sprites.Add(new NPC(_npcSpriteSheet, new Vector2(700, 250), "Linus"));
+            _sprites.Add(new NPC(_npcSpriteSheet, new Vector2(750, 250), "Kyle"));
+            _sprites.Add(new NPC(_npcSpriteSheet, new Vector2(800, 250), "Oscar"));
+            // _sprites.Add(new NPC(_npcSpriteSheet,new Vector2(850,250),"Nick"));
 
 
 
 
 
 
-            _sprites.Add(new Journal(_journalImage, new Vector2(0, 0),_mainfont));
+            _sprites.Add(new Journal(_journalImage, new Vector2(0, 0), _mainfont));
 
 
             _danTestingMenu = new DanTestingMenu(this);
@@ -109,7 +104,7 @@ namespace Semester2Prototype
         {
 
             _messageBox = _sprites.OfType<MessageBox>().FirstOrDefault();
-            
+
             foreach (Sprite sprite in _sprites)
             {
                 sprite.Update(_sprites);
@@ -128,8 +123,11 @@ namespace Semester2Prototype
                         _isEscapedPressed = false;
                     }
                     _playerPos = _sprites.OfType<Tile>().Where(tile => tile._point == _player._point).First();
+                    if (_player._position.X % 50 == 0 && _sprites.OfType<Tile>().FirstOrDefault()._position.X % 50 == 0)
+                    {
+                        CheckChangeLevel();
+                    }
                     MoveThePlayer();
-                    CheckChangeLevel();
                     break;
                 case GameState.JournalScreen:
                     break;
@@ -177,7 +175,7 @@ namespace Semester2Prototype
             {
                 for (int row = 0, x = 0; row < point.X; row += 50, x++)
                 {
-                    _sprites.Add(new Tile(_floorSpriteSheet, new Vector2(row, col), new Point(x, y),this));
+                    _sprites.Add(new Tile(_floorSpriteSheet, new Vector2(row, col), new Point(x, y), this));
                 }
             }
         }
@@ -197,7 +195,7 @@ namespace Semester2Prototype
         static void DialogueControls()
         {
             NPC npc = _sprites.OfType<NPC>().Where(x => x._dialoge == true).FirstOrDefault();
-            if (Keyboard.GetState().IsKeyDown(Keys.Escape)&& !_isEscapedPressed)
+            if (Keyboard.GetState().IsKeyDown(Keys.Escape) && !_isEscapedPressed)
             {
                 _isEscapedPressed = true;
                 npc._moving = npc._lastMove;
@@ -207,6 +205,7 @@ namespace Semester2Prototype
 
         public void CheckChangeLevel()
         {
+            List<Tile> tiles = _sprites.OfType<Tile>().ToList();
             switch (_floorLevel)
             {
                 case FloorLevel.GroundFLoor:
@@ -215,21 +214,30 @@ namespace Semester2Prototype
                     {
                         _messageBox.AddMessage("going UP");
                         _floorLevel = FloorLevel.FirstFloor;
+                        _player._position.X -= 50;
+                        _player._point.X -= 1;
+                        foreach(Tile tile in tiles)
+                        {
+                            tile._position.Y += 200;
+                        }
+                        ChangeLevel();
                     }
-                    
+
                     break;
                 case FloorLevel.FirstFloor:
-                    int[] firstDown = new int[] { 13,14,15 };
-                    int[] firstUp = new int[] { 9,10,11 };
+                    int[] firstDown = new int[] { 13, 14, 15 };
+                    int[] firstUp = new int[] { 9, 10, 11 };
                     if (_player._point.X == 24 && firstDown.Contains(_player._point.Y))
                     {
                         _messageBox.AddMessage("going Down");
                         _floorLevel = FloorLevel.GroundFLoor;
+                        ChangeLevel();
                     }
                     else if (_player._point.X == 24 && firstUp.Contains(_player._point.Y))
                     {
                         _messageBox.AddMessage("going UP");
                         _floorLevel = FloorLevel.SecondFLoor;
+                        ChangeLevel();
                     }
                     break;
 
@@ -240,13 +248,23 @@ namespace Semester2Prototype
                     {
                         _messageBox.AddMessage("going Down");
                         _floorLevel = FloorLevel.FirstFloor;
+                        ChangeLevel();
                     }
                     break;
             }
-
-
-
         }
-    
+        public void ChangeLevel()
+        {
+            _player._position.X -= 50;
+            _player._moving = Moving.Still;
+            _player._playerFacing = Facing.Left;
+            _player._sourceRect = new Rectangle(0, 104, 36, 52);
+
+            List<Tile> tiles = _sprites.OfType<Tile>().ToList();
+            foreach(Tile t in tiles)
+            {
+                t.SetUpFLoorPlan();
+            }
+        }
     }
 }

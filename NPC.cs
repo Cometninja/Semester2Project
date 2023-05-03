@@ -1,12 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Input;
-using System.Linq;
-using System.Collections;
-using System;
-using System.Diagnostics;
-using System.IO;
 
 namespace Semester2Prototype
 {
@@ -27,14 +23,14 @@ namespace Semester2Prototype
         public bool _dialoge = false;
         public string[] _npcDialoge;
 
-        public NPC(Texture2D image, Vector2 position,string name) : base(image, position) 
+        public NPC(Texture2D image, Vector2 position, string name) : base(image, position)
         {
             _name = name;
             _startingPosition = position;
             _rectangles = GetNPCImage();
             _sourceRect = _rectangles[0][0];
-            _npcDialoge = new string[] { $"{_name}", "nothing", "Something","Nick Did it!!"};
-            
+            _npcDialoge = new string[] { $"{_name}", "nothing", "Something", "Nick Did it!!" };
+
         }
         public override void Update(List<Sprite> sprites)
         {
@@ -91,31 +87,31 @@ namespace Semester2Prototype
             {
                 case Moving.Up:
                     _sourceRect = GetNPCImage()[1][_animationCount];
-                    _facing = Facing.Up; 
+                    _facing = Facing.Up;
                     _position.Y -= _speed;
                     break;
                 case Moving.Down:
                     _sourceRect = GetNPCImage()[0][_animationCount];
-                    _facing = Facing.Down; 
+                    _facing = Facing.Down;
                     _position.Y += _speed;
                     break;
                 case Moving.Left:
                     _sourceRect = GetNPCImage()[3][_animationCount];
-                    _facing = Facing.Left; 
+                    _facing = Facing.Left;
                     _position.X -= _speed;
                     break;
                 case Moving.Right:
                     _sourceRect = GetNPCImage()[2][_animationCount];
-                    _facing = Facing.Right; 
+                    _facing = Facing.Right;
                     _position.X += _speed;
                     break;
                 default:
-                    
+
                     break;
 
             }
 
-            
+
             tickCount++;
             if (tickCount % 10 == 0)
             {
@@ -135,7 +131,7 @@ namespace Semester2Prototype
             Player player = _sprites.OfType<Player>().FirstOrDefault();
             Tile tile = _sprites.OfType<Tile>().FirstOrDefault();
             //TODO add in NPC Moving
-            if ( (_position.X - tile._position.X) % 50 == 0 && (_position.Y - tile._position.Y) % 50 == 0) 
+            if ((_position.X - tile._position.X) % 50 == 0 && (_position.Y - tile._position.Y) % 50 == 0)
             {
                 CheckNextTile();
             }
@@ -143,7 +139,7 @@ namespace Semester2Prototype
         public void CheckNextTile()
         {
             Point nextTilePoint = Point.Zero;
-            foreach(Tile tile in _sprites.OfType<Tile>().ToList())
+            foreach (Tile tile in _sprites.OfType<Tile>().ToList())
             {
                 if (tile._centerBox.Contains(this._center))
                 {
@@ -157,7 +153,7 @@ namespace Semester2Prototype
                 case Facing.Up:
                     nextTilePoint.Y--;
                     break;
-                case Facing.Down: 
+                case Facing.Down:
                     nextTilePoint.Y++;
                     break;
                 case Facing.Left:
@@ -170,14 +166,14 @@ namespace Semester2Prototype
 
             Tile nextTile = _sprites.OfType<Tile>().Where(tile => tile._point == nextTilePoint).First();
 
-            if (nextTile != null) 
-            { 
-                if (nextTile._tileState != TileState.Empty) 
+            if (nextTile != null)
+            {
+                if (nextTile._tileState != TileState.Empty)
                 {
                     Moving placeholder = _moving;
-                    while(_moving == placeholder) 
-                    { 
-                        _moving = (Moving)_random.Next(1,5);
+                    while (_moving == placeholder)
+                    {
+                        _moving = (Moving)_random.Next(1, 5);
                     }
                 }
             }
@@ -200,7 +196,7 @@ namespace Semester2Prototype
             //string[] results = data.Split('-');
 
 
-            return new string[] { "1","2","3","4"};
+            return new string[] { "1", "2", "3", "4" };
         }
     }
 }

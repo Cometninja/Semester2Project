@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Semester2Prototype
+﻿namespace Semester2Prototype
 {
     public enum Facing { Up, Down, Left, Right }
     public enum Moving { Still, Down, Up, Left, Right }

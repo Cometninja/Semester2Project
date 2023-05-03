@@ -1,9 +1,8 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
-using System.Linq;
-using System.Net;
 
 namespace Semester2Prototype
 {
@@ -14,7 +13,7 @@ namespace Semester2Prototype
         NPC _npc;
         List<string> _playerDialoge;
         List<string> _npcDialoge;
-        string _cursor = ">>"; 
+        string _cursor = ">>";
         SpriteFont _font;
         Vector2 _cursorPos = new Vector2(55, 60);
         bool _ButtonPressed = false;
@@ -48,19 +47,19 @@ namespace Semester2Prototype
                 _cursorPos.Y -= _spacing;
                 _question--;
             }
-            if(Keyboard.GetState().GetPressedKeyCount() == 0) 
+            if (Keyboard.GetState().GetPressedKeyCount() == 0)
             {
                 _ButtonPressed = false;
             }
-            if (_question < 0) 
+            if (_question < 0)
             {
                 _question = 3;
-                _cursorPos.Y += (_spacing*_playerDialoge.Count);
+                _cursorPos.Y += (_spacing * _playerDialoge.Count);
             }
-            else if (_question > (_playerDialoge.Count -1))
+            else if (_question > (_playerDialoge.Count - 1))
             {
                 _question = 0;
-                _cursorPos.Y -= (_spacing*_playerDialoge.Count);
+                _cursorPos.Y -= (_spacing * _playerDialoge.Count);
             }
 
             if (Keyboard.GetState().IsKeyDown(Keys.Enter))
@@ -68,33 +67,33 @@ namespace Semester2Prototype
                 _answer = _question;
                 _npcAnswer = true;
             }
-            
+
         }
 
         public void DialogeDraw(SpriteBatch spriteBatch)
         {
-            spriteBatch.Draw(_dialogeBox, new Rectangle(50, 50, 400, 100),Color.White);   
-            spriteBatch.Draw(_dialogeBox, new Rectangle(450, 50, 200, 100),Color.White);
+            spriteBatch.Draw(_dialogeBox, new Rectangle(50, 50, 400, 100), Color.White);
+            spriteBatch.Draw(_dialogeBox, new Rectangle(450, 50, 200, 100), Color.White);
             int numb = 60;
             foreach (string s in _playerDialoge)
             {
                 spriteBatch.DrawString(_font, s, new Vector2(75, numb), Color.White);
                 numb += _spacing;
             }
-            
-            if(_npcAnswer)
+
+            if (_npcAnswer)
             {
                 spriteBatch.DrawString(_font, _npcDialoge[_answer], new Vector2(460, 60), Color.White);
 
             }
 
-            spriteBatch.DrawString(_font, _cursor,_cursorPos,Color.White);
-            
+            spriteBatch.DrawString(_font, _cursor, _cursorPos, Color.White);
+
 
         }
 
 
-        
+
 
     }
 }

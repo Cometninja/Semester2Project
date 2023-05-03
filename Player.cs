@@ -1,18 +1,17 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
-using System.Linq;
-using System.Net.Http.Headers;
 
 namespace Semester2Prototype
 {
-    
+
     internal class Player : Sprite
-    { 
+    {
         public Point _point;
-        static Facing _playerFacing = Facing.Down;
-        static Moving _moving = Moving.Still;
+        public Facing _playerFacing = Facing.Down;
+        public Moving _moving = Moving.Still;
         static List<Sprite> _sprites;
         static List<NPC> _npcList;
         bool DebugBounds;
@@ -20,7 +19,7 @@ namespace Semester2Prototype
         static Rectangle detection;
         static int _animationCount = 0, tickCount, testCount;
         public MessageBox _messageBox;
-        static bool _isSpacePressed, _isEPressed,_isPPressed;
+        static bool _isSpacePressed, _isEPressed, _isPPressed;
         static Journal _journal;
         static List<Tile> tiles;
         Dictionary<string, bool> _goals;
@@ -33,9 +32,9 @@ namespace Semester2Prototype
 
 
 
-        public Player(Texture2D image, Vector2 position, Point point):base(image, position) 
-        { 
-            _point= point;
+        public Player(Texture2D image, Vector2 position, Point point) : base(image, position)
+        {
+            _point = point;
             _sourceRect = GetPlayerImage()[0][0];
             _goals = SetGoals();
             _playerDialoge.Add("What is your name?");
@@ -51,10 +50,10 @@ namespace Semester2Prototype
             _npcList = _sprites.OfType<NPC>().ToList();
 
             _messageBox = _sprites.OfType<MessageBox>().FirstOrDefault();
-            _center =  new Vector2(_position.X+16,_position.Y+30);
+            _center = new Vector2(_position.X + 16, _position.Y + 30);
 
-            
-            
+
+
         }
         public void PlayerControls(Player player)
         {
@@ -108,7 +107,7 @@ namespace Semester2Prototype
             }
             else if (Keyboard.GetState().IsKeyDown(Keys.Space) && !_isSpacePressed)
             {
-                _messageBox.AddMessage(player._point.ToString());
+                _messageBox.AddMessage($"player Point: {_sprites.OfType<Tile>().FirstOrDefault()._position.ToString()} & Player Position {player._position.ToString()}");
                 _isSpacePressed = true;
                 testCount++;
             }
@@ -146,8 +145,8 @@ namespace Semester2Prototype
                 {
                     _messageBox.AddMessage("its not an interactive object idiot!!!!");
                 }
-                
-               
+
+
             }
             _journal = _sprites.OfType<Journal>().FirstOrDefault();
             if (Keyboard.GetState().IsKeyDown(Keys.P) && !_isPPressed && !_journal.DisplayJournal)
@@ -178,7 +177,7 @@ namespace Semester2Prototype
             {
                 DebugBounds = true;
                 detection = _bounds;
-                
+
                 switch (_playerFacing)
                 {
                     case Facing.Up:
@@ -203,7 +202,7 @@ namespace Semester2Prototype
                     {
                         _changeGameState = true;
                         npc.StartDialog();
-                        _dialoge = new Dialoge(player, npc,_messageBox._image,_messageBox._messageBoxFont);
+                        _dialoge = new Dialoge(player, npc, _messageBox._image, _messageBox._messageBoxFont);
                         _gameState = GameState.Dialoge;
                         break;
                     }
@@ -211,13 +210,13 @@ namespace Semester2Prototype
             }
             else if (Keyboard.GetState().IsKeyUp(Keys.E))
             {
-                DebugBounds= false;
+                DebugBounds = false;
             }
         }
         public void PlayerMove(Player player)
         {
             Tile sourceTile = _sprites.OfType<Tile>().FirstOrDefault();
-            
+
             switch (_moving)
             {
 
@@ -230,7 +229,7 @@ namespace Semester2Prototype
                         {
                             tile._position.Y++;
                         }
-                        foreach(NPC npc in _npcList)
+                        foreach (NPC npc in _npcList)
                         {
                             npc._position.Y++;
                         }
@@ -299,7 +298,7 @@ namespace Semester2Prototype
                         {
                             tile._position.X++;
                         }
-                        
+
                         foreach (NPC npc in _npcList)
                         {
                             npc._position.X++;
@@ -395,12 +394,12 @@ namespace Semester2Prototype
             else return false;
 
         }
-        static Dictionary<string,bool> SetGoals()
+        static Dictionary<string, bool> SetGoals()
         {
             Dictionary<string, bool> goals = new Dictionary<string, bool>();
-            
+
             goals.Add("Test", false);
-            
+
             return goals;
         }
         public void GetDebugImage(Texture2D image)
@@ -415,7 +414,5 @@ namespace Semester2Prototype
             }
             base.Draw(spriteBatch);
         }
-
-       
     }
 }

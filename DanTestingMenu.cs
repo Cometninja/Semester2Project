@@ -1,14 +1,6 @@
-﻿using System.Collections.Generic;
-using System;
-using System.IO;
-using System.Linq;
-using System.Net.Http.Headers;
-using System.Reflection;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
-using System.Diagnostics;
-using System.Threading;
 
 
 namespace Semester2Prototype
@@ -22,9 +14,9 @@ namespace Semester2Prototype
         GameState gameState;
         Game1 _parent;
 
-        public DanTestingMenu(Game1 parent) 
+        public DanTestingMenu(Game1 parent)
         {
-          _parent = parent;
+            _parent = parent;
         }
 
         public void Update(GameTime gameTime)
@@ -32,9 +24,9 @@ namespace Semester2Prototype
             mousepos = Mouse.GetState().Position.ToVector2();
         }
 
-        public void Draw(SpriteBatch spriteBatch) 
-        { 
-            
+        public void Draw(SpriteBatch spriteBatch)
+        {
+
         }
 
 

@@ -1,7 +1,6 @@
 using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Input;
 
 namespace Semester2Prototype
 {
@@ -30,11 +29,11 @@ namespace Semester2Prototype
             int count = _messages.Count - 1;
             foreach (string message in _messages)
             {
-                spriteBatch.DrawString(_messageBoxFont, 
-                    message, 
+                spriteBatch.DrawString(_messageBoxFont,
+                    message,
                     new Vector2(
-                        (_position.X - _image.Width/2) + 10, 
-                        (_position.Y - _image.Height / 2) +5 + (20 * count)), 
+                        (_position.X - _image.Width / 2) + 10,
+                        (_position.Y - _image.Height / 2) + 5 + (20 * count)),
                     Color.White);
                 count--;
             }
