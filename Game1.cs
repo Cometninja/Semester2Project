@@ -25,7 +25,7 @@ namespace Semester2Prototype
         static MessageBox _dialogeBox;
         static DanTestingMenu _danTestingMenu;
 
-        static GameState _gameState = GameState.GamePlaying;
+        public GameState _gameState = GameState.GamePlaying;
 
 
         Point _playerPoint = new Point(0, 0);
@@ -71,7 +71,7 @@ namespace Semester2Prototype
                     _mainfont);
 
 
-            _player = new Player(playerSpriteSheet, new Vector2(400, 250), _playerPoint);
+            _player = new Player(playerSpriteSheet, new Vector2(400, 250), _playerPoint,this);
             _sprites.Add(
                 new MessageBox(messageBoxImage,
                     new Vector2(_graphics.PreferredBackBufferWidth / 2,
@@ -80,12 +80,7 @@ namespace Semester2Prototype
             _sprites.Add(_player);
 
 
-            _sprites.Add(new NPC(_npcSpriteSheet, new Vector2(600, 250), "bob"));
-            _sprites.Add(new NPC(_npcSpriteSheet, new Vector2(650, 250), "Dan"));
-            _sprites.Add(new NPC(_npcSpriteSheet, new Vector2(700, 250), "Linus"));
-            _sprites.Add(new NPC(_npcSpriteSheet, new Vector2(750, 250), "Kyle"));
-            _sprites.Add(new NPC(_npcSpriteSheet, new Vector2(800, 250), "Oscar"));
-            // _sprites.Add(new NPC(_npcSpriteSheet,new Vector2(850,250),"Nick"));
+            _sprites.Add(new NPC(_npcSpriteSheet, new Vector2(600, 250), NPCCharacter.Manager));
 
 
 
@@ -132,11 +127,11 @@ namespace Semester2Prototype
                 case GameState.JournalScreen:
                     break;
                 case GameState.Dialoge:
-                    _player._dialoge.DialogeUpdate();
+                    _player._dialoge.DialogeUpdate(gameTime);
                     DialogueControls();
                     break;
             }
-            GameStateChange(_sprites);
+            GameStateChange();
             base.Update(gameTime);
         }
 
@@ -184,7 +179,7 @@ namespace Semester2Prototype
             _player.PlayerMove(_player);
         }
 
-        static void GameStateChange(List<Sprite> sprites)
+        public void GameStateChange()
         {
             if (_player._changeGameState)
             {
@@ -192,7 +187,7 @@ namespace Semester2Prototype
                 _player._changeGameState = false;
             }
         }
-        static void DialogueControls()
+        public void DialogueControls()
         {
             NPC npc = _sprites.OfType<NPC>().Where(x => x._dialoge == true).FirstOrDefault();
             if (Keyboard.GetState().IsKeyDown(Keys.Escape) && !_isEscapedPressed)

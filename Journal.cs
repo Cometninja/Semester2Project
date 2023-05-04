@@ -15,10 +15,14 @@ namespace Semester2Prototype
         static Vector2 _centerScreen = new Vector2(_windowSize.X / 2, _windowSize.Y / 2);
         static List<string> _journalMessages = new List<string>();
         static string _message = "";
+        static List<string> _tasks = new List<string>();
+
 
         public Journal(Texture2D image, Vector2 position, SpriteFont font) : base(image, position)
         {
             _font = font;
+            _tasks.Add("---TASK---\nSpeak To The Manager\nby Pressing E");
+
         }
         public override void Draw(SpriteBatch spriteBatch)
         {
@@ -37,7 +41,7 @@ namespace Semester2Prototype
                     1f);
 
                 spriteBatch.DrawString(_font,
-                    "---TASK---\nFace Blue Square\n& Press E",
+                    _tasks[0],
                     new Vector2(
                         _centerScreen.X - _image.Width / 2 + 30,
                         _centerScreen.Y - _image.Height / 2 + 30), Color.Black);

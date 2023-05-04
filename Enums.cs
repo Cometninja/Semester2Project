@@ -2,7 +2,8 @@
 {
     public enum Facing { Up, Down, Left, Right }
     public enum Moving { Still, Down, Up, Left, Right }
-    public enum GameState { GameStart, GamePlaying, JournalScreen, Dialoge }
+    public enum GameState { GameStart, GamePlaying, JournalScreen, Dialoge, Opening }
     public enum FloorLevel { GroundFLoor, FirstFloor, SecondFLoor }
     enum TileState { Empty, Interactive, Wall }
+    public enum NPCCharacter { Manager,Receptionist,Cleaner,Chef,Cook,MrMontgomery,MrsPark,MsMayflower,MrSanders,MrRoss}
 }

@@ -15,30 +15,27 @@ namespace Semester2Prototype
         public Moving _lastMove;
         public Facing _facing = Facing.Down;
         public Point _NPCPoint;
-        public string _name;
+        static NPCCharacter _NPCCharacter;
         Random _random = new Random();
         float _speed = 0.5f;
         static int _animationCount = 0, tickCount, testCount;
         List<Sprite> _sprites = new List<Sprite>();
         public bool _dialoge = false;
-        public string[] _npcDialoge;
+        public List<List<string>> _dialogs;
 
-        public NPC(Texture2D image, Vector2 position, string name) : base(image, position)
+        public NPC(Texture2D image, Vector2 position, NPCCharacter character) : base(image, position)
         {
-            _name = name;
+            _NPCCharacter = character;
             _startingPosition = position;
             _rectangles = GetNPCImage();
             _sourceRect = _rectangles[0][0];
-            _npcDialoge = new string[] { $"{_name}", "nothing", "Something", "Nick Did it!!" };
-
+            _dialogs = GetDialoge();
         }
         public override void Update(List<Sprite> sprites)
         {
             _center = new Vector2(_position.X + 16, _position.Y + 30);
 
             _sprites = sprites;
-            //NPC_Controls();
-            //NPC_Move();
 
 
             base.Update(sprites);
@@ -186,17 +183,30 @@ namespace Semester2Prototype
             this._moving = Moving.Still;
         }
 
-        static string[] GetDialoge()
+        public static List<List<string>> GetDialoge()
         {
+            List<string> npcDialog = new List<string>();
+            List<string> playerDialog = new List<string>();
+
+            switch (_NPCCharacter)
+            {
+                case NPCCharacter.Manager:
+                    playerDialog.Add("Hello may I speak to the manager");
+                   
+
+                    npcDialog.Add("ahh good you must be the detective the police department sent, thank you for you timely response.");
+                    npcDialog.Add("There has been a terrible incident! one of our guests have been murdered!");
+                    npcDialog.Add("I have already put things in place to keep everyone who was here the night of the murder within the hotel.");
+                    npcDialog.Add("Talk with the receptionist to get up to speed on what's happened.");
+                    npcDialog.Add("I will stay here to await your verdict, good luck detective.");
+                    break;
+            }
 
 
-            //string data = File.ReadAllText("./Content/NPCDialoge.txt");
-
-
-            //string[] results = data.Split('-');
-
-
-            return new string[] { "1", "2", "3", "4" };
+            List<List<string>> result = new List<List<string>>();
+            result.Add(npcDialog);
+            result.Add(playerDialog);
+            return result;
         }
     }
 }

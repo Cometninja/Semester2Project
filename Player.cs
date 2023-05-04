@@ -27,20 +27,18 @@ namespace Semester2Prototype
         public bool _changeGameState;
         public GameState _gameState = GameState.GamePlaying;
         public Dialoge _dialoge;
+        public Game1 _game1;
 
         public List<string> _playerDialoge = new List<string>();
 
 
 
-        public Player(Texture2D image, Vector2 position, Point point) : base(image, position)
+        public Player(Texture2D image, Vector2 position, Point point, Game1 game1) : base(image, position)
         {
+            _game1 = game1;
             _point = point;
             _sourceRect = GetPlayerImage()[0][0];
             _goals = SetGoals();
-            _playerDialoge.Add("What is your name?");
-            _playerDialoge.Add("where were you the night of the murder?");
-            _playerDialoge.Add("whats your job?");
-            _playerDialoge.Add("Did you Kill the Man?");
         }
         public override void Update(List<Sprite> sprites)
         {
