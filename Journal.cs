@@ -6,9 +6,7 @@ namespace Semester2Prototype
 {
     internal class Journal : Sprite
     {
-        static VarCollection varCollection = new VarCollection();
-
-        public bool DisplayJournal = false;
+        public bool _isJournalDisplayed = false;
         static MessageBox _messageBox;
         static SpriteFont _font;
         static Point _windowSize = new Point(1000, 500);
@@ -16,17 +14,16 @@ namespace Semester2Prototype
         static List<string> _journalMessages = new List<string>();
         static string _message = "";
         static List<string> _tasks = new List<string>();
-
+        public Dictionary<string, bool> _goals;
 
         public Journal(Texture2D image, Vector2 position, SpriteFont font) : base(image, position)
         {
             _font = font;
-            _tasks.Add("---TASK---\nSpeak To The Manager\nby Pressing E");
-
+            _goals = SetGoals();
         }
         public override void Draw(SpriteBatch spriteBatch)
         {
-            if (DisplayJournal)
+            if (_isJournalDisplayed)
             {
                 spriteBatch.Draw(_image,
                     _centerScreen,
@@ -51,7 +48,6 @@ namespace Semester2Prototype
                     new Vector2(
                         _centerScreen.X - _image.Width / 2 + 30,
                         _centerScreen.Y - _image.Height / 2 + 100), Color.Black);
-
             }
             else
             {
@@ -79,6 +75,33 @@ namespace Semester2Prototype
                     _message = _journalMessages[1];
                     break;
             }
+        }
+
+        static Dictionary<string, bool> SetGoals()
+        {
+            Dictionary<string, bool> goals = new Dictionary<string, bool>();
+
+            goals.Add("Test", false);
+            goals.Add("IntroManager", false);
+            goals.Add("IntroReceptionist", false);
+            goals.Add("FoundMasterKey", false);
+            return goals;
+        }
+
+        public void DisplayJournal()
+        {
+            _tasks.Clear();
+            _tasks.Add("---TASK---\nSpeak To The Manager\nby Pressing E");
+
+            if (_goals["Test"])
+            {
+                CurrentMessage(1);
+            }
+            else
+            {
+                CurrentMessage(0);
+            }
+            _isJournalDisplayed = true;
         }
     }
 }

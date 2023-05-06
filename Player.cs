@@ -20,10 +20,8 @@ namespace Semester2Prototype
         static int _animationCount = 0, tickCount, testCount;
         public MessageBox _messageBox;
         static bool _isSpacePressed, _isEPressed, _isPPressed;
-        static Journal _journal;
+        public Journal _journal;
         static List<Tile> tiles;
-        Dictionary<string, bool> _goals;
-        static VarCollection varCollection = new VarCollection();
         public bool _changeGameState;
         public GameState _gameState = GameState.GamePlaying;
         public Dialoge _dialoge;
@@ -38,7 +36,6 @@ namespace Semester2Prototype
             _game1 = game1;
             _point = point;
             _sourceRect = GetPlayerImage()[0][0];
-            _goals = SetGoals();
         }
         public override void Update(List<Sprite> sprites)
         {
@@ -56,6 +53,7 @@ namespace Semester2Prototype
         public void PlayerControls(Player player)
         {
             Point playerPoint = player._point;
+            _journal = _sprites.OfType<Journal>().FirstOrDefault();
 
             if (Keyboard.GetState().IsKeyDown(Keys.Up))
             {
@@ -137,7 +135,7 @@ namespace Semester2Prototype
                 if (CheckInteractiveTile(checkPoint))
                 {
                     _messageBox.AddMessage("it an interactive object!!!");
-                    _goals["Test"] = true;
+                    _journal._goals["Test"] = true;
                 }
                 else
                 {
@@ -146,24 +144,15 @@ namespace Semester2Prototype
 
 
             }
-            _journal = _sprites.OfType<Journal>().FirstOrDefault();
-            if (Keyboard.GetState().IsKeyDown(Keys.P) && !_isPPressed && !_journal.DisplayJournal)
+            if (Keyboard.GetState().IsKeyDown(Keys.P) && !_isPPressed && !_journal._isJournalDisplayed)
             {
-                if (_goals["Test"])
-                {
-                    _journal.CurrentMessage(1);
-                }
-                else
-                {
-                    _journal.CurrentMessage(0);
-                }
-                varCollection.test++;
-                _journal.DisplayJournal = true;
+                _journal.DisplayJournal();
+                
                 _isPPressed = true;
             }
-            else if (Keyboard.GetState().IsKeyDown(Keys.P) && !_isPPressed && _journal.DisplayJournal)
+            else if (Keyboard.GetState().IsKeyDown(Keys.P) && !_isPPressed && _journal._isJournalDisplayed)
             {
-                _journal.DisplayJournal = false;
+                _journal._isJournalDisplayed = false;
                 _isPPressed = true;
             }
             else if (!Keyboard.GetState().IsKeyDown(Keys.P) && _isPPressed)
@@ -392,14 +381,7 @@ namespace Semester2Prototype
             else return false;
 
         }
-        static Dictionary<string, bool> SetGoals()
-        {
-            Dictionary<string, bool> goals = new Dictionary<string, bool>();
-
-            goals.Add("Test", false);
-
-            return goals;
-        }
+        
         public void GetDebugImage(Texture2D image)
         {
             _debugImage = image;

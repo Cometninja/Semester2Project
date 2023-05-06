@@ -11,6 +11,9 @@
     <ApplicationIcon>Icon.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Remove="VarCollection.cs" />
+  </ItemGroup>
+  <ItemGroup>
     <None Remove="Content\NPCDialoge.txt" />
     <None Remove="Icon.ico" />
     <None Remove="Icon.bmp" />

@@ -1,6 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Intrinsics.X86;
+using System.Text;
+using System.Threading.Tasks;
+using System.Xml.Linq;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
@@ -15,13 +19,13 @@ namespace Semester2Prototype
         public Moving _lastMove;
         public Facing _facing = Facing.Down;
         public Point _NPCPoint;
-        static NPCCharacter _NPCCharacter;
+        public NPCCharacter _NPCCharacter;
         Random _random = new Random();
         float _speed = 0.5f;
         static int _animationCount = 0, tickCount, testCount;
-        List<Sprite> _sprites = new List<Sprite>();
+        static List<Sprite> _sprites = new List<Sprite>();
         public bool _dialoge = false;
-        public List<List<string>> _dialogs;
+        static Journal _journal;
 
         public NPC(Texture2D image, Vector2 position, NPCCharacter character) : base(image, position)
         {
@@ -29,7 +33,7 @@ namespace Semester2Prototype
             _startingPosition = position;
             _rectangles = GetNPCImage();
             _sourceRect = _rectangles[0][0];
-            _dialogs = GetDialoge();
+
         }
         public override void Update(List<Sprite> sprites)
         {
@@ -183,22 +187,67 @@ namespace Semester2Prototype
             this._moving = Moving.Still;
         }
 
-        public static List<List<string>> GetDialoge()
+        public List<List<string>> GetDialoge()
         {
             List<string> npcDialog = new List<string>();
             List<string> playerDialog = new List<string>();
-
+            _journal = _sprites.OfType<Journal>().FirstOrDefault();
             switch (_NPCCharacter)
             {
                 case NPCCharacter.Manager:
-                    playerDialog.Add("Hello may I speak to the manager");
-                   
+                    if (!_journal._goals["IntroManager"])
+                    {
+                        playerDialog.Add("Hello may I speak to the manager");
 
-                    npcDialog.Add("ahh good you must be the detective the police department sent, thank you for you timely response.");
-                    npcDialog.Add("There has been a terrible incident! one of our guests have been murdered!");
-                    npcDialog.Add("I have already put things in place to keep everyone who was here the night of the murder within the hotel.");
-                    npcDialog.Add("Talk with the receptionist to get up to speed on what's happened.");
-                    npcDialog.Add("I will stay here to await your verdict, good luck detective.");
+
+                        npcDialog.Add("ahh good you must be the detective the police department sent, thank you for you timely response.");
+                        npcDialog.Add("There has been a terrible incident! one of our guests have been murdered!");
+                        npcDialog.Add("I have already put things in place to keep everyone who was here the night of the murder within the hotel.");
+                        npcDialog.Add("Talk with the receptionist to get up to speed on what's happened.");
+                        npcDialog.Add("I will stay here to await your verdict, good luck detective.");
+                        _journal._goals["IntroManager"] = true;
+                    }
+                    else
+                    {
+                        playerDialog.Add("May I ask another question?");
+
+                        npcDialog.Add("As I said speak to the receptionist at the front to get up to speed.");
+                    }
+                        break;
+                case NPCCharacter.Receptionist:
+                    playerDialog.Add("Hello I am the Detective");
+                    if (_journal._goals["IntroManager"])
+                    {
+                        npcDialog.Add("Hello detective, the manager told me to bring you up to speed so here is some information we know");
+                        npcDialog.Add("The person murdered is named Mr Richards and was staying here for one night. They work for the same company that runs the hotel and was here on business talks, and was staying on the 2nd floor, room 4") ;
+                        npcDialog.Add("The body was discovered in the morning by the cleaner, so you might want to talk to them first");
+                        npcDialog.Add("That's we know. good luck, it would be nice to get some closer");
+                        _journal._goals["IntroRecetionist"] = true;
+                    }
+                    else
+                    {
+                        npcDialog.Add("Please Speak to the Manager first");
+                    }
+                    break;
+                case NPCCharacter.Cleaner:
+                    playerDialog.Add("Hello I am the Detective, I need to ask you a few questions if I may?");
+                    if (_journal._goals["IntroReceptionist"])
+                    {
+                        playerDialog.Add("What where you doing yesterday?");
+                        playerDialog.Add("What did you see other people do yesterday, anything unusual?");
+                        if (_journal._goals["FoundMasterKey"])
+                        {
+                            playerDialog.Add("I found this master key in the storage closet, A place I thought only you would access. Can you tell me something?");
+                        }
+                        playerDialog.Add("GoodBye");
+                    
+
+                        npcDialog.Add("I was doing my usual work around the hotel, cleaning rooms and such I didn’t hear or see anything before or after 10pm when I finished my shift and went home I came into work this morning as usual.when I went upstairs, I found Mr Richard’s room door open, and that’s when I found the body");
+                    }
+                    else
+                    {
+                        npcDialog.Add("I am sorry but is there someone else you need to talk to first?");
+                    }
                     break;
             }
 

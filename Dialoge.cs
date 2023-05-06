@@ -27,6 +27,8 @@ namespace Semester2Prototype
         int count = 0;
         int tickCount = 0;
         bool _displayEnter;
+        static Journal _journal;
+        public List<List<string>> _dialogs;
 
         Rectangle _playerDialogBox = new Rectangle(50, 50, 400, 100);
         Rectangle _npcDialogBox = new Rectangle(450, 50, 400, 100);
@@ -35,11 +37,14 @@ namespace Semester2Prototype
 
         public Dialoge(Player player, NPC npc, Texture2D texture, SpriteFont font)
         {
+            _dialogs = npc.GetDialoge();
             _player = player;
             _dialogeBox = texture;
-            _playerDialoge = npc._dialogs[1];
-            _npcDialoge = npc._dialogs[0];
+            
+            _playerDialoge = _dialogs[1];
+            _npcDialoge = _dialogs[0];
             _font = font;
+            _journal = _player._journal;
         }
 
         public void DialogeUpdate(GameTime gameTime)
@@ -130,7 +135,7 @@ namespace Semester2Prototype
         public void PrintAnswer()
         {
             tickCount++;
-            if (tickCount >= 20)
+            if (tickCount >= 5)
             {
                 if (_font.MeasureString(_npcMessage + " " + splitAnswer[count]).X > (_npcDialogBox.X - 50))
                 {

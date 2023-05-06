@@ -19,10 +19,7 @@ namespace Semester2Prototype
         static SpriteFont _mainfont;
         static Player _player;
         static MessageBox _messageBox;
-        static Tile _playerPos;
-        static Journal _journal;
         static bool _isEscapedPressed;
-        static MessageBox _dialogeBox;
         static DanTestingMenu _danTestingMenu;
 
         public GameState _gameState = GameState.GamePlaying;
@@ -65,12 +62,6 @@ namespace Semester2Prototype
             _npcSpriteSheet = Content.Load<Texture2D>("NPCspritesheet");
 
             MakeFloorPlan();
-            _dialogeBox = new MessageBox(messageBoxImage,
-                    new Vector2(_graphics.PreferredBackBufferWidth / 2,
-                        _graphics.PreferredBackBufferHeight - messageBoxImage.Height / 2),
-                    _mainfont);
-
-
             _player = new Player(playerSpriteSheet, new Vector2(400, 250), _playerPoint,this);
             _sprites.Add(
                 new MessageBox(messageBoxImage,
@@ -81,6 +72,7 @@ namespace Semester2Prototype
 
 
             _sprites.Add(new NPC(_npcSpriteSheet, new Vector2(600, 250), NPCCharacter.Manager));
+            _sprites.Add(new NPC(_npcSpriteSheet, new Vector2(800, 250), NPCCharacter.Receptionist));
 
 
 
@@ -117,7 +109,6 @@ namespace Semester2Prototype
                     {
                         _isEscapedPressed = false;
                     }
-                    _playerPos = _sprites.OfType<Tile>().Where(tile => tile._point == _player._point).First();
                     if (_player._position.X % 50 == 0 && _sprites.OfType<Tile>().FirstOrDefault()._position.X % 50 == 0)
                     {
                         CheckChangeLevel();
