@@ -27,7 +27,6 @@ namespace Semester2Prototype
         int count = 0;
         int tickCount = 0;
         bool _displayEnter;
-        static Journal _journal;
         public List<List<string>> _dialogs;
 
         Rectangle _playerDialogBox = new Rectangle(50, 50, 400, 100);
@@ -44,7 +43,6 @@ namespace Semester2Prototype
             _playerDialoge = _dialogs[1];
             _npcDialoge = _dialogs[0];
             _font = font;
-            _journal = _player._journal;
         }
 
         public void DialogeUpdate(GameTime gameTime)

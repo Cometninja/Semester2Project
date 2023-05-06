@@ -20,7 +20,8 @@ namespace Semester2Prototype
         static Player _player;
         static MessageBox _messageBox;
         static bool _isEscapedPressed;
-        static DanTestingMenu _danTestingMenu;
+        static Texture2D square, playerSpriteSheet, messageBoxImage, _journalImage, _floorSpriteSheet, _npcSpriteSheet;
+        static Point _point = new Point(1500, 1250);
 
         public GameState _gameState = GameState.GamePlaying;
 
@@ -28,9 +29,7 @@ namespace Semester2Prototype
         Point _playerPoint = new Point(0, 0);
 
         public FloorLevel _floorLevel = FloorLevel.GroundFLoor;
-        static Texture2D square, playerSpriteSheet, messageBoxImage, _journalImage, _wallSpriteSheet, _floorSpriteSheet, _npcSpriteSheet;
         public Point _windowSize = new Point(1000, 500);
-        static Point point = new Point(1500, 1250);
 
         public Game1()
         {
@@ -57,7 +56,6 @@ namespace Semester2Prototype
             messageBoxImage = Content.Load<Texture2D>("MessageBox");
             _mainfont = Content.Load<SpriteFont>("mainFont");
             _journalImage = Content.Load<Texture2D>("LargeJournal");
-            _wallSpriteSheet = Content.Load<Texture2D>("walltest");
             _floorSpriteSheet = Content.Load<Texture2D>("FloorTileSpriteSheet");
             _npcSpriteSheet = Content.Load<Texture2D>("NPCspritesheet");
 
@@ -69,29 +67,15 @@ namespace Semester2Prototype
                         _graphics.PreferredBackBufferHeight - messageBoxImage.Height / 2),
                     _mainfont));
             _sprites.Add(_player);
-
-
             _sprites.Add(new NPC(_npcSpriteSheet, new Vector2(600, 250), NPCCharacter.Manager));
             _sprites.Add(new NPC(_npcSpriteSheet, new Vector2(800, 250), NPCCharacter.Receptionist));
-
-
-
-
-
-
             _sprites.Add(new Journal(_journalImage, new Vector2(0, 0), _mainfont));
-
-
-            _danTestingMenu = new DanTestingMenu(this);
-
             _player.GetDebugImage(square);
         }
 
         protected override void Update(GameTime gameTime)
         {
-
             _messageBox = _sprites.OfType<MessageBox>().FirstOrDefault();
-
             foreach (Sprite sprite in _sprites)
             {
                 sprite.Update(_sprites);
@@ -100,7 +84,6 @@ namespace Semester2Prototype
             switch (_gameState)
             {
                 case GameState.GameStart:
-                    _danTestingMenu.Update(gameTime);
                     break;
                 case GameState.GamePlaying:
                     if (Keyboard.GetState().IsKeyDown(Keys.Escape) && !_isEscapedPressed)
@@ -122,7 +105,6 @@ namespace Semester2Prototype
                     DialogueControls();
                     break;
             }
-            GameStateChange();
             base.Update(gameTime);
         }
 
@@ -144,8 +126,6 @@ namespace Semester2Prototype
                     break;
                 case GameState.Dialoge:
                     _player._dialoge.DialogeDraw(_spriteBatch);
-
-
                     break;
             }
 
@@ -157,9 +137,9 @@ namespace Semester2Prototype
         }
         public void MakeFloorPlan()
         {
-            for (int col = 0, y = 0; col < point.Y; col += 50, y++)
+            for (int col = 0, y = 0; col < _point.Y; col += 50, y++)
             {
-                for (int row = 0, x = 0; row < point.X; row += 50, x++)
+                for (int row = 0, x = 0; row < _point.X; row += 50, x++)
                 {
                     _sprites.Add(new Tile(_floorSpriteSheet, new Vector2(row, col), new Point(x, y), this));
                 }
@@ -168,15 +148,6 @@ namespace Semester2Prototype
         static void MoveThePlayer()
         {
             _player.PlayerMove(_player);
-        }
-
-        public void GameStateChange()
-        {
-            if (_player._changeGameState)
-            {
-                _gameState = _player._gameState;
-                _player._changeGameState = false;
-            }
         }
         public void DialogueControls()
         {

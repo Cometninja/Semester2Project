@@ -19,10 +19,9 @@ namespace Semester2Prototype
         static Rectangle detection;
         static int _animationCount = 0, tickCount, testCount;
         public MessageBox _messageBox;
-        static bool _isSpacePressed, _isEPressed, _isPPressed;
+        static bool _isSpacePressed, _isPPressed;
         public Journal _journal;
         static List<Tile> tiles;
-        public bool _changeGameState;
         public GameState _gameState = GameState.GamePlaying;
         public Dialoge _dialoge;
         public Game1 _game1;
@@ -41,17 +40,11 @@ namespace Semester2Prototype
         {
             _bounds = new Rectangle((int)_position.X, (int)_position.Y, _sourceRect.Width, _sourceRect.Height);
             _sprites = sprites;
-            tiles = _sprites.OfType<Tile>().ToList();
-            _npcList = _sprites.OfType<NPC>().ToList();
-
-            _messageBox = _sprites.OfType<MessageBox>().FirstOrDefault();
             _center = new Vector2(_position.X + 16, _position.Y + 30);
-
-
-
         }
         public void PlayerControls(Player player)
         {
+            _messageBox = _sprites.OfType<MessageBox>().FirstOrDefault();
             Point playerPoint = player._point;
             _journal = _sprites.OfType<Journal>().FirstOrDefault();
 
@@ -111,7 +104,7 @@ namespace Semester2Prototype
             {
                 _isSpacePressed = false;
             }
-            if (Keyboard.GetState().IsKeyDown(Keys.E) && !_isEPressed)
+            if (Keyboard.GetState().IsKeyDown(Keys.E))
             {
                 Point checkPoint = player._point;
                 switch (_playerFacing)
@@ -187,13 +180,13 @@ namespace Semester2Prototype
                 {
                     if (detection.Contains(npc._center))
                     {
-                        _changeGameState = true;
                         npc.StartDialog();
                         _dialoge = new Dialoge(player, npc, _messageBox._image, _messageBox._messageBoxFont);
-                        _gameState = GameState.Dialoge;
+                        _game1._gameState = GameState.Dialoge;
                         break;
                     }
                 }
+                
             }
             else if (Keyboard.GetState().IsKeyUp(Keys.E))
             {
@@ -203,6 +196,9 @@ namespace Semester2Prototype
         public void PlayerMove(Player player)
         {
             Tile sourceTile = _sprites.OfType<Tile>().FirstOrDefault();
+            tiles = _sprites.OfType<Tile>().ToList();
+            _npcList = _sprites.OfType<NPC>().ToList();
+
 
             switch (_moving)
             {

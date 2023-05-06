@@ -14,7 +14,6 @@ namespace Semester2Prototype
     {
 
         List<List<Rectangle>> _rectangles = new List<List<Rectangle>>();
-        Vector2 _startingPosition;
         public Moving _moving = Moving.Still;
         public Moving _lastMove;
         public Facing _facing = Facing.Down;
@@ -22,7 +21,7 @@ namespace Semester2Prototype
         public NPCCharacter _NPCCharacter;
         Random _random = new Random();
         float _speed = 0.5f;
-        static int _animationCount = 0, tickCount, testCount;
+        static int _animationCount = 0, tickCount;
         static List<Sprite> _sprites = new List<Sprite>();
         public bool _dialoge = false;
         static Journal _journal;
@@ -30,32 +29,23 @@ namespace Semester2Prototype
         public NPC(Texture2D image, Vector2 position, NPCCharacter character) : base(image, position)
         {
             _NPCCharacter = character;
-            _startingPosition = position;
             _rectangles = GetNPCImage();
             _sourceRect = _rectangles[0][0];
-
         }
         public override void Update(List<Sprite> sprites)
         {
-            _center = new Vector2(_position.X + 16, _position.Y + 30);
-
             _sprites = sprites;
-
-
-            base.Update(sprites);
+            _center = new Vector2(_position.X + 16, _position.Y + 30);
         }
         static List<List<Rectangle>> GetNPCImage()
         {
-            // 32x,64x,96x
-            // 32y,64y,96y,128y
-
             List<List<Rectangle>> animations = new List<List<Rectangle>>();
-
 
             for (int i = 0; i < 4; i++)
             {
                 animations.Add(new List<Rectangle>());
             }
+
             // Down animation
             animations[0].Add(new Rectangle(0, 0, 36, 52));
             animations[0].Add(new Rectangle(36, 0, 36, 52));
@@ -107,12 +97,8 @@ namespace Semester2Prototype
                     _position.X += _speed;
                     break;
                 default:
-
                     break;
-
             }
-
-
             tickCount++;
             if (tickCount % 10 == 0)
             {

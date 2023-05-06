@@ -8,11 +8,7 @@ namespace Semester2Prototype
 {
     internal class Tile : Sprite
     {
-        Rectangle _bounds;
         public Rectangle _centerBox;
-        Color _origonalColor;
-        MessageBox _messageBox;
-        bool _messageSent;
         public FloorLevel _floorLevel;
         public Point _point;
         public TileState _tileState = TileState.Empty;
@@ -26,7 +22,6 @@ namespace Semester2Prototype
             _point = point;
             _center = new Vector2(image.Width / 2, image.Height / 2);
             _centerBox = new Rectangle((int)(_position.X), (int)(_position.Y), 50, 50);
-            _origonalColor = _color;
             _floorLevel = _game1._floorLevel;
             SetUpFLoorPlan();
         }
@@ -38,7 +33,6 @@ namespace Semester2Prototype
             {
                 player._point = _point;
             }
-            base.Update(sprites);
         }
         public override void Draw(SpriteBatch spriteBatch)
         {
@@ -78,7 +72,6 @@ namespace Semester2Prototype
             if (_point.X == 10 && _point.Y == 5)
             {
                 _tileState = TileState.Interactive;
-                _origonalColor = Color.Blue;
                 _sourceRect = new Rectangle(52, 1, 50, 50);
             }
         }
