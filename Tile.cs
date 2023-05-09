@@ -23,7 +23,6 @@ namespace Semester2Prototype
             _center = new Vector2(image.Width / 2, image.Height / 2);
             _centerBox = new Rectangle((int)(_position.X), (int)(_position.Y), 50, 50);
             _floorLevel = _game1._floorLevel;
-            SetUpFLoorPlan();
         }
         public override void Update(List<Sprite> sprites)
         {
@@ -33,6 +32,7 @@ namespace Semester2Prototype
             {
                 player._point = _point;
             }
+
         }
         public override void Draw(SpriteBatch spriteBatch)
         {
@@ -75,6 +75,19 @@ namespace Semester2Prototype
                 _sourceRect = new Rectangle(52, 1, 50, 50);
             }
         }
+
+        public void ContainsNPC(List<Sprite> sprites)
+        {
+            List<NPC> npcs = sprites.OfType<NPC>().ToList();
+            foreach (NPC npc in npcs) 
+            {
+                if (_centerBox.Contains(npc._center))
+                {
+                    _tileState = TileState.Wall;
+                }
+            }
+        }
+        
         public List<List<int>> LayoutRoom(FloorLevel level)
         {
             List<List<int>> ints = new List<List<int>>();

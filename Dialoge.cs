@@ -76,10 +76,22 @@ namespace Semester2Prototype
 
             if (Keyboard.GetState().IsKeyDown(Keys.Enter) && !_ButtonPressed)
             {
-                if (_answer == _npcDialoge.Count)
+                _ButtonPressed = true;
+                string[] responce = _npcDialoge[_question].Split('#');
+                if (_answer == responce.Count())
                 {
-                    Game1 game = _player._game1;
-                    game._gameState = GameState.GamePlaying;
+                    if (_playerDialoge[_question] == "Goodbye" || _npcDialoge.Count == 1)
+                    {
+                        Game1 game = _player._game1;
+                        game._gameState = GameState.GamePlaying;
+                    }
+                    else
+                    {
+                        _answer = 0;
+                        _displayEnter = false;
+                        _printing = false;
+                        _npcAnswer = false;
+                    }
                 }
                 else
                 {
@@ -87,7 +99,8 @@ namespace Semester2Prototype
                     _ButtonPressed = true;
                     _printing = true;
                     _npcAnswer = true;
-                    splitAnswer = _npcDialoge[_answer].Split(' ');
+
+                    splitAnswer = responce[_answer].Split(' ');
                 }
             }
 
@@ -137,7 +150,7 @@ namespace Semester2Prototype
             {
                 if (_font.MeasureString(_npcMessage + " " + splitAnswer[count]).X > (_npcDialogBox.X - 50))
                 {
-                    _npcMessage += ("\n" + splitAnswer[count]);
+                    _npcMessage += ("\n" + splitAnswer[count] + " ");
                 }
                 else
                 {
@@ -151,7 +164,6 @@ namespace Semester2Prototype
                     count = 0;
                     _answer++;
                     _printing = false;
-                    
                 }
             }
         }

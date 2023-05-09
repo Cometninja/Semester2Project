@@ -29,7 +29,6 @@ namespace Semester2Prototype
         public List<string> _playerDialoge = new List<string>();
 
 
-
         public Player(Texture2D image, Vector2 position, Point point, Game1 game1) : base(image, position)
         {
             _game1 = game1;
@@ -48,7 +47,7 @@ namespace Semester2Prototype
             Point playerPoint = player._point;
             _journal = _sprites.OfType<Journal>().FirstOrDefault();
 
-            if (Keyboard.GetState().IsKeyDown(Keys.Up))
+            if (Keyboard.GetState().IsKeyDown(Keys.Up) || Keyboard.GetState().IsKeyDown(Keys.W))
             {
                 player._sourceRect = GetPlayerImage()[1][0];
                 _playerFacing = Facing.Up;
@@ -59,7 +58,7 @@ namespace Semester2Prototype
                 else _messageBox.AddMessage("You can't walk through walls......");
 
             }
-            else if (Keyboard.GetState().IsKeyDown(Keys.Down))
+            else if (Keyboard.GetState().IsKeyDown(Keys.Down) || Keyboard.GetState().IsKeyDown(Keys.S))
             {
                 _playerFacing = Facing.Down;
                 player._sourceRect = GetPlayerImage()[0][0];
@@ -70,7 +69,7 @@ namespace Semester2Prototype
                 else _messageBox.AddMessage("You can't walk through walls......");
 
             }
-            else if (Keyboard.GetState().IsKeyDown(Keys.Right))
+            else if (Keyboard.GetState().IsKeyDown(Keys.Right) || Keyboard.GetState().IsKeyDown(Keys.D))
             {
                 player._sourceRect = GetPlayerImage()[2][0];
 
@@ -82,7 +81,7 @@ namespace Semester2Prototype
                 else _messageBox.AddMessage("You can't walk through walls......");
 
             }
-            else if (Keyboard.GetState().IsKeyDown(Keys.Left))
+            else if (Keyboard.GetState().IsKeyDown(Keys.Left) || Keyboard.GetState().IsKeyDown(Keys.A))
             {
 
                 _playerFacing = Facing.Left;
@@ -134,8 +133,6 @@ namespace Semester2Prototype
                 {
                     _messageBox.AddMessage("its not an interactive object idiot!!!!");
                 }
-
-
             }
             if (Keyboard.GetState().IsKeyDown(Keys.P) && !_isPPressed && !_journal._isJournalDisplayed)
             {

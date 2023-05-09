@@ -60,6 +60,7 @@ namespace Semester2Prototype
             _npcSpriteSheet = Content.Load<Texture2D>("NPCspritesheet");
 
             MakeFloorPlan();
+
             _player = new Player(playerSpriteSheet, new Vector2(400, 250), _playerPoint,this);
             _sprites.Add(
                 new MessageBox(messageBoxImage,
@@ -67,8 +68,27 @@ namespace Semester2Prototype
                         _graphics.PreferredBackBufferHeight - messageBoxImage.Height / 2),
                     _mainfont));
             _sprites.Add(_player);
+            
+            // add in the NPCs
+            
             _sprites.Add(new NPC(_npcSpriteSheet, new Vector2(600, 250), NPCCharacter.Manager));
-            _sprites.Add(new NPC(_npcSpriteSheet, new Vector2(800, 250), NPCCharacter.Receptionist));
+            _sprites.Add(new NPC(_npcSpriteSheet, new Vector2(650, 250), NPCCharacter.Receptionist));
+            _sprites.Add(new NPC(_npcSpriteSheet, new Vector2(700, 250), NPCCharacter.Cleaner));
+            _sprites.Add(new NPC(_npcSpriteSheet, new Vector2(750, 250), NPCCharacter.Chef));
+            _sprites.Add(new NPC(_npcSpriteSheet, new Vector2(800, 250), NPCCharacter.Cook));
+            _sprites.Add(new NPC(_npcSpriteSheet, new Vector2(850, 250), NPCCharacter.MrMontgomery));
+            _sprites.Add(new NPC(_npcSpriteSheet, new Vector2(900, 250), NPCCharacter.MrsPark));
+            _sprites.Add(new NPC(_npcSpriteSheet, new Vector2(950, 250), NPCCharacter.MsMayflower));
+            _sprites.Add(new NPC(_npcSpriteSheet, new Vector2(1000, 250), NPCCharacter.MrSanders));
+            _sprites.Add(new NPC(_npcSpriteSheet, new Vector2(1050, 250), NPCCharacter.MrRoss));
+
+            foreach(Tile tile in _sprites.OfType<Tile>().ToList())
+            {
+                tile.SetUpFLoorPlan();
+                tile.ContainsNPC(_sprites);
+            }
+
+
             _sprites.Add(new Journal(_journalImage, new Vector2(0, 0), _mainfont));
             _player.GetDebugImage(square);
         }
@@ -131,17 +151,18 @@ namespace Semester2Prototype
 
 
             base.Draw(gameTime);
-            //_wall.DrawWall(_spriteBatch);
 
             _spriteBatch.End();
         }
         public void MakeFloorPlan()
         {
+            Vector2 adjustment = new Vector2(0, 750);
             for (int col = 0, y = 0; col < _point.Y; col += 50, y++)
             {
                 for (int row = 0, x = 0; row < _point.X; row += 50, x++)
                 {
-                    _sprites.Add(new Tile(_floorSpriteSheet, new Vector2(row, col), new Point(x, y), this));
+                
+                    _sprites.Add(new Tile(_floorSpriteSheet, new Vector2(row, col) - adjustment, new Point(x, y), this));
                 }
             }
         }
