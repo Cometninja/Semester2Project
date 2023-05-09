@@ -94,14 +94,12 @@ namespace Semester2Prototype.States
 
         private void OptionGameButton_Click(object sender, EventArgs e)
         {
-            //_game.ChangeState(new OptionState(_game, _graphicsDevice, _content));
+            _game.ChangeState(new OptionState(_game, _graphicsDevice, _content));
         }
 
         private void NewGameButton_Click(object sender, EventArgs e)
         {
-           //_game._gameState = GameState.GamePlaying;
-
-
+             _game._gameState = GameState.GamePlaying;
         }
 
         public override void PostUpdate(GameTime gameTime)
@@ -117,7 +115,7 @@ namespace Semester2Prototype.States
 
         private void QuitGameButton_Click(object sender, EventArgs e)
         {
-            //_game.Exit();
+            _game.Exit();
         }
     }
 }

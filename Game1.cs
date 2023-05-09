@@ -45,6 +45,7 @@ namespace Semester2Prototype
         public void ChangeState(State state)
         {
             _menuState = state;
+            _currentState = state;
         }
         //
 
@@ -81,7 +82,7 @@ namespace Semester2Prototype
 
         protected override void LoadContent()
         {
-            _menuState = new KeybindState(this, GraphicsDevice, Content);
+            _menuState = new MenuState(this, GraphicsDevice, Content);
             //
             // Create a new SpriteBatch, which can be used to draw textures.
             _spriteBatch = new SpriteBatch(GraphicsDevice);
