@@ -104,6 +104,12 @@
 /processorParam:TextureFormat=Color
 /build:NPCspritesheet.png
 
+#begin Song.mp3
+/importer:Mp3Importer
+/processor:SongProcessor
+/processorParam:Quality=Best
+/build:Song.mp3
+
 #begin UI/Controls/Button.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -134,6 +140,27 @@
 /processorParam:PremultiplyAlpha=True
 /processorParam:TextureFormat=Compressed
 /build:UI/Fonts/Font.spritefont
+
+#begin UI/Fonts/Moldyen.spritefont
+/importer:FontDescriptionImporter
+/processor:FontDescriptionProcessor
+/processorParam:PremultiplyAlpha=True
+/processorParam:TextureFormat=Compressed
+/build:UI/Fonts/Moldyen.spritefont
+
+#begin UI/Fonts/SmallMoldyen.spritefont
+/importer:FontDescriptionImporter
+/processor:FontDescriptionProcessor
+/processorParam:PremultiplyAlpha=True
+/processorParam:TextureFormat=Compressed
+/build:UI/Fonts/SmallMoldyen.spritefont
+
+#begin UI/Fonts/TitleMoldyen.spritefont
+/importer:FontDescriptionImporter
+/processor:FontDescriptionProcessor
+/processorParam:PremultiplyAlpha=True
+/processorParam:TextureFormat=Compressed
+/build:UI/Fonts/TitleMoldyen.spritefont
 
 #begin UI/RectangleTxr.png
 /importer:TextureImporter

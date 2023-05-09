@@ -9,6 +9,9 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System.Diagnostics;
 using System.Threading;
+using Microsoft.Xna.Framework.Media;
+using Semester2Prototype.States;
+using System.Xml.Linq;
 
 namespace Semester2Prototype
 {
@@ -27,9 +30,26 @@ namespace Semester2Prototype
         public bool _isEscapedPressed;
         static MessageBox _dialogeBox;
 
-        static Menus _menus;
+        public State _state;
 
-        static GameState _gameState = GameState.MainMenu;
+        //
+        protected Song song;
+
+        private State _currentState;
+
+        private State _nextState;
+
+        public float _volume = 1f;
+        public State _menuState;
+
+        public void ChangeState(State state)
+        {
+            _menuState = state;
+        }
+        //
+
+
+        public GameState _gameState = GameState.MainMenu;
 
 
         Point _playerPoint = new Point(0, 0);
@@ -49,6 +69,9 @@ namespace Semester2Prototype
 
         protected override void Initialize()
         {
+            //
+            IsMouseVisible = true;
+            //
             _graphics.PreferredBackBufferWidth = _windowSize.X;
             _graphics.PreferredBackBufferHeight = _windowSize.Y;
             _graphics.ApplyChanges();
@@ -58,6 +81,19 @@ namespace Semester2Prototype
 
         protected override void LoadContent()
         {
+            _menuState = new KeybindState(this, GraphicsDevice, Content);
+            //
+            // Create a new SpriteBatch, which can be used to draw textures.
+            _spriteBatch = new SpriteBatch(GraphicsDevice);
+
+            song = Content.Load<Song>("Song");
+
+            MediaPlayer.Play(song);
+
+            _currentState = new MenuState(this, _graphics.GraphicsDevice, Content);
+
+            MediaPlayer.MediaStateChanged += MediaPlayer_MediaStateChanged;
+            //
             _spriteBatch = new SpriteBatch(GraphicsDevice);
 
             square = Content.Load<Texture2D>("whiteSquare");
@@ -69,8 +105,8 @@ namespace Semester2Prototype
             _floorSpriteSheet = Content.Load<Texture2D>("FloorTileSpriteSheet");
             _npcSpriteSheet = Content.Load<Texture2D>("NPCspritesheet");
 
-            buttonFont = Content.Load<SpriteFont>("UI/Fonts/Font");
-            buttonTexture = Content.Load<Texture2D>("UI/Controls/Button");
+            var buttonTexture = Content.Load<Texture2D>("UI/Controls/Button");
+            var buttonFont = Content.Load<SpriteFont>("UI/Fonts/Font");
             _rectangleTxr = Content.Load<Texture2D>("UI/RectangleTxr");
             _backgroundTxr = Content.Load<Texture2D>("UI/Txr_Background");
 
@@ -93,12 +129,52 @@ namespace Semester2Prototype
 
             _player.GetDebugImage(square);
 
-            _menus = new Menus(this);
+            
+        }
+        //
+        void MediaPlayer_MediaStateChanged(object sender, System.
+                                         EventArgs e)
+        {
+            // 0.0f is silent, 1.0f is full volume
+            //MediaPlayer.Volume -= 0.1f;
+            MediaPlayer.Play(song);
         }
 
-        protected override void Update(GameTime gameTime)
+        public void AdjustVolume(float change)
         {
 
+            _volume += change;
+
+            // Constrain volume to range [0, 1]
+            if (_volume < 0)
+            {
+                _volume = 0;
+            }
+            else if (_volume > 1)
+            {
+                _volume = 1;
+            }
+
+            // Set volume for MediaPlayer
+            MediaPlayer.Volume = _volume;
+
+        }
+
+        protected override void UnloadContent()
+        {
+            // TODO: Unload any non ContentManager content here
+        }
+
+        //
+        protected override void Update(GameTime gameTime)
+        {
+            //
+            KeyboardState keyboardState = Keyboard.GetState();
+            //
+
+            
+
+            
             _messageBox = _sprites.OfType<MessageBox>().FirstOrDefault();
             
             foreach (Sprite sprite in _sprites)
@@ -109,20 +185,14 @@ namespace Semester2Prototype
             switch (_gameState)
             {
                 case GameState.MainMenu:
-                    _menus.Update(gameTime);
-                    _gameState = _menus._gameState;
+                    _menuState.Update(gameTime);
                     break;
                 case GameState.GameStart:
                     break;
                 case GameState.GamePlaying:
-                    if (Keyboard.GetState().IsKeyDown(Keys.Escape) && !_isEscapedPressed)
-                        _gameState = GameState.MainMenu;
-                    else if (Keyboard.GetState().IsKeyUp(Keys.Escape) && _isEscapedPressed)
-                    {
-                        _isEscapedPressed = false;
-                    }
                     _playerPos = _sprites.OfType<Tile>().Where(tile => tile._point == _player._point).First();
                     MoveThePlayer();
+                   
                     break;
                 case GameState.JournalScreen:
                     break;
@@ -132,7 +202,33 @@ namespace Semester2Prototype
                     break;
                 
             }
-            GameStateChange(_sprites);
+           
+
+            //
+            if (_nextState != null)
+            {
+                _currentState = _nextState;
+
+                _nextState = null;
+            }
+
+            _currentState.Update(gameTime);
+
+            _currentState.PostUpdate(gameTime);
+            //
+
+            //
+            if (keyboardState.IsKeyDown(Keys.Escape) && !_isEscapedPressed)
+            {
+                _menuState = new PauseState(this, GraphicsDevice, Content);
+                _isEscapedPressed = true;
+                _gameState = GameState.MainMenu;
+            }
+            else if (!keyboardState.IsKeyDown(Keys.Escape) && _isEscapedPressed)
+            {
+                _isEscapedPressed = false;
+            }
+            //
             base.Update(gameTime);
         }
 
@@ -147,7 +243,7 @@ namespace Semester2Prototype
             switch (_gameState)
             {
                 case GameState.MainMenu:
-                    _menus.Draw(_spriteBatch);
+                    _menuState.Draw(gameTime,_spriteBatch);
                     break;
                 case GameState.GameStart:
                     break;
@@ -157,8 +253,6 @@ namespace Semester2Prototype
                     break;
                 case GameState.Dialoge:
                     _player._dialoge.DialogeDraw(_spriteBatch);
-
-
                     break;
             }
 
@@ -183,15 +277,8 @@ namespace Semester2Prototype
             _player.PlayerMove(_player);
         }
 
-        static void GameStateChange(List<Sprite> sprites)
-        {
-            if (_player._changeGameState)
-            {
-                _gameState = _player._gameState;
-                _player._changeGameState = false;
-            }
-        }
-        static void DialogueControls()
+     
+        public void DialogueControls()
         {
             NPC npc = _sprites.OfType<NPC>().Where(x => x._dialoge == true).FirstOrDefault();
             if (Keyboard.GetState().IsKeyDown(Keys.Escape)&& !_isEscapedPressed)

@@ -19,7 +19,7 @@ namespace Semester2Prototype
         Game1 _gameParent;
 
 
-        public GameState _gameState = GameState.MainMenu;
+       /* public GameState _gameState = GameState.MainMenu;
 
         public void Update(GameTime gameTime)
         {
@@ -126,6 +126,6 @@ namespace Semester2Prototype
         }
            
         }
-        
+        */
     }
 }
