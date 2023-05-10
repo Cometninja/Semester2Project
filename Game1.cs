@@ -55,14 +55,10 @@ namespace Semester2Prototype
         Point _playerPoint = new Point(0, 0);
         static Texture2D square, playerSpriteSheet, messageBoxImage, _journalImage, _wallSpriteSheet,_floorSpriteSheet, _npcSpriteSheet;
         public Texture2D _rectangleTxr, _backgroundTxr, buttonTexture;
-        static bool _isEscapedPressed;
-        static Texture2D square, playerSpriteSheet, messageBoxImage, _journalImage, _floorSpriteSheet, _npcSpriteSheet;
         static Point _point = new Point(1500, 1250);
 
-        public GameState _gameState = GameState.GamePlaying;
 
 
-        Point _playerPoint = new Point(0, 0);
 
         public FloorLevel _floorLevel = FloorLevel.GroundFLoor;
         public Point _windowSize = new Point(1000, 500);
