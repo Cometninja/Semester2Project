@@ -11,8 +11,19 @@
     <ApplicationIcon>Icon.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Remove="DanTestingMenu.cs" />
+    <Compile Remove="VarCollection.cs" />
+    <Compile Remove="Wall.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Remove="Content\NPCDialoge.txt" />
     <None Remove="Icon.ico" />
     <None Remove="Icon.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Content\NPCDialoge.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Icon.ico" />
