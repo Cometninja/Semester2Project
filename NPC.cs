@@ -1,17 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net;
-using System.Runtime.Intrinsics.X86;
-using System.Security.Cryptography;
-using System.Text;
-using System.Threading.Tasks;
-using System.Xml.Linq;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Input;
-using static System.Formats.Asn1.AsnWriter;
 
 namespace Semester2Prototype
 {
@@ -208,14 +199,10 @@ namespace Semester2Prototype
                     }
                         break;
                 case NPCCharacter.Receptionist:
-                    if (_journal._goals["IntroManager"])
+                    if (_journal._goals["lockedRecepionist"])
                     {
-                        playerDialog.Add("Hello I am the Detective");
-                        npcDialog.Add("Hello detective, the manager told me to bring you up to speed so here is some information we know#" +
-                            "The person murdered is named Mr Richards and was staying here for one night. They work for the same company that runs the hotel and was here on business talks, and was staying on the 2nd floor, room 4#" +
-                            "The body was discovered in the morning by the cleaner, so you might want to talk to them first#" +
-                            "That's we know. good luck, it would be nice to get some closer");
-                        _journal._goals["IntroReceptionist"] = true;
+                        playerDialog.Add("Hello");
+                        npcDialog.Add("I am not talking to you!!");
                     }
                     else if (_journal._goals["IntroReceptionist"])
                     {
@@ -240,10 +227,14 @@ namespace Semester2Prototype
                         playerDialog.Add("Goodbye");
                         npcDialog.Add("Goodbye");
                     }
-                    else if (_journal._goals["lockedRecepionist"])
+                    else if (_journal._goals["IntroManager"])
                     {
-                        playerDialog.Add("Hello");
-                        npcDialog.Add("I am not talking to you!!");
+                        playerDialog.Add("Hello I am the Detective");
+                        npcDialog.Add("Hello detective, the manager told me to bring you up to speed so here is some information we know#" +
+                            "The person murdered is named Mr Richards and was staying here for one night. They work for the same company that runs the hotel and was here on business talks, and was staying on the 2nd floor, room 4#" +
+                            "The body was discovered in the morning by the cleaner, so you might want to talk to them first#" +
+                            "That's we know. good luck, it would be nice to get some closer");
+                        _journal._goals["IntroReceptionist"] = true;
                     }
                     else
                     {
@@ -267,8 +258,9 @@ namespace Semester2Prototype
                             playerDialog.Add("I found this master key in the storage closet, A place I thought only you would access. Can you tell me something?");
                             npcDialog.Add("Wait… what?#" +
                                 "the Manager said they had lost it?#" +
-                                "I didn’t know anything about the key in there I swear");
+                                "I didn't know anything about the key in there I swear");
                         }
+                        playerDialog.Add("Goodbye");
                         npcDialog.Add("Goodbye");
                     }
                     else
@@ -282,7 +274,7 @@ namespace Semester2Prototype
                     npcDialog.Add("I was in the kitchen all day, I served the guests that came to the cafeteria, and I locked up and when home at 11pm");
                     
                     playerDialog.Add("What did you see other people do yesterday, anything unusual?");
-                    npcDialog.Add("Now I did see a lot of people yesterday given I work in the kitchen to here’s all I saw#" +
+                    npcDialog.Add("Now I did see a lot of people yesterday given I work in the kitchen to here's all I saw#" +
                         "At I think 7pm, I served Mrs Park, Mr Richards, and Mrs Mayflower#" +
                         "At 9pm my assistant cook ran off somewhere, so I had to have the Manager help me.#" +
                         "At around 10pm I served Mr Montgomery#" +
@@ -290,61 +282,104 @@ namespace Semester2Prototype
                     if (_journal._goals["FoundKnife"])
                     {
                         playerDialog.Add("I found this kitchen knife at the crime scene, mind filling me in?");
-                        npcDialog.Add("yea that’s from the kitchen alright, but not one of mine#" +
-                            "That’s one of the cooks knifes, I keep mine out of sight and reach in a bag");
+                        npcDialog.Add("yea that's from the kitchen alright, but not one of mine#" +
+                            "That's one of the cooks knifes, I keep mine out of sight and reach in a bag");
                     }
                     playerDialog.Add("Goodbye");
                     npcDialog.Add("Goodbye");
                     break;
                 
                 case NPCCharacter.Cook:
-                    playerDialog.Add("What where you doing yesterday?");
-                    npcDialog.Add("I was working in the kitchen all evening, not much apart from that");
-                    
-                    playerDialog.Add("What did you see other people do yesterday, anything unusual?");
-                    npcDialog.Add("I didn’t really see much as I just work in making ingredients and dishes, so I won’t see anyone as I don’t serve");
-
-                    if (_journal._goals["ChangingRoomClue"])
+                    if (_journal._goals["CookLocked"])
                     {
+                        playerDialog.Add("Hello");
+                        npcDialog.Add("I already said I need to get back to work");
+                    }
+                    else
+                    {
+                        playerDialog.Add("What where you doing yesterday?");
+                        npcDialog.Add("I was working in the kitchen all evening, not much apart from that");
+                    
+                        playerDialog.Add("What did you see other people do yesterday, anything unusual?");
+                        npcDialog.Add("I didn't really see much as I just work in making ingredients and dishes, so I won't see anyone as I don't serve");
 
+                        if (_journal._goals["ChangingRoomClue"])
+                        {
+                            playerDialog.Add("");
+                            npcDialog.Add("Oh - that… Hehe#" +
+                                "Yea I wasn't entirely honest about staying in the kitchen all evening#" +
+                                "I went to the changing room at 9pm with the receptionist, for you know, privacy#" +
+                                "I'm going to just go back to work, please don't tell anyone else about this");
+                            _journal._goals["CookLocked"] = true;
+                        }
+                        playerDialog.Add("Goodbye");
+                        npcDialog.Add("Goodbye");
+                    }
+
+                    break;
+                case NPCCharacter.MrMontgomery:
+                    playerDialog.Add("What where you doing yesterday?");
+                    npcDialog.Add("I-I was in the hotel for most of the evening, in the lounge#" +
+                        "But I went out on private business at about 11pm, and didn't return until 1am");
+
+                    playerDialog.Add("What did you see other people do yesterday, anything unusual?");
+                    npcDialog.Add("I'm not sure on saying who was where, I kept mostly to myself yesterday");
+                    
+                    playerDialog.Add("Goodbye");
+                    npcDialog.Add("Goodbye");
+
+                    break;
+                case NPCCharacter.MrsPark:
+                    playerDialog.Add("What where you doing yesterday?");
+                    npcDialog.Add("I was out for most of the day but came back to the hotel for dinner at 7pm.#" +
+                        "after dinner I played some board games with Ms Mayflower before going to bed");
+                    playerDialog.Add("What did you see other people do yesterday, anything unusual?");
+                    npcDialog.Add("Guess I saw the cook and chef in the kitchen at 7pm when I went to get my dinner#" +
+                        "But other than that, I can't say where other people were or did");
+                    playerDialog.Add("Goodbye");
+                    npcDialog.Add("Goodbye");
+
+                    break;
+                case NPCCharacter.MsMayflower:
+                    playerDialog.Add("What where you doing yesterday?");
+                    npcDialog.Add("In the evening I got dinner at 7pm, and played board games with Mrs Park after#" +
+                        "I was in the lounge for a bit longer before going to bed at 10pm");
+                    playerDialog.Add("What did you see other people do yesterday, anything unusual?");
+                    npcDialog.Add("I can say for sure for everyone#" +
+                        "but I know Mr Montgomery was in the lounge from 6 to 8pm");
+                    if (_journal._goals["MsMayflowerPhoto"])
+                    {
+                        playerDialog.Add("I'm sorry to barge in on your privacy but I found a picture of you and the Victim in your room, can you elaborate on it please?");
+                        npcDialog.Add("Ok yes, I knew Mr Richards, we were in a relationship. But it ended bitterly#" +
+                            "We hadn't seen or spoken to each other for some time#" +
+                            "We had a brief talk at 6pm yesterday, but where both still bitter from each other");
                     }
                     playerDialog.Add("Goodbye");
                     npcDialog.Add("Goodbye");
 
                     break;
-                case NPCCharacter.MrMontgomery:
-                    playerDialog.Add("What where you doing yesterday?");
-                    playerDialog.Add("What did you see other people do yesterday, anything unusual?");
-                    //if(unlockable dialoge)
-                    playerDialog.Add("Goodbye");
-
-                    break;
-                case NPCCharacter.MrsPark:
-                    playerDialog.Add("What where you doing yesterday?");
-                    playerDialog.Add("What did you see other people do yesterday, anything unusual?");
-                    //if(unlockable dialoge)
-                    playerDialog.Add("Goodbye");
-
-                    break;
-                case NPCCharacter.MsMayflower:
-                    playerDialog.Add("What where you doing yesterday?");
-                    playerDialog.Add("What did you see other people do yesterday, anything unusual?");
-                    //if(unlockable dialoge)
-                    playerDialog.Add("Goodbye");
-
-                    break;
                 case NPCCharacter.MrSanders:
                     playerDialog.Add("What where you doing yesterday?");
+                    npcDialog.Add("I was in the small lounge from 6 to 8pm, when I went out with Mr Ross#" +
+                        "I was out until 12pm when I returned to the hotel and went to bed");
+         
                     playerDialog.Add("What did you see other people do yesterday, anything unusual?");
-                    //if(unlockable dialoge)
+                    npcDialog.Add("I saw a whole lot of nothing yesterday to be honest#" +
+                        "I know the receptionist was in when I was in the lounge, but other than that I'm blind to other events");
+                    
                     playerDialog.Add("Goodbye");
+                    npcDialog.Add("Goodbye");
 
                     break;
                 case NPCCharacter.MrRoss:
                     playerDialog.Add("What where you doing yesterday?");
+                    npcDialog.Add("I was in my hotel room from 6 to 8pm when I went out, And I didn't return to the hotel until 12pm which is when I went to sleep");
+                
                     playerDialog.Add("What did you see other people do yesterday, anything unusual?");
-                    //if(unlockable dialoge)
+                    npcDialog.Add("Nothing really, I was with Mr Sanders for the evening and didn't see a whole lot");
+
                     playerDialog.Add("Goodbye");
+                    npcDialog.Add("Goodbye");
 
                     break;
             }
