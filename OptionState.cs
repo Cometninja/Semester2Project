@@ -61,9 +61,8 @@ namespace Semester2Prototype.States
         {
 
 
-            spriteBatch.Draw(_backgroundTxr, new Rectangle(0, 0, _screenSize.X, _screenSize.Y), Color.White);
 
-            Color tDimGrey = new Color(Color.Black, 75);
+            Color tDimGrey = new Color(Color.Black, 175);
 
             int rectWidth = 300; // set the width of the rectangle
             int rectHeight = 500; // set the height of the rectangle

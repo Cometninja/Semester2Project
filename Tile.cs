@@ -36,7 +36,7 @@ namespace Semester2Prototype
         }
         public override void Draw(SpriteBatch spriteBatch)
         {
-            if (_position.X < 800 && _position.X > 0 && _position.Y < 800 && _position.Y > 0)
+            if (_position.X < 1050 && _position.X > -50 && _position.Y < 550 && _position.Y > -50)
             {
                 spriteBatch.Draw(
                     _image,

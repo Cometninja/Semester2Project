@@ -21,28 +21,18 @@ namespace Semester2Prototype.States
         public SoundState(Game1 game, GraphicsDevice graphicsDevice, ContentManager content)
           : base(game, graphicsDevice, content)
         {
-
-
-
-
-
             _buttonTexture = _content.Load<Texture2D>("UI/Controls/Button");
             _smallButtonTexture = _content.Load<Texture2D>("UI/Controls/Small Button");
             _buttonFont = _content.Load<SpriteFont>("UI/Fonts/Font");
             _smallFont = _content.Load<SpriteFont>("UI/Fonts/Moldyen");
             _rectangleTxr = _content.Load<Texture2D>("UI/RectangleTxr");
-            _backgroundTxr = _content.Load<Texture2D>("UI/Txr_Background");
             _titleFont = _content.Load<SpriteFont>("UI/Fonts/TitleMoldyen");
-
-
-
 
             var plusGameButton = new Button(_smallButtonTexture, _buttonFont)
             {
                 Text = "+",
                 Position = new Vector2((_screenSize.X - _smallButtonTexture.Width) / 1.6f, 250)
             };
-
 
             plusGameButton.Click += PlusGameButton_Click;
 
@@ -62,8 +52,6 @@ namespace Semester2Prototype.States
 
             exitGameButton.Click += ExitGameButton_Click;
 
-
-
             _components = new List<Component>()
       {
         exitGameButton,
@@ -74,11 +62,8 @@ namespace Semester2Prototype.States
 
         public override void Draw(GameTime gameTime, SpriteBatch spriteBatch)
         {
-
-
-            spriteBatch.Draw(_backgroundTxr, new Rectangle(0, 0, _screenSize.X, _screenSize.Y), Color.White);
-
-            Color tDimGrey = new Color(Color.Black, 75);
+            
+            Color tDimGrey = new Color(Color.Black, 175);
 
             int rectWidth = 400; // set the width of the rectangle
             int rectHeight = 500; // set the height of the rectangle
@@ -100,8 +85,6 @@ namespace Semester2Prototype.States
 
             foreach (var component in _components)
                 component.Draw(gameTime, spriteBatch);
-
-
         }
 
         private void ExitGameButton_Click(object sender, EventArgs e)
@@ -119,10 +102,7 @@ namespace Semester2Prototype.States
         {
             Debug.WriteLine("-");
             _game.AdjustVolume(-0.25f);
-
         }
-
-
 
         public override void PostUpdate(GameTime gameTime)
         {
@@ -148,8 +128,6 @@ namespace Semester2Prototype.States
                 component.Update(gameTime);
 
         }
-
-
     }
 }
 

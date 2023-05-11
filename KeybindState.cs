@@ -21,7 +21,6 @@ namespace Semester2Prototype.States
         {
             _buttonTexture = _content.Load<Texture2D>("UI/Controls/Button");
             _rectangleTxr = _content.Load<Texture2D>("UI/RectangleTxr");
-            _backgroundTxr = _content.Load<Texture2D>("UI/Txr_Background");
             _keybindTxr = _content.Load<Texture2D>("UI/KeybindTable");
             _titleFont = _content.Load<SpriteFont>("UI/Fonts/TitleMoldyen");
             _buttonFont = _content.Load<SpriteFont>("UI/Fonts/Font");
@@ -51,7 +50,7 @@ namespace Semester2Prototype.States
 
 
 
-            Color tDimGrey = new Color(Color.Black, 75);
+            Color tDimGrey = new Color(Color.Black, 175);
 
             int rectWidth = 600; // set the width of the rectangle
             int rectHeight = 500; // set the height of the rectangle

@@ -21,7 +21,7 @@ namespace Semester2Prototype
         static List<Sprite> _sprites = new List<Sprite>();
         static Player _player;
         static MessageBox _messageBox;
-        static Texture2D square, playerSpriteSheet, messageBoxImage, _journalImage, _wallSpriteSheet, _floorSpriteSheet, _npcSpriteSheet;
+        static Texture2D square, playerSpriteSheet, messageBoxImage, _journalImage, _floorSpriteSheet, _npcSpriteSheet;
         static Point _point = new Point(1500, 1250);
 
         public bool _isEscapedPressed;
@@ -31,7 +31,7 @@ namespace Semester2Prototype
         public SpriteFont _mainfont, buttonFont;
         public GameState _gameState = GameState.MainMenu;
         public FloorLevel _floorLevel = FloorLevel.GroundFLoor;
-        public Point _windowSize = new Point(1000, 500);
+        public Point _windowSize = new Point(750, 500);
         public Texture2D _rectangleTxr, _backgroundTxr, buttonTexture;
 
         protected Song song;
@@ -49,6 +49,7 @@ namespace Semester2Prototype
             IsMouseVisible = true;
             _graphics.PreferredBackBufferWidth = _windowSize.X;
             _graphics.PreferredBackBufferHeight = _windowSize.Y;
+            _graphics.IsFullScreen= true;
             _graphics.ApplyChanges();
 
             base.Initialize();
@@ -203,8 +204,8 @@ namespace Semester2Prototype
 
         protected override void Draw(GameTime gameTime)
         {
-            GraphicsDevice.Clear(Color.CornflowerBlue);
-            _spriteBatch.Begin();
+            GraphicsDevice.Clear(Color.SandyBrown);
+            _spriteBatch.Begin(samplerState: SamplerState.PointClamp);
             foreach (Sprite sprite in _sprites)
             {
                 sprite.Draw(_spriteBatch);

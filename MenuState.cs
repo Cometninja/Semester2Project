@@ -21,7 +21,6 @@ namespace Semester2Prototype.States
             _buttonTexture = _content.Load<Texture2D>("UI/Controls/Button");
             _buttonFont = _content.Load<SpriteFont>("UI/Fonts/Font");
             _rectangleTxr = _content.Load<Texture2D>("UI/RectangleTxr");
-            _backgroundTxr = _content.Load<Texture2D>("UI/Txr_Background");
             _titleFont = _content.Load<SpriteFont>("UI/Fonts/TitleMoldyen");
 
 
@@ -61,9 +60,8 @@ namespace Semester2Prototype.States
         public override void Draw(GameTime gameTime, SpriteBatch spriteBatch)
         {
 
-            spriteBatch.Draw(_backgroundTxr, new Rectangle(0, 0, _screenSize.X, _screenSize.Y), Color.White);
 
-            Color tDimGrey = new Color(Color.Black, 75);
+            Color tDimGrey = new Color(Color.Black, 175);
 
             int rectWidth = 300; // set the width of the rectangle
             int rectHeight = 500; // set the height of the rectangle
