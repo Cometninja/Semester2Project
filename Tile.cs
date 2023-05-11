@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Globalization;
 using System.Linq;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -102,7 +101,6 @@ namespace Semester2Prototype
         public List<List<int>> LayoutRoom(FloorLevel level)
         {
             List<List<int>> ints = new List<List<int>>();
-
 
             int[] X0;
             int[] X1;
@@ -214,15 +212,10 @@ namespace Semester2Prototype
                     break;
             }
 
-
-
-
-
             for (int X = 0; X < 30; X++)
             {
                 ints.Add(new List<int>());
             }
-
 
             for (int i = 1; i < 29; i++)
             {
@@ -326,5 +319,4 @@ namespace Semester2Prototype
             return ints;
         }
     }
-
 }

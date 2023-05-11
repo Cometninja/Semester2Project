@@ -7,5 +7,6 @@
     public enum TileState { Empty, Interactive, Wall }
     public enum NPCCharacter { Manager, Receptionist, Cleaner, Chef, Cook, MrMontgomery, MrsPark, MsMayflower, MrSanders, MrRoss }
     public enum ClueType { ChefKnife,MayFlowerPhoto,DiscardedClothing,HotelMasterKey,HotelReceptionLogs,KitchenChecks,FinancialDocuments,VictimsDocuments}
+    public enum JournalPage { Tasks, Clues, Suspects, page4 }
 
 }

@@ -18,9 +18,9 @@ namespace Semester2Prototype
         bool DebugBounds;
         Texture2D _debugImage;
         static Rectangle detection;
-        static int _animationCount = 0, tickCount, testCount;
+        static int _animationCount = 0, tickCount;
         public MessageBox _messageBox;
-        static bool _isSpacePressed, _isPPressed;
+        static bool _isSpacePressed, _isPPressed, _isKeysPressed;
         public Journal _journal;
         static List<Tile> tiles;
         public GameState _gameState = GameState.GamePlaying;
@@ -93,7 +93,6 @@ namespace Semester2Prototype
             {
                 _messageBox.AddMessage($"player Point: {_sprites.OfType<Tile>().FirstOrDefault()._position.ToString()} & Player Position {player._position.ToString()}");
                 _isSpacePressed = true;
-                testCount++;
             }
             if (!Keyboard.GetState().IsKeyDown(Keys.Space) && _isSpacePressed)
             {
@@ -127,9 +126,11 @@ namespace Semester2Prototype
             }
             if (Keyboard.GetState().IsKeyDown(Keys.P) && !_isPPressed && !_journal._isJournalDisplayed)
             {
+                _journal._isKeysPressed = true;
                 _journal.DisplayJournal();
 
                 _isPPressed = true;
+                _game1._gameState = GameState.JournalScreen;
             }
             else if (Keyboard.GetState().IsKeyDown(Keys.P) && !_isPPressed && _journal._isJournalDisplayed)
             {
@@ -141,10 +142,11 @@ namespace Semester2Prototype
                 _isPPressed = false;
             }
 
-            if (Keyboard.GetState().IsKeyDown(Keys.E))
+            if (Keyboard.GetState().IsKeyDown(Keys.E) && !_isKeysPressed )
             {
                 DebugBounds = true;
                 detection = _bounds;
+                _isKeysPressed = true;
 
                 switch (_playerFacing)
                 {
@@ -190,6 +192,10 @@ namespace Semester2Prototype
             else if (Keyboard.GetState().IsKeyUp(Keys.E))
             {
                 DebugBounds = false;
+            }
+            if(Keyboard.GetState().GetPressedKeyCount() == 0) 
+            { 
+                _isKeysPressed= false;
             }
         }
         public void PlayerMove(Player player)

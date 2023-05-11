@@ -49,7 +49,7 @@ namespace Semester2Prototype
             IsMouseVisible = true;
             _graphics.PreferredBackBufferWidth = _windowSize.X;
             _graphics.PreferredBackBufferHeight = _windowSize.Y;
-            _graphics.IsFullScreen = false;
+            _graphics.IsFullScreen = true;
             _graphics.ApplyChanges();
 
             base.Initialize();
@@ -119,7 +119,7 @@ namespace Semester2Prototype
                 tile.ContainsNPC(_sprites);
             }
 
-            _sprites.Add(new Journal(_journalImage, new Vector2(0, 0), _mainfont));
+            _sprites.Add(new Journal(_journalImage, new Vector2(0, 0), _mainfont,this));
             _player.GetDebugImage(_square);
         }
         void MediaPlayer_MediaStateChanged(object sender, System.
@@ -155,6 +155,8 @@ namespace Semester2Prototype
         {
             KeyboardState keyboardState = Keyboard.GetState();
             _messageBox = _sprites.OfType<MessageBox>().FirstOrDefault();
+
+            List<Sprite> sprites = _sprites.Where(sprite => sprite.GetType() != _sprites.OfType<Tile>().First().GetType()).ToList();
             foreach (Sprite sprite in _sprites)
             {
                 sprite.Update(_sprites);
@@ -179,9 +181,9 @@ namespace Semester2Prototype
                         CheckChangeLevel();
                     }
                     MoveThePlayer();
-
                     break;
                 case GameState.JournalScreen:
+                    _sprites.OfType<Journal>().FirstOrDefault().Update(_sprites);
                     break;
                 case GameState.Dialoge:
                     _player._dialoge.DialogeUpdate(gameTime);
