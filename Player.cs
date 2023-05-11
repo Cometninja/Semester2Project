@@ -3,6 +3,7 @@ using System.Linq;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using System.Diagnostics;
 
 namespace Semester2Prototype
 {
@@ -27,7 +28,6 @@ namespace Semester2Prototype
         public Game1 _game1;
 
         public List<string> _playerDialoge = new List<string>();
-
 
         public Player(Texture2D image, Vector2 position, Point point, Game1 game1) : base(image, position)
         {
@@ -55,7 +55,6 @@ namespace Semester2Prototype
                 {
                     _moving = Moving.Up;
                 }
-                else _messageBox.AddMessage("You can't walk through walls......");
 
             }
             else if (Keyboard.GetState().IsKeyDown(Keys.Down) || Keyboard.GetState().IsKeyDown(Keys.S))
@@ -66,7 +65,6 @@ namespace Semester2Prototype
                 {
                     _moving = Moving.Down;
                 }
-                else _messageBox.AddMessage("You can't walk through walls......");
 
             }
             else if (Keyboard.GetState().IsKeyDown(Keys.Right) || Keyboard.GetState().IsKeyDown(Keys.D))
@@ -78,7 +76,6 @@ namespace Semester2Prototype
                 {
                     _moving = Moving.Right;
                 }
-                else _messageBox.AddMessage("You can't walk through walls......");
 
             }
             else if (Keyboard.GetState().IsKeyDown(Keys.Left) || Keyboard.GetState().IsKeyDown(Keys.A))
@@ -91,7 +88,6 @@ namespace Semester2Prototype
                 {
                     _moving = Moving.Left;
                 }
-                else _messageBox.AddMessage("You can't walk through walls......");
             }
             else if (Keyboard.GetState().IsKeyDown(Keys.Space) && !_isSpacePressed)
             {
@@ -126,12 +122,7 @@ namespace Semester2Prototype
                 }
                 if (CheckInteractiveTile(checkPoint))
                 {
-                    _messageBox.AddMessage("it an interactive object!!!");
                     _journal._goals["Test"] = true;
-                }
-                else
-                {
-                    _messageBox.AddMessage("its not an interactive object idiot!!!!");
                 }
             }
             if (Keyboard.GetState().IsKeyDown(Keys.P) && !_isPPressed && !_journal._isJournalDisplayed)
@@ -183,6 +174,17 @@ namespace Semester2Prototype
                         break;
                     }
                 }
+                List<Clue> clues = _sprites.OfType<Clue>().ToList();
+                bool allfound;
+                foreach(Clue clue in clues)
+                {
+                    if (detection.Contains(clue._center))
+                    {
+                        clue.FoundClue(_messageBox,_journal);
+                        
+                        Debug.WriteLine("you found a clue!!!!");
+                    }
+                }
 
             }
             else if (Keyboard.GetState().IsKeyUp(Keys.E))
@@ -195,6 +197,7 @@ namespace Semester2Prototype
             Tile sourceTile = _sprites.OfType<Tile>().FirstOrDefault();
             tiles = _sprites.OfType<Tile>().ToList();
             _npcList = _sprites.OfType<NPC>().ToList();
+            List<Clue> clues = _sprites.OfType<Clue>().ToList();
 
 
             switch (_moving)
@@ -212,6 +215,10 @@ namespace Semester2Prototype
                         foreach (NPC npc in _npcList)
                         {
                             npc._position.Y++;
+                        }
+                        foreach(Clue clue in clues)
+                        {
+                            clue._position.Y++;
                         }
                     }
                     else
@@ -236,6 +243,10 @@ namespace Semester2Prototype
                         {
                             npc._position.Y--;
                         }
+                        foreach (Clue clue in clues)
+                        {
+                            clue._position.Y--;
+                        }
                     }
                     else
                     {
@@ -258,6 +269,10 @@ namespace Semester2Prototype
                         foreach (NPC npc in _npcList)
                         {
                             npc._position.X--;
+                        }
+                        foreach (Clue clue in clues)
+                        {
+                            clue._position.X--;
                         }
                     }
                     else
@@ -282,6 +297,10 @@ namespace Semester2Prototype
                         foreach (NPC npc in _npcList)
                         {
                             npc._position.X++;
+                        }
+                        foreach (Clue clue in clues)
+                        {
+                            clue._position.X++;
                         }
                     }
                     else

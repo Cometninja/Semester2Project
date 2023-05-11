@@ -83,12 +83,19 @@ namespace Semester2Prototype
             goals.Add("Test", false);
             goals.Add("IntroManager", false);
             goals.Add("IntroReceptionist", false);
+
             goals.Add("FoundMasterKey", false);
             goals.Add("FoundKnife", false);
             goals.Add("ChangingRoomClue", false);
+            goals.Add("MsMayflowerPhoto", false);
+            goals.Add("HotelReceptionLogs", false);
+            goals.Add("KitchenChecks", false);
+            goals.Add("FinancialDocuments", false);
+            goals.Add("VictimsDocuments", false);
+
+
             goals.Add("lockedRecepionist", false);
             goals.Add("CookLocked", false);
-            goals.Add("MsMayflowerPhoto", false);
             return goals;
         }
 

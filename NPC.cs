@@ -265,6 +265,7 @@ namespace Semester2Prototype
                     }
                     else
                     {
+                        playerDialog.Add("Hello");
                         npcDialog.Add("I am sorry but is there someone else you need to talk to first?");
                     }
                     break;
@@ -383,8 +384,6 @@ namespace Semester2Prototype
 
                     break;
             }
-
-
 
             List<List<string>> result = new List<List<string>>();
             result.Add(npcDialog);

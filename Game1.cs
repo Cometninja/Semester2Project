@@ -21,7 +21,7 @@ namespace Semester2Prototype
         static List<Sprite> _sprites = new List<Sprite>();
         static Player _player;
         static MessageBox _messageBox;
-        static Texture2D square, playerSpriteSheet, messageBoxImage, _journalImage, _floorSpriteSheet, _npcSpriteSheet;
+        static Texture2D _square, playerSpriteSheet, messageBoxImage, _journalImage, _floorSpriteSheet, _npcSpriteSheet;
         static Point _point = new Point(1500, 1250);
 
         public bool _isEscapedPressed;
@@ -49,7 +49,7 @@ namespace Semester2Prototype
             IsMouseVisible = true;
             _graphics.PreferredBackBufferWidth = _windowSize.X;
             _graphics.PreferredBackBufferHeight = _windowSize.Y;
-            _graphics.IsFullScreen= true;
+            _graphics.IsFullScreen = false;
             _graphics.ApplyChanges();
 
             base.Initialize();
@@ -68,7 +68,7 @@ namespace Semester2Prototype
             MediaPlayer.MediaStateChanged += MediaPlayer_MediaStateChanged;
             _spriteBatch = new SpriteBatch(GraphicsDevice);
 
-            square = Content.Load<Texture2D>("whiteSquare");
+            _square = Content.Load<Texture2D>("whiteSquare");
             playerSpriteSheet = Content.Load<Texture2D>("DetectiveSpriteSheet");
             messageBoxImage = Content.Load<Texture2D>("MessageBox");
             _mainfont = Content.Load<SpriteFont>("mainFont");
@@ -104,6 +104,15 @@ namespace Semester2Prototype
             _sprites.Add(new NPC(_npcSpriteSheet, new Vector2(1000, 250), NPCCharacter.MrSanders));
             _sprites.Add(new NPC(_npcSpriteSheet, new Vector2(1050, 250), NPCCharacter.MrRoss));
 
+            _sprites.Add(new Clue(_square, new Vector2(600, 350), ClueType.ChefKnife));
+            _sprites.Add(new Clue(_square, new Vector2(650, 350), ClueType.MayFlowerPhoto));
+            _sprites.Add(new Clue(_square, new Vector2(700, 350), ClueType.DiscardedClothing));
+            _sprites.Add(new Clue(_square, new Vector2(750, 350), ClueType.HotelMasterKey));
+            _sprites.Add(new Clue(_square, new Vector2(800, 350), ClueType.HotelReceptionLogs));
+            _sprites.Add(new Clue(_square, new Vector2(850, 350), ClueType.KitchenChecks));
+            _sprites.Add(new Clue(_square, new Vector2(900, 350), ClueType.FinancialDocuments));
+            _sprites.Add(new Clue(_square, new Vector2(950, 350), ClueType.VictimsDocuments));
+
             foreach (Tile tile in _sprites.OfType<Tile>().ToList())
             {
                 tile.SetUpFLoorPlan();
@@ -111,7 +120,7 @@ namespace Semester2Prototype
             }
 
             _sprites.Add(new Journal(_journalImage, new Vector2(0, 0), _mainfont));
-            _player.GetDebugImage(square);
+            _player.GetDebugImage(_square);
         }
         void MediaPlayer_MediaStateChanged(object sender, System.
                                          EventArgs e)

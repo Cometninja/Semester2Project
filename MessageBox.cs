@@ -8,6 +8,9 @@ namespace Semester2Prototype
     {
         List<string> _messages = new List<string>();
         public SpriteFont _messageBoxFont;
+        int count = 0;
+        int tickCount = 0;
+        bool _displayEnter;
 
         public MessageBox(Texture2D image, Vector2 position, SpriteFont font) : base(image, position)
         {
@@ -47,6 +50,6 @@ namespace Semester2Prototype
         {
             _messages.Clear();
         }
-
+       
     }
 }

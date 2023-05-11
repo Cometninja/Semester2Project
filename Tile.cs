@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -79,9 +80,19 @@ namespace Semester2Prototype
         public void ContainsNPC(List<Sprite> sprites)
         {
             List<NPC> npcs = sprites.OfType<NPC>().ToList();
+            List<Clue> clues = sprites.OfType<Clue>().ToList();
+
             foreach (NPC npc in npcs)
             {
                 if (_centerBox.Contains(npc._center))
+                {
+                    _tileState = TileState.Wall;
+                }
+            }
+            
+            foreach (Clue clue in clues)
+            {
+                if (_centerBox.Contains(clue._center))
                 {
                     _tileState = TileState.Wall;
                 }

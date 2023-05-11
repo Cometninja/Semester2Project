@@ -19,9 +19,7 @@ namespace Semester2Prototype.States
         public KeybindState(Game1 game, GraphicsDevice graphicsDevice, ContentManager content)
           : base(game, graphicsDevice, content)
         {
-            _buttonTexture = _content.Load<Texture2D>("UI/Controls/Button");
             _rectangleTxr = _content.Load<Texture2D>("UI/RectangleTxr");
-            _keybindTxr = _content.Load<Texture2D>("UI/KeybindTable");
             _titleFont = _content.Load<SpriteFont>("UI/Fonts/TitleMoldyen");
             _buttonFont = _content.Load<SpriteFont>("UI/Fonts/Font");
 
@@ -44,11 +42,6 @@ namespace Semester2Prototype.States
 
         public override void Draw(GameTime gameTime, SpriteBatch spriteBatch)
         {
-
-
-            spriteBatch.Draw(_backgroundTxr, new Rectangle(0, 0, _screenSize.X, _screenSize.Y), Color.White);
-
-
 
             Color tDimGrey = new Color(Color.Black, 175);
 
