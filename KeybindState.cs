@@ -21,7 +21,7 @@ namespace Semester2Prototype.States
         {
             _buttonTexture = _content.Load<Texture2D>("UI/Controls/Button");
             _rectangleTxr = _content.Load<Texture2D>("UI/RectangleTxr");
-            _keybindTxr = _content.Load<Texture2D>("UI/KeybindTable");
+            _keybindTxr = _content.Load<Texture2D>("UI/KeybindTxr");
             _titleFont = _content.Load<SpriteFont>("UI/Fonts/TitleMoldyen");
             _buttonFont = _content.Load<SpriteFont>("UI/Fonts/Font");
 
@@ -44,16 +44,10 @@ namespace Semester2Prototype.States
 
         public override void Draw(GameTime gameTime, SpriteBatch spriteBatch)
         {
-
-
-            spriteBatch.Draw(_backgroundTxr, new Rectangle(0, 0, _screenSize.X, _screenSize.Y), Color.White);
-
-
-
             Color tDimGrey = new Color(Color.Black, 175);
 
             int rectWidth = 600; // set the width of the rectangle
-            int rectHeight = 500; // set the height of the rectangle
+            int rectHeight = _screenSize.Y; // set the height of the rectangle
 
             int rectX = (_screenSize.X - rectWidth) / 2; // calculate the X coordinate to center the rectangle
             int rectY = 0; // set the Y coordinate of the rectangle position
@@ -65,20 +59,15 @@ namespace Semester2Prototype.States
             Vector2 textSize = _titleFont.MeasureString("Keybinds");
             spriteBatch.DrawString(_titleFont,
                 "Keybinds",
-                new Vector2(_screenSize.X / 2 - textSize.X / 2, _screenSize.Y / 10 - textSize.Y / 2),
+                new Vector2(rect.X + rect.Width / 2 - _titleFont.MeasureString("Keybinds").X / 2, 100),
                 Color.White);
 
-
-            spriteBatch.Draw(_keybindTxr, new Rectangle(0, 0, _screenSize.X / 5, _screenSize.Y / 5), Color.White);
+            spriteBatch.Draw(_keybindTxr, new Vector2(100, 150), Color.White);
 
 
             foreach (var component in _components)
                 component.Draw(gameTime, spriteBatch);
-
-
         }
-
-
 
         private void ExitGameButton_Click(object sender, EventArgs e)
         {

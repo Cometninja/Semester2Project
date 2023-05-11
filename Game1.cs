@@ -36,6 +36,10 @@ namespace Semester2Prototype
 
         protected Song song;
 
+        // 800 x 600 window size
+
+
+
         Point _playerPoint = new Point(0, 0);
         public Game1()
         {
@@ -49,7 +53,7 @@ namespace Semester2Prototype
             IsMouseVisible = true;
             _graphics.PreferredBackBufferWidth = _windowSize.X;
             _graphics.PreferredBackBufferHeight = _windowSize.Y;
-            _graphics.IsFullScreen= true;
+            //_graphics.IsFullScreen= true;
             _graphics.ApplyChanges();
 
             base.Initialize();

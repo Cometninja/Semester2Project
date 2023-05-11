@@ -6,6 +6,7 @@ using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Semester2Prototype.Controls;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace Semester2Prototype.States
 {
@@ -38,8 +39,8 @@ namespace Semester2Prototype.States
 
             var minusGameButton = new Button(_smallButtonTexture, _buttonFont)
             {
-                Position = new Vector2((_screenSize.X - _smallButtonTexture.Width) / 2.5f, 250),
                 Text = "-",
+                Position = new Vector2((_screenSize.X - _smallButtonTexture.Width) / 2.5f, 250)
             };
 
             minusGameButton.Click += MinusGameButton_Click;
@@ -62,11 +63,13 @@ namespace Semester2Prototype.States
 
         public override void Draw(GameTime gameTime, SpriteBatch spriteBatch)
         {
+
             
+
             Color tDimGrey = new Color(Color.Black, 175);
 
             int rectWidth = 400; // set the width of the rectangle
-            int rectHeight = 500; // set the height of the rectangle
+            int rectHeight = _screenSize.Y; // set the height of the rectangle
 
             int rectX = (_screenSize.X - rectWidth) / 2; // calculate the X coordinate to center the rectangle
             int rectY = 0; // set the Y coordinate of the rectangle position
@@ -78,7 +81,13 @@ namespace Semester2Prototype.States
             Vector2 textSize = _titleFont.MeasureString("Sounds");
             spriteBatch.DrawString(_titleFont,
                 "Sounds",
-                new Vector2(_screenSize.X / 2 - textSize.X / 2, _screenSize.Y / 10 - textSize.Y / 2),
+                new Vector2(rect.X + rect.Width / 2 - _titleFont.MeasureString("Sounds").X / 2, 100),
+                Color.White);
+
+            textSize = _smallFont.MeasureString("Master Volume");
+            spriteBatch.DrawString(_smallFont,
+                "Master Volume",
+                new Vector2(rect.X + rect.Width / 2 - _titleFont.MeasureString("Master Volume").X / 2, 200),
                 Color.White);
 
             spriteBatch.DrawString(_smallFont, (_game._volume * 100).ToString() + "%", new Vector2(_screenSize.X / 2.1f, _screenSize.Y / 3.15f), Color.White);
@@ -94,8 +103,9 @@ namespace Semester2Prototype.States
 
         private void PlusGameButton_Click(object sender, EventArgs e)
         {
+
             Debug.WriteLine("+");
-            _game.AdjustVolume(0.25f);
+            _game.AdjustVolume(0.25f);          
         }
 
         private void MinusGameButton_Click(object sender, EventArgs e)

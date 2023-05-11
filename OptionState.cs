@@ -65,7 +65,7 @@ namespace Semester2Prototype.States
             Color tDimGrey = new Color(Color.Black, 175);
 
             int rectWidth = 300; // set the width of the rectangle
-            int rectHeight = 500; // set the height of the rectangle
+            int rectHeight = _screenSize.Y; // set the height of the rectangle
 
             int rectX = (_screenSize.X - rectWidth) / 2; // calculate the X coordinate to center the rectangle
             int rectY = 0; // set the Y coordinate of the rectangle position

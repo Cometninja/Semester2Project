@@ -95,7 +95,7 @@ namespace Semester2Prototype
             }
             else if (Keyboard.GetState().IsKeyDown(Keys.Space) && !_isSpacePressed)
             {
-                _messageBox.AddMessage($"player Point: {_sprites.OfType<Tile>().FirstOrDefault()._position.ToString()} & Player Position {player._position.ToString()}");
+                _messageBox.AddMessage($"{_game1.GraphicsDevice.Viewport.ToString()}");
                 _isSpacePressed = true;
                 testCount++;
             }
