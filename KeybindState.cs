@@ -1,11 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Reflection.Metadata;
-using System.Text;
-using System.Threading.Tasks;
-using System.Xml.Linq;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
@@ -46,16 +40,16 @@ namespace Semester2Prototype.States
           {
             exitGameButton,
           };
-            }
+        }
 
-    
-    public override void Draw(GameTime gameTime, SpriteBatch spriteBatch)
+
+        public override void Draw(GameTime gameTime, SpriteBatch spriteBatch)
         {
-            
+
 
             spriteBatch.Draw(_backgroundTxr, new Rectangle(0, 0, _screenSize.X, _screenSize.Y), Color.White);
 
-            
+
 
             Color tDimGrey = new Color(Color.Black, 75);
 
@@ -76,18 +70,18 @@ namespace Semester2Prototype.States
                 Color.White);
 
 
-            spriteBatch.Draw(_keybindTxr, new Rectangle(0, 0, _screenSize.X/5, _screenSize.Y/5), Color.White);
+            spriteBatch.Draw(_keybindTxr, new Rectangle(0, 0, _screenSize.X / 5, _screenSize.Y / 5), Color.White);
 
 
             foreach (var component in _components)
                 component.Draw(gameTime, spriteBatch);
 
-            
+
         }
 
 
 
-         private void ExitGameButton_Click(object sender, EventArgs e)
+        private void ExitGameButton_Click(object sender, EventArgs e)
         {
             _game.ChangeState(new OptionState(_game, _graphicsDevice, _content));
         }

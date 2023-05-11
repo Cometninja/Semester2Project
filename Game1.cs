@@ -4,11 +4,8 @@ using System.Linq;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
-using System.Diagnostics;
-using System.Threading;
 using Microsoft.Xna.Framework.Media;
 using Semester2Prototype.States;
-using System.Xml.Linq;
 
 namespace Semester2Prototype
 {
@@ -18,53 +15,28 @@ namespace Semester2Prototype
 
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
-
-        static List<Sprite> _sprites = new List<Sprite>();
-        static Random _random = new Random();
-        public SpriteFont _mainfont, buttonFont;
-        static Player _player;
-        static MessageBox _messageBox;
-        static Tile _playerPos;
-        static Journal _journal;
-        public bool _isEscapedPressed;
-        static MessageBox _dialogeBox;
-
-        public State _state;
-
-        //
-        protected Song song;
-
         private State _currentState;
-
         private State _nextState;
 
-        public float _volume = 1f;
-        public State _menuState;
-
-        public void ChangeState(State state)
-        {
-            _menuState = state;
-            _currentState = state;
-        }
-        //
-
-
-        public GameState _gameState = GameState.MainMenu;
-
-
-        Point _playerPoint = new Point(0, 0);
-        static Texture2D square, playerSpriteSheet, messageBoxImage, _journalImage, _wallSpriteSheet,_floorSpriteSheet, _npcSpriteSheet;
-        public Texture2D _rectangleTxr, _backgroundTxr, buttonTexture;
+        static List<Sprite> _sprites = new List<Sprite>();
+        static Player _player;
+        static MessageBox _messageBox;
+        static Texture2D square, playerSpriteSheet, messageBoxImage, _journalImage, _wallSpriteSheet, _floorSpriteSheet, _npcSpriteSheet;
         static Point _point = new Point(1500, 1250);
 
-
-
-
+        public bool _isEscapedPressed;
+        public float _volume = 1f;
+        public State _state;
+        public State _menuState;
+        public SpriteFont _mainfont, buttonFont;
+        public GameState _gameState = GameState.MainMenu;
         public FloorLevel _floorLevel = FloorLevel.GroundFLoor;
         public Point _windowSize = new Point(1000, 500);
+        public Texture2D _rectangleTxr, _backgroundTxr, buttonTexture;
 
-        string Text;
+        protected Song song;
 
+        Point _playerPoint = new Point(0, 0);
         public Game1()
         {
             _graphics = new GraphicsDeviceManager(this);
@@ -74,9 +46,7 @@ namespace Semester2Prototype
 
         protected override void Initialize()
         {
-            //
             IsMouseVisible = true;
-            //
             _graphics.PreferredBackBufferWidth = _windowSize.X;
             _graphics.PreferredBackBufferHeight = _windowSize.Y;
             _graphics.ApplyChanges();
@@ -87,18 +57,14 @@ namespace Semester2Prototype
         protected override void LoadContent()
         {
             _menuState = new MenuState(this, GraphicsDevice, Content);
-            //
             // Create a new SpriteBatch, which can be used to draw textures.
             _spriteBatch = new SpriteBatch(GraphicsDevice);
 
             song = Content.Load<Song>("Song");
-
             MediaPlayer.Play(song);
-
             _currentState = new MenuState(this, _graphics.GraphicsDevice, Content);
 
             MediaPlayer.MediaStateChanged += MediaPlayer_MediaStateChanged;
-            //
             _spriteBatch = new SpriteBatch(GraphicsDevice);
 
             square = Content.Load<Texture2D>("whiteSquare");
@@ -116,16 +82,16 @@ namespace Semester2Prototype
 
             MakeFloorPlan();
 
-            _player = new Player(playerSpriteSheet, new Vector2(400, 250), _playerPoint,this);
+            _player = new Player(playerSpriteSheet, new Vector2(400, 250), _playerPoint, this);
             _sprites.Add(
                 new MessageBox(messageBoxImage,
                     new Vector2(_graphics.PreferredBackBufferWidth / 2,
                         _graphics.PreferredBackBufferHeight - messageBoxImage.Height / 2),
                     _mainfont));
             _sprites.Add(_player);
-            
+
             // add in the NPCs
-            
+
             _sprites.Add(new NPC(_npcSpriteSheet, new Vector2(600, 250), NPCCharacter.Manager));
             _sprites.Add(new NPC(_npcSpriteSheet, new Vector2(650, 250), NPCCharacter.Receptionist));
             _sprites.Add(new NPC(_npcSpriteSheet, new Vector2(700, 250), NPCCharacter.Cleaner));
@@ -137,19 +103,15 @@ namespace Semester2Prototype
             _sprites.Add(new NPC(_npcSpriteSheet, new Vector2(1000, 250), NPCCharacter.MrSanders));
             _sprites.Add(new NPC(_npcSpriteSheet, new Vector2(1050, 250), NPCCharacter.MrRoss));
 
-            foreach(Tile tile in _sprites.OfType<Tile>().ToList())
+            foreach (Tile tile in _sprites.OfType<Tile>().ToList())
             {
                 tile.SetUpFLoorPlan();
                 tile.ContainsNPC(_sprites);
             }
 
-
             _sprites.Add(new Journal(_journalImage, new Vector2(0, 0), _mainfont));
             _player.GetDebugImage(square);
-
-            
         }
-        //
         void MediaPlayer_MediaStateChanged(object sender, System.
                                          EventArgs e)
         {
@@ -160,9 +122,7 @@ namespace Semester2Prototype
 
         public void AdjustVolume(float change)
         {
-
             _volume += change;
-
             // Constrain volume to range [0, 1]
             if (_volume < 0)
             {
@@ -172,10 +132,8 @@ namespace Semester2Prototype
             {
                 _volume = 1;
             }
-
             // Set volume for MediaPlayer
             MediaPlayer.Volume = _volume;
-
         }
 
         protected override void UnloadContent()
@@ -183,14 +141,9 @@ namespace Semester2Prototype
             // TODO: Unload any non ContentManager content here
         }
 
-        //
         protected override void Update(GameTime gameTime)
         {
             KeyboardState keyboardState = Keyboard.GetState();
-
-            
-
-            
             _messageBox = _sprites.OfType<MessageBox>().FirstOrDefault();
             foreach (Sprite sprite in _sprites)
             {
@@ -205,7 +158,6 @@ namespace Semester2Prototype
                 case GameState.GameStart:
                     break;
                 case GameState.GamePlaying:
-                    _playerPos = _sprites.OfType<Tile>().Where(tile => tile._point == _player._point).First();
                     if (Keyboard.GetState().IsKeyDown(Keys.Escape) && !_isEscapedPressed)
                         Exit();
                     else if (Keyboard.GetState().IsKeyUp(Keys.Escape) && _isEscapedPressed)
@@ -217,7 +169,7 @@ namespace Semester2Prototype
                         CheckChangeLevel();
                     }
                     MoveThePlayer();
-                   
+
                     break;
                 case GameState.JournalScreen:
                     break;
@@ -225,11 +177,7 @@ namespace Semester2Prototype
                     _player._dialoge.DialogeUpdate(gameTime);
                     DialogueControls();
                     break;
-                
             }
-           
-
-            //
             if (_nextState != null)
             {
                 _currentState = _nextState;
@@ -238,11 +186,8 @@ namespace Semester2Prototype
             }
 
             _currentState.Update(gameTime);
-
             _currentState.PostUpdate(gameTime);
-            //
 
-            //
             if (keyboardState.IsKeyDown(Keys.Escape) && !_isEscapedPressed)
             {
                 _menuState = new PauseState(this, GraphicsDevice, Content);
@@ -267,7 +212,7 @@ namespace Semester2Prototype
             switch (_gameState)
             {
                 case GameState.MainMenu:
-                    _menuState.Draw(gameTime,_spriteBatch);
+                    _menuState.Draw(gameTime, _spriteBatch);
                     break;
                 case GameState.GameStart:
                     break;
@@ -279,10 +224,7 @@ namespace Semester2Prototype
                     _player._dialoge.DialogeDraw(_spriteBatch);
                     break;
             }
-
-
             base.Draw(gameTime);
-
             _spriteBatch.End();
         }
         public void MakeFloorPlan()
@@ -292,7 +234,6 @@ namespace Semester2Prototype
             {
                 for (int row = 0, x = 0; row < _point.X; row += 50, x++)
                 {
-                
                     _sprites.Add(new Tile(_floorSpriteSheet, new Vector2(row, col) - adjustment, new Point(x, y), this));
                 }
             }
@@ -311,7 +252,6 @@ namespace Semester2Prototype
                 _gameState = GameState.GamePlaying;
             }
         }
-
         public void CheckChangeLevel()
         {
             List<Tile> tiles = _sprites.OfType<Tile>().ToList();
@@ -325,7 +265,7 @@ namespace Semester2Prototype
                         _floorLevel = FloorLevel.FirstFloor;
                         _player._position.X -= 50;
                         _player._point.X -= 1;
-                        foreach(Tile tile in tiles)
+                        foreach (Tile tile in tiles)
                         {
                             tile._position.Y += 200;
                         }
@@ -369,10 +309,15 @@ namespace Semester2Prototype
             _player._sourceRect = new Rectangle(0, 104, 36, 52);
 
             List<Tile> tiles = _sprites.OfType<Tile>().ToList();
-            foreach(Tile t in tiles)
+            foreach (Tile t in tiles)
             {
                 t.SetUpFLoorPlan();
             }
+        }
+        public void ChangeState(State state)
+        {
+            _menuState = state;
+            _currentState = state;
         }
     }
 }

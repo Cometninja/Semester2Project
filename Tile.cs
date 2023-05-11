@@ -79,7 +79,7 @@ namespace Semester2Prototype
         public void ContainsNPC(List<Sprite> sprites)
         {
             List<NPC> npcs = sprites.OfType<NPC>().ToList();
-            foreach (NPC npc in npcs) 
+            foreach (NPC npc in npcs)
             {
                 if (_centerBox.Contains(npc._center))
                 {
@@ -87,7 +87,7 @@ namespace Semester2Prototype
                 }
             }
         }
-        
+
         public List<List<int>> LayoutRoom(FloorLevel level)
         {
             List<List<int>> ints = new List<List<int>>();

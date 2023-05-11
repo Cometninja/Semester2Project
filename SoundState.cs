@@ -1,20 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
-using System.Reflection.Metadata;
-using System.Security.Cryptography.X509Certificates;
-using System.Text;
-using System.Threading.Tasks;
-using System.Xml.Linq;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Semester2Prototype.Controls;
-using static System.Formats.Asn1.AsnWriter;
-using static System.Net.Mime.MediaTypeNames;
 
 namespace Semester2Prototype.States
 {
@@ -31,9 +22,9 @@ namespace Semester2Prototype.States
           : base(game, graphicsDevice, content)
         {
 
-            
-            
-            
+
+
+
 
             _buttonTexture = _content.Load<Texture2D>("UI/Controls/Button");
             _smallButtonTexture = _content.Load<Texture2D>("UI/Controls/Small Button");
@@ -73,7 +64,7 @@ namespace Semester2Prototype.States
 
 
 
-        _components = new List<Component>()
+            _components = new List<Component>()
       {
         exitGameButton,
         plusGameButton,
@@ -83,7 +74,7 @@ namespace Semester2Prototype.States
 
         public override void Draw(GameTime gameTime, SpriteBatch spriteBatch)
         {
-            
+
 
             spriteBatch.Draw(_backgroundTxr, new Rectangle(0, 0, _screenSize.X, _screenSize.Y), Color.White);
 
@@ -110,7 +101,7 @@ namespace Semester2Prototype.States
             foreach (var component in _components)
                 component.Draw(gameTime, spriteBatch);
 
-            
+
         }
 
         private void ExitGameButton_Click(object sender, EventArgs e)

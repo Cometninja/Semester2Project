@@ -137,7 +137,7 @@ namespace Semester2Prototype
             if (Keyboard.GetState().IsKeyDown(Keys.P) && !_isPPressed && !_journal._isJournalDisplayed)
             {
                 _journal.DisplayJournal();
-                
+
                 _isPPressed = true;
             }
             else if (Keyboard.GetState().IsKeyDown(Keys.P) && !_isPPressed && _journal._isJournalDisplayed)
@@ -183,7 +183,7 @@ namespace Semester2Prototype
                         break;
                     }
                 }
-                
+
             }
             else if (Keyboard.GetState().IsKeyUp(Keys.E))
             {
@@ -374,7 +374,7 @@ namespace Semester2Prototype
             else return false;
 
         }
-        
+
         public void GetDebugImage(Texture2D image)
         {
             _debugImage = image;

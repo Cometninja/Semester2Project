@@ -1,11 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection.Metadata;
-using System.Runtime.Intrinsics.X86;
-using System.Text;
-using System.Threading.Tasks;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
@@ -35,7 +28,7 @@ namespace Semester2Prototype.States
             _rectangleTxr = _content.Load<Texture2D>("UI/RectangleTxr");
             _backgroundTxr = _content.Load<Texture2D>("UI/Txr_Background");
 
-            
+
             // Draw journal image
             spriteBatch.Draw(_backgroundTxr, new Rectangle(0, 0, _screenSize.X, _screenSize.Y), Color.White);
             spriteBatch.Draw(journalImage, new Vector2(200, 50), Color.White);
@@ -54,7 +47,7 @@ namespace Semester2Prototype.States
                 spriteBatch.DrawString(smallJournalFont, feature, featurePosition2, Color.Black);
                 featurePosition2.Y += smallJournalFont.LineSpacing * 2;
             }
-           
+
         }
 
         public override void PostUpdate(GameTime gameTime)

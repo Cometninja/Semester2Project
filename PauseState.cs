@@ -1,10 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Net.Mail;
-using System.Reflection.Metadata;
-using System.Text;
-using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
@@ -64,7 +59,7 @@ namespace Semester2Prototype.States
 
         public override void Draw(GameTime gameTime, SpriteBatch spriteBatch)
         {
-           
+
 
             spriteBatch.Draw(_backgroundTxr, new Rectangle(0, 0, _screenSize.X, _screenSize.Y), Color.White);
 
@@ -85,7 +80,7 @@ namespace Semester2Prototype.States
             foreach (var component in _components)
                 component.Draw(gameTime, spriteBatch);
 
-            
+
         }
 
         private void OptionGameButton_Click(object sender, EventArgs e)
@@ -95,7 +90,7 @@ namespace Semester2Prototype.States
 
         private void ResumeGameButton_Click(object sender, EventArgs e)
         {
-                _game._gameState = GameState.GamePlaying;
+            _game._gameState = GameState.GamePlaying;
         }
 
         public override void PostUpdate(GameTime gameTime)

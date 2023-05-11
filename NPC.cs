@@ -197,7 +197,7 @@ namespace Semester2Prototype
 
                         npcDialog.Add("As I said speak to the receptionist at the front to get up to speed.");
                     }
-                        break;
+                    break;
                 case NPCCharacter.Receptionist:
                     if (_journal._goals["lockedRecepionist"])
                     {
@@ -272,7 +272,7 @@ namespace Semester2Prototype
 
                     playerDialog.Add("What where you doing yesterday?");
                     npcDialog.Add("I was in the kitchen all day, I served the guests that came to the cafeteria, and I locked up and when home at 11pm");
-                    
+
                     playerDialog.Add("What did you see other people do yesterday, anything unusual?");
                     npcDialog.Add("Now I did see a lot of people yesterday given I work in the kitchen to here's all I saw#" +
                         "At I think 7pm, I served Mrs Park, Mr Richards, and Mrs Mayflower#" +
@@ -288,7 +288,7 @@ namespace Semester2Prototype
                     playerDialog.Add("Goodbye");
                     npcDialog.Add("Goodbye");
                     break;
-                
+
                 case NPCCharacter.Cook:
                     if (_journal._goals["CookLocked"])
                     {
@@ -299,7 +299,7 @@ namespace Semester2Prototype
                     {
                         playerDialog.Add("What where you doing yesterday?");
                         npcDialog.Add("I was working in the kitchen all evening, not much apart from that");
-                    
+
                         playerDialog.Add("What did you see other people do yesterday, anything unusual?");
                         npcDialog.Add("I didn't really see much as I just work in making ingredients and dishes, so I won't see anyone as I don't serve");
 
@@ -324,7 +324,7 @@ namespace Semester2Prototype
 
                     playerDialog.Add("What did you see other people do yesterday, anything unusual?");
                     npcDialog.Add("I'm not sure on saying who was where, I kept mostly to myself yesterday");
-                    
+
                     playerDialog.Add("Goodbye");
                     npcDialog.Add("Goodbye");
 
@@ -362,11 +362,11 @@ namespace Semester2Prototype
                     playerDialog.Add("What where you doing yesterday?");
                     npcDialog.Add("I was in the small lounge from 6 to 8pm, when I went out with Mr Ross#" +
                         "I was out until 12pm when I returned to the hotel and went to bed");
-         
+
                     playerDialog.Add("What did you see other people do yesterday, anything unusual?");
                     npcDialog.Add("I saw a whole lot of nothing yesterday to be honest#" +
                         "I know the receptionist was in when I was in the lounge, but other than that I'm blind to other events");
-                    
+
                     playerDialog.Add("Goodbye");
                     npcDialog.Add("Goodbye");
 
@@ -374,7 +374,7 @@ namespace Semester2Prototype
                 case NPCCharacter.MrRoss:
                     playerDialog.Add("What where you doing yesterday?");
                     npcDialog.Add("I was in my hotel room from 6 to 8pm when I went out, And I didn't return to the hotel until 12pm which is when I went to sleep");
-                
+
                     playerDialog.Add("What did you see other people do yesterday, anything unusual?");
                     npcDialog.Add("Nothing really, I was with Mr Sanders for the evening and didn't see a whole lot");
 

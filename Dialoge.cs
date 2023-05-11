@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -39,7 +38,7 @@ namespace Semester2Prototype
             _dialogs = npc.GetDialoge();
             _player = player;
             _dialogeBox = texture;
-            
+
             _playerDialoge = _dialogs[1];
             _npcDialoge = _dialogs[0];
             _font = font;
@@ -104,7 +103,7 @@ namespace Semester2Prototype
                 }
             }
 
-            if(_printing) 
+            if (_printing)
             {
                 PrintAnswer();
             }
@@ -132,11 +131,11 @@ namespace Semester2Prototype
             if (_npcAnswer)
             {
                 spriteBatch.DrawString(
-                    _font, 
-                    _npcMessage, 
+                    _font,
+                    _npcMessage,
                     new Vector2(
-                        _npcDialogBox.X + 10, 
-                        _npcDialogBox.Y+10), 
+                        _npcDialogBox.X + 10,
+                        _npcDialogBox.Y + 10),
                     Color.White);
             }
 
