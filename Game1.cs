@@ -165,11 +165,13 @@ namespace Semester2Prototype
             switch (_gameState)
             {
                 case GameState.MainMenu:
+                    IsMouseVisible = true;
                     _menuState.Update(gameTime);
                     break;
                 case GameState.GameStart:
                     break;
                 case GameState.GamePlaying:
+                    IsMouseVisible= false;
                     if (Keyboard.GetState().IsKeyDown(Keys.Escape) && !_isEscapedPressed)
                         Exit();
                     else if (Keyboard.GetState().IsKeyUp(Keys.Escape) && _isEscapedPressed)
