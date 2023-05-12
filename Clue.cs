@@ -38,7 +38,7 @@ namespace Semester2Prototype
         public void FoundClue(MessageBox messageBox,Journal journal)
         {
             _found = true;
-
+            journal._cluesFound++;
             switch (_clueType) 
             {
                 case ClueType.ChefKnife:

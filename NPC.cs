@@ -190,6 +190,7 @@ namespace Semester2Prototype
                             "Talk with the receptionist to get up to speed on what's happened.#" +
                             "I will stay here to await your verdict, good luck detective.");
                         _journal._goals["IntroManager"] = true;
+                        _journal._journalTasks.Add(_journal._tasks[1]);
                     }
                     else
                     {
