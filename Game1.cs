@@ -66,7 +66,7 @@ namespace Semester2Prototype
             _spriteBatch = new SpriteBatch(GraphicsDevice);
 
             song = Content.Load<Song>("Song");
-            MediaPlayer.Play(song);
+            //MediaPlayer.Play(song);
             _currentState = new MenuState(this, _graphics.GraphicsDevice, Content);
 
             MediaPlayer.MediaStateChanged += MediaPlayer_MediaStateChanged;
@@ -120,9 +120,8 @@ namespace Semester2Prototype
         void MediaPlayer_MediaStateChanged(object sender, System.
                                          EventArgs e)
         {
-            // 0.0f is silent, 1.0f is full volume
-            //MediaPlayer.Volume -= 0.1f;
-            MediaPlayer.Play(song);
+            
+            //MediaPlayer.Play(song);
         }
 
         public void AdjustVolume(float change)
@@ -163,12 +162,12 @@ namespace Semester2Prototype
                 case GameState.GameStart:
                     break;
                 case GameState.GamePlaying:
-                    if (Keyboard.GetState().IsKeyDown(Keys.Escape) && !_isEscapedPressed)
+                    /*if (Keyboard.GetState().IsKeyDown(Keys.Escape) && !_isEscapedPressed)
                         Exit();
                     else if (Keyboard.GetState().IsKeyUp(Keys.Escape) && _isEscapedPressed)
                     {
                         _isEscapedPressed = false;
-                    }
+                    }*/
                     if (_player._position.X % 50 == 0 && _sprites.OfType<Tile>().FirstOrDefault()._position.X % 50 == 0)
                     {
                         CheckChangeLevel();

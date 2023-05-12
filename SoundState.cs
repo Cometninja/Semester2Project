@@ -18,7 +18,15 @@ namespace Semester2Prototype.States
         SpriteBatch _spriteBatch;
         SpriteFont _smallFont, _titleFont, _buttonFont;
         Texture2D _rectangleTxr, _backgroundTxr, _buttonTexture, _smallButtonTexture;
-        Point _screenSize = new Point(800, 800);
+
+        static Point _screenSize = new Point(800, 800);
+
+        static int _rectWidth = 300; // set the width of the rectangle
+        static int _rectHeight = 1000; // set the height of the rectangle
+
+        static int _centerX = _screenSize.X / 2; // calculate the X coordinate of the center of the screen
+
+        Rectangle rect = new Rectangle(_centerX - _rectWidth / 2, 0, _rectWidth, _rectHeight); // create the rectangle
         public SoundState(Game1 game, GraphicsDevice graphicsDevice, ContentManager content)
           : base(game, graphicsDevice, content)
         {
@@ -87,7 +95,7 @@ namespace Semester2Prototype.States
             textSize = _smallFont.MeasureString("Master Volume");
             spriteBatch.DrawString(_smallFont,
                 "Master Volume",
-                new Vector2(rect.X + rect.Width / 2 - _titleFont.MeasureString("Master Volume").X / 2, 200),
+                new Vector2(rect.X + rect.Width / 2 - _titleFont.MeasureString("Sounds").X / 2, 200),
                 Color.White);
 
             spriteBatch.DrawString(_smallFont, (_game._volume * 100).ToString() + "%", new Vector2(_screenSize.X / 2.1f, _screenSize.Y / 3.15f), Color.White);

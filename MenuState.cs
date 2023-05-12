@@ -14,10 +14,17 @@ namespace Semester2Prototype.States
         Texture2D _rectangleTxr, _buttonTexture;
         SpriteFont _titleFont, _buttonFont;
 
-        Point _screenSize = new Point(800, 800);
+        static Point _screenSize = new Point(800, 800);
 
-        int rectWidth = 300; // set the width of the rectangle
-        int rectHeight = 1000; // set the height of the rectangle
+
+
+        static int _rectWidth = 300; // set the width of the rectangle
+        static int _rectHeight = 1000; // set the height of the rectangle
+
+        static int _centerX = _screenSize.X / 2; // calculate the X coordinate of the center of the screen
+
+        Rectangle rect = new Rectangle(_centerX - _rectWidth / 2, 0, _rectWidth, _rectHeight); // create the rectangle
+
 
         public MenuState(Game1 game, GraphicsDevice graphicsDevice, ContentManager content)
           : base(game, graphicsDevice, content)
@@ -27,11 +34,12 @@ namespace Semester2Prototype.States
             _rectangleTxr = _content.Load<Texture2D>("UI/RectangleTxr");
             _titleFont = _content.Load<SpriteFont>("UI/Fonts/TitleMoldyen");
 
+            
 
             var newGameButton = new Button(_buttonTexture, _buttonFont)
             {
                 Text = "New Game",
-                Position = new Vector2((_screenSize.X - rectWidth) / 1.65f, 200)
+                Position = new Vector2((rect.X + _titleFont.MeasureString("New Game").X / 2), 200),
             };
 
 
@@ -39,7 +47,7 @@ namespace Semester2Prototype.States
 
             var optionGameButton = new Button(_buttonTexture, _buttonFont)
             {
-                Position = new Vector2((_screenSize.X - rectWidth) / 1.65f, 250),
+                Position = new Vector2((rect.X + _titleFont.MeasureString("New Game").X / 2), 250),
                 Text = "Options",
             };
 
@@ -47,7 +55,7 @@ namespace Semester2Prototype.States
 
             var quitGameButton = new Button(_buttonTexture, _buttonFont)
             {
-                Position = new Vector2((_screenSize.X - rectWidth) / 1.65f, 300),
+                Position = new Vector2((rect.X + _titleFont.MeasureString("New Game").X / 2), 300),
                 Text = "Quit Game",
             };
 
@@ -68,11 +76,6 @@ namespace Semester2Prototype.States
             Color tDimGrey = new Color(Color.Black, 175);
 
 
-            int rectX = (0 + _screenSize.X / 2 - rectWidth /2); // calculate the X coordinate to center the rectangle
-            int rectY = 0; // set the Y coordinate of the rectangle position
-
-
-            Rectangle rect = new Rectangle(rectX, rectY, rectWidth, rectHeight); // create the rectangle
 
             spriteBatch.Draw(_rectangleTxr, rect, tDimGrey); // draw the rectangle centered on the screen along the X-axis
 
