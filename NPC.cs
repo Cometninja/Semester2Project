@@ -21,6 +21,7 @@ namespace Semester2Prototype
         static List<Sprite> _sprites = new List<Sprite>();
         public bool _dialoge = false;
         static Journal _journal;
+        public bool _spokenTo = false;
 
         public NPC(Texture2D image, Vector2 position, NPCCharacter character) : base(image, position)
         {
@@ -176,6 +177,8 @@ namespace Semester2Prototype
             List<string> playerDialog = new List<string>();
 
             _journal = _sprites.OfType<Journal>().FirstOrDefault();
+            _spokenTo = true;
+            
             switch (_NPCCharacter)
             {
                 case NPCCharacter.Manager:

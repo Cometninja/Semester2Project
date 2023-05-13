@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
@@ -30,7 +31,7 @@ namespace Semester2Prototype
         string[] _titles = new string[] { "Tasks", "Clues", "Suspects", "page4" };
 
         public string[] _tasks;
-
+        public List<string> _clueMessages = new List<string>();
 
 
         public Journal(Texture2D image, Vector2 position, SpriteFont font,Game1 game1) : base(image, position)
@@ -96,6 +97,27 @@ namespace Semester2Prototype
                                 $"Found Clues {_cluesFound}/8",
                                 new Vector2(_leftPage.X, _leftPage.Y + spacing),
                                 Color.Black);
+                        float number = 20;
+                        foreach(string s in _journalClues)
+                        {
+                            string[] split = s.Split(' ');
+                            string result = string.Empty;
+                            foreach(string s2 in split)
+                            {
+                                if(_font.MeasureString(result + s2 +" ").X > _leftPage.Width)
+                                {
+                                    result += "\n" + s2 + " ";
+                                }
+                                else result += s2 + " ";
+
+                            }
+
+                            spriteBatch.DrawString(_font,
+                                result,
+                                new Vector2(_leftPage.X, _leftPage.Y + spacing + number),
+                                Color.Black);
+                            number += _font.MeasureString(result).Y + spacing;
+                        }
                         break;
                     case JournalPage.Suspects: break;
                     case JournalPage.page4: break;
@@ -173,14 +195,13 @@ namespace Semester2Prototype
                     
                     break;
                 case JournalPage.Clues:
+                    
                     break;
                 case JournalPage.Suspects: 
                     break;
                 case JournalPage.page4:
                     break;
             }
-
-            
 
             if (_goals["IntroManager"])
             {

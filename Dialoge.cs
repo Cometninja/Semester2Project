@@ -15,7 +15,7 @@ namespace Semester2Prototype
         List<string> _npcDialoge;
         string _cursor = ">>";
         SpriteFont _font;
-        Vector2 _cursorPos = new Vector2(55, 60);
+        Vector2 _cursorPos = new Vector2(5, 60);
         bool _ButtonPressed = false;
         int _spacing = 15;
         int _answer = 0;
@@ -28,8 +28,8 @@ namespace Semester2Prototype
         bool _displayEnter;
         public List<List<string>> _dialogs;
 
-        Rectangle _playerDialogBox = new Rectangle(50, 50, 400, 100);
-        Rectangle _npcDialogBox = new Rectangle(450, 50, 400, 100);
+        Rectangle _playerDialogBox = new Rectangle(0, 50, 400, 100);
+        Rectangle _npcDialogBox = new Rectangle(400, 50, 400, 100);
 
         Texture2D _dialogeBox;
 
@@ -119,13 +119,13 @@ namespace Semester2Prototype
             {
                 foreach (string s in _playerDialoge)
                 {
-                    spriteBatch.DrawString(_font, s, new Vector2(75, numb), Color.White);
+                    spriteBatch.DrawString(_font, s, new Vector2(_playerDialogBox.X + 25, numb), Color.White);
                     numb += _spacing;
                 }
             }
             else
             {
-                spriteBatch.DrawString(_font, "PRESS ENTER TO CONTINUE...", new Vector2(75, numb), Color.White);
+                spriteBatch.DrawString(_font, "PRESS ENTER TO CONTINUE...", new Vector2(_playerDialogBox.X + 25, numb), Color.White);
             }
 
             if (_npcAnswer)

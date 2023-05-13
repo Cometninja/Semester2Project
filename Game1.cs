@@ -21,9 +21,16 @@ namespace Semester2Prototype
         static List<Sprite> _sprites = new List<Sprite>();
         static Player _player;
         static MessageBox _messageBox;
-        static Texture2D _square, playerSpriteSheet, messageBoxImage, _journalImage, _floorSpriteSheet, _npcSpriteSheet;
+        static Texture2D _square, 
+            playerSpriteSheet, 
+            messageBoxImage, 
+            _journalImage, 
+            _floorSpriteSheet, 
+            _npcSpriteSheet,
+            _furnitureSheet;
         static Point _point = new Point(1500, 1250);
 
+        public FurnitureFunctions _furnitureFunctions;
         public bool _isEscapedPressed;
         public float _volume = 1f;
         public State _state;
@@ -33,6 +40,7 @@ namespace Semester2Prototype
         public FloorLevel _floorLevel = FloorLevel.GroundFLoor;
         public Point _windowSize = new Point(750, 500);
         public Texture2D _rectangleTxr, _backgroundTxr, buttonTexture;
+        public List<List<Point>> _furnitureLocations;
 
         protected Song song;
 
@@ -49,7 +57,7 @@ namespace Semester2Prototype
             IsMouseVisible = true;
             _graphics.PreferredBackBufferWidth = _windowSize.X;
             _graphics.PreferredBackBufferHeight = _windowSize.Y;
-            _graphics.IsFullScreen = true;
+            _graphics.IsFullScreen = false;
             _graphics.ApplyChanges();
 
             base.Initialize();
@@ -60,6 +68,8 @@ namespace Semester2Prototype
             _menuState = new MenuState(this, GraphicsDevice, Content);
             // Create a new SpriteBatch, which can be used to draw textures.
             _spriteBatch = new SpriteBatch(GraphicsDevice);
+            _furnitureFunctions = new FurnitureFunctions(this);
+            _furnitureLocations = _furnitureFunctions.PlaceFurniture();
 
             song = Content.Load<Song>("Song");
             MediaPlayer.Play(song);
@@ -75,6 +85,8 @@ namespace Semester2Prototype
             _journalImage = Content.Load<Texture2D>("LargeJournal");
             _floorSpriteSheet = Content.Load<Texture2D>("FloorTileSpriteSheet");
             _npcSpriteSheet = Content.Load<Texture2D>("NPCspritesheet");
+            _furnitureSheet = Content.Load<Texture2D>("furniture spritesheet");
+
 
             var buttonTexture = Content.Load<Texture2D>("UI/Controls/Button");
             var buttonFont = Content.Load<SpriteFont>("UI/Fonts/Font");
@@ -112,9 +124,14 @@ namespace Semester2Prototype
             _sprites.Add(new Clue(_square, new Vector2(850, 350), ClueType.KitchenChecks));
             _sprites.Add(new Clue(_square, new Vector2(900, 350), ClueType.FinancialDocuments));
             _sprites.Add(new Clue(_square, new Vector2(950, 350), ClueType.VictimsDocuments));
-
+            
             foreach (Tile tile in _sprites.OfType<Tile>().ToList())
             {
+                if (_furnitureLocations[0].Contains(tile._point))
+                {
+                    tile._furniture = Furniture.Table;
+                    tile.SetFurniture();
+                }
                 tile.SetUpFLoorPlan();
                 tile.ContainsNPC(_sprites);
             }
@@ -248,7 +265,7 @@ namespace Semester2Prototype
             {
                 for (int row = 0, x = 0; row < _point.X; row += 50, x++)
                 {
-                    _sprites.Add(new Tile(_floorSpriteSheet, new Vector2(row, col) - adjustment, new Point(x, y), this));
+                    _sprites.Add(new Tile(_floorSpriteSheet,_furnitureSheet, new Vector2(row, col) - adjustment, new Point(x, y), this));
                 }
             }
         }
@@ -333,5 +350,6 @@ namespace Semester2Prototype
             _menuState = state;
             _currentState = state;
         }
+        
     }
 }

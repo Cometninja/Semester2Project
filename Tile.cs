@@ -13,8 +13,10 @@ namespace Semester2Prototype
         public Point _point;
         public TileState _tileState = TileState.Empty;
         static Game1 _game1;
-
-        public Tile(Texture2D image, Vector2 position, Point point, Game1 game1) : base(image, position)
+        Texture2D _furnitureSheet;
+        public Furniture _furniture =  Furniture.None;
+        public Rectangle _furnitureImage;
+        public Tile(Texture2D image,Texture2D furnitureSheet, Vector2 position, Point point, Game1 game1) : base(image, position)
         {
             _game1 = game1;
             _sourceRect = new Rectangle(1, 1, 50, 50);
@@ -23,6 +25,7 @@ namespace Semester2Prototype
             _center = new Vector2(image.Width / 2, image.Height / 2);
             _centerBox = new Rectangle((int)(_position.X), (int)(_position.Y), 50, 50);
             _floorLevel = _game1._floorLevel;
+            _furnitureSheet = furnitureSheet;
         }
         public override void Update(List<Sprite> sprites)
         {
@@ -32,7 +35,6 @@ namespace Semester2Prototype
             {
                 player._point = _point;
             }
-
         }
         public override void Draw(SpriteBatch spriteBatch)
         {
@@ -48,6 +50,17 @@ namespace Semester2Prototype
                     1f,
                     SpriteEffects.None,
                     1f);
+                if(_furniture != Furniture.None) 
+                {
+                    spriteBatch.Draw(_furnitureSheet,
+                        new Rectangle((int)_position.X + 50, (int)_position.Y+50, 50, 50),
+                        _furnitureImage,
+                        Color.White,
+                        0f,
+                        new Vector2(50 / 2, 50 / 2),
+                        SpriteEffects.None,
+                        1f);
+               }
             }
         }
         public void SetUpFLoorPlan()
@@ -73,6 +86,10 @@ namespace Semester2Prototype
             {
                 _tileState = TileState.Interactive;
                 _sourceRect = new Rectangle(52, 1, 50, 50);
+            }
+            if(_furniture != Furniture.None)
+            {
+                _tileState = TileState.Wall;
             }
         }
 
@@ -317,6 +334,20 @@ namespace Semester2Prototype
                 }
             }
             return ints;
+        }
+        
+        public void SetFurniture()
+        {
+            
+            switch (_furniture) 
+            { 
+                case Furniture.Table: 
+                    _furnitureImage = new Rectangle(67, 33, 17, 17); 
+                    break;
+                default: 
+                    _furnitureImage = Rectangle.Empty;
+                    break;
+            }
         }
     }
 }
