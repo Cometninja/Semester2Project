@@ -125,16 +125,10 @@ namespace Semester2Prototype
             _sprites.Add(new Clue(_square, new Vector2(900, 350), ClueType.FinancialDocuments));
             _sprites.Add(new Clue(_square, new Vector2(950, 350), ClueType.VictimsDocuments));
             
-            foreach (Tile tile in _sprites.OfType<Tile>().ToList())
-            {
-                if (_furnitureLocations[0].Contains(tile._point))
-                {
-                    tile._furniture = Furniture.Table;
-                    tile.SetFurniture();
-                }
-                tile.SetUpFLoorPlan();
-                tile.ContainsNPC(_sprites);
-            }
+            
+            SetTileFurniture(_sprites ,_furnitureLocations);
+
+            
 
             _sprites.Add(new Journal(_journalImage, new Vector2(0, 0), _mainfont,this));
             _player.GetDebugImage(_square);
@@ -350,6 +344,63 @@ namespace Semester2Prototype
             _menuState = state;
             _currentState = state;
         }
-        
+        static void SetTileFurniture(List<Sprite> sprites, List<List<Point>> furnitureLocations)
+        {
+            foreach (Tile tile in sprites.OfType<Tile>().ToList())
+            {
+                if (furnitureLocations[0].Contains(tile._point))
+                {
+                    tile._furniture = Furniture.Table;
+                }
+                else if (furnitureLocations[1].Contains(tile._point))
+                {
+                    tile._furniture = Furniture.CounterTop;
+                }
+                else if (furnitureLocations[2].Contains(tile._point))
+                {
+                    tile._furniture = Furniture.ChairLeft;
+                    tile._flipped = true;
+                }
+                else if (furnitureLocations[3].Contains(tile._point))
+                {
+                    tile._furniture = Furniture.ChairRight;
+                }
+                else if (furnitureLocations[4].Contains(tile._point))
+                {
+                    tile._furniture = Furniture.ChairDown;
+                }
+                else if (furnitureLocations[5].Contains(tile._point))
+                {
+                    tile._furniture= Furniture.ChairUp;
+                }
+                else if (furnitureLocations[6].Contains(tile._point))
+                {
+                    tile._furniture = Furniture.Sofa;
+                }
+                else if (furnitureLocations[7].Contains(tile._point))
+                {
+                    tile._furniture = Furniture.Toilet;
+                }
+                else if (furnitureLocations[8].Contains(tile._point))
+                {
+                    tile._furniture = Furniture.Cabnet;
+                }
+                else if (furnitureLocations[9].Contains(tile._point))
+                {
+                    tile._furniture = Furniture.Shelves;
+                }
+                else if (furnitureLocations[10].Contains(tile._point))
+                {
+                    tile._furniture = Furniture.Locker;
+                }
+
+                tile.SetFurniture();
+                tile.SetUpFLoorPlan();
+                tile.ContainsNPC(sprites);
+            }
+            
+
+        }
+
     }
 }

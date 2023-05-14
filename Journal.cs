@@ -59,6 +59,7 @@ namespace Semester2Prototype
 
         public override void Draw(SpriteBatch spriteBatch)
         {
+            
             if (_isJournalDisplayed)
             {
                 spriteBatch.Draw(_image,
@@ -80,6 +81,7 @@ namespace Semester2Prototype
                     Color.Black); 
                 
                 int spacing = 20;
+                Rectangle page = _leftPage;
                 switch (_journalPage)
                 {
                     case JournalPage.Tasks:
@@ -87,7 +89,7 @@ namespace Semester2Prototype
                         {
                             spriteBatch.DrawString(_font, 
                                 s, 
-                                new Vector2(_leftPage.X,_leftPage.Y+spacing), 
+                                new Vector2(page.X,page.Y+spacing), 
                                 Color.Black);
                             spacing += 20;
                         }
@@ -95,16 +97,25 @@ namespace Semester2Prototype
                     case JournalPage.Clues:
                         spriteBatch.DrawString(_font,
                                 $"Found Clues {_cluesFound}/8",
-                                new Vector2(_leftPage.X, _leftPage.Y + spacing),
+                                new Vector2(page.X, page.Y + spacing),
                                 Color.Black);
                         float number = 20;
+                        int entryCount = 0;
+                        bool newPage = false;
                         foreach(string s in _journalClues)
                         {
+                            entryCount ++;
+                            if (entryCount > 3 && !newPage)
+                            {
+                                newPage = true; 
+                                page = _rightPage;
+                                number = 20;
+                            }
                             string[] split = s.Split(' ');
                             string result = string.Empty;
                             foreach(string s2 in split)
                             {
-                                if(_font.MeasureString(result + s2 +" ").X > _leftPage.Width)
+                                if(_font.MeasureString(result + s2 +" ").X > page.Width)
                                 {
                                     result += "\n" + s2 + " ";
                                 }
@@ -114,7 +125,7 @@ namespace Semester2Prototype
 
                             spriteBatch.DrawString(_font,
                                 result,
-                                new Vector2(_leftPage.X, _leftPage.Y + spacing + number),
+                                new Vector2(page.X, page.Y + spacing + number),
                                 Color.Black);
                             number += _font.MeasureString(result).Y + spacing;
                         }

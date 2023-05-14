@@ -16,6 +16,7 @@ namespace Semester2Prototype
         Texture2D _furnitureSheet;
         public Furniture _furniture =  Furniture.None;
         public Rectangle _furnitureImage;
+        public bool _flipped;
         public Tile(Texture2D image,Texture2D furnitureSheet, Vector2 position, Point point, Game1 game1) : base(image, position)
         {
             _game1 = game1;
@@ -52,13 +53,18 @@ namespace Semester2Prototype
                     1f);
                 if(_furniture != Furniture.None) 
                 {
+                    SpriteEffects flipped = SpriteEffects.None;
+                    
+                    if (_flipped)
+                        flipped = SpriteEffects.FlipHorizontally;
+
                     spriteBatch.Draw(_furnitureSheet,
-                        new Rectangle((int)_position.X + 50, (int)_position.Y+50, 50, 50),
+                        new Rectangle((int)_position.X -25, (int)_position.Y-25, 50, 50),
                         _furnitureImage,
                         Color.White,
                         0f,
-                        new Vector2(50 / 2, 50 / 2),
-                        SpriteEffects.None,
+                        new Vector2(0,0),
+                        flipped,
                         1f);
                }
             }
@@ -343,6 +349,36 @@ namespace Semester2Prototype
             { 
                 case Furniture.Table: 
                     _furnitureImage = new Rectangle(67, 33, 17, 17); 
+                    break;
+                case Furniture.ChairLeft:
+                    _furnitureImage = new Rectangle(272,205,18,18);
+                    break;
+                case Furniture.ChairRight:
+                    _furnitureImage = new Rectangle(272,205,18,18);
+                    break;
+                case Furniture.ChairDown:
+                    _furnitureImage = new Rectangle(272,238,18,18);
+                    break;
+                case Furniture.ChairUp:
+                    _furnitureImage = new Rectangle(272,222,18,18);
+                    break;
+                case Furniture.Sofa:
+                    _furnitureImage = new Rectangle(255,51,31,15);
+                    break;
+                case Furniture.Toilet:
+                    _furnitureImage = new Rectangle(544,300,14,23);
+                    break;
+                case Furniture.Cabnet:
+                    _furnitureImage = new Rectangle(0,187,14,31);
+                    break;
+                case Furniture.Shelves:
+                    _furnitureImage = new Rectangle(102,307,15,31);
+                    break;
+                case Furniture.Locker:
+                    _furnitureImage = new Rectangle(17,68,15,31);
+                    break;
+                case Furniture.CounterTop:
+                    _furnitureImage = new Rectangle(68,119,14,14);
                     break;
                 default: 
                     _furnitureImage = Rectangle.Empty;
