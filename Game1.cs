@@ -20,10 +20,8 @@ namespace Semester2Prototype
 
         static List<Sprite> _sprites = new List<Sprite>();
         static Player _player;
-        static MessageBox _messageBox;
         static Texture2D _square, 
             playerSpriteSheet, 
-            messageBoxImage, 
             _journalImage, 
             _floorSpriteSheet, 
             _npcSpriteSheet,
@@ -80,7 +78,6 @@ namespace Semester2Prototype
 
             _square = Content.Load<Texture2D>("whiteSquare");
             playerSpriteSheet = Content.Load<Texture2D>("DetectiveSpriteSheet");
-            messageBoxImage = Content.Load<Texture2D>("MessageBox");
             _mainfont = Content.Load<SpriteFont>("mainFont");
             _journalImage = Content.Load<Texture2D>("LargeJournal");
             _floorSpriteSheet = Content.Load<Texture2D>("FloorTileSpriteSheet");
@@ -96,11 +93,7 @@ namespace Semester2Prototype
             MakeFloorPlan();
 
             _player = new Player(playerSpriteSheet, new Vector2(400, 250), _playerPoint, this);
-            _sprites.Add(
-                new MessageBox(messageBoxImage,
-                    new Vector2(_graphics.PreferredBackBufferWidth / 2,
-                        _graphics.PreferredBackBufferHeight - messageBoxImage.Height / 2),
-                    _mainfont));
+           
             _sprites.Add(_player);
 
             // add in the NPCs
@@ -165,7 +158,6 @@ namespace Semester2Prototype
         protected override void Update(GameTime gameTime)
         {
             KeyboardState keyboardState = Keyboard.GetState();
-            _messageBox = _sprites.OfType<MessageBox>().FirstOrDefault();
 
             List<Sprite> sprites = _sprites.Where(sprite => sprite.GetType() != _sprites.OfType<Tile>().First().GetType()).ToList();
             foreach (Sprite sprite in _sprites)
@@ -286,14 +278,18 @@ namespace Semester2Prototype
                     int[] groundUp = new int[] { 17, 18, 19 };
                     if (_player._point.X == 24 && groundUp.Contains(_player._point.Y))
                     {
-                        _messageBox.AddMessage("going UP");
                         _floorLevel = FloorLevel.FirstFloor;
-                        _player._position.X -= 50;
+                        _player._position.X -= 50; 
                         _player._point.X -= 1;
+                        _player.Update(_sprites);
                         foreach (Tile tile in tiles)
                         {
                             tile._position.Y += 200;
+                            tile._furniture = Furniture.None;
+                            tile.SetFurniture();
                         }
+
+                        SetTileFurniture(_sprites,_furnitureFunctions.PlaceFurniture());
                         ChangeLevel();
                     }
 
@@ -303,13 +299,22 @@ namespace Semester2Prototype
                     int[] firstUp = new int[] { 9, 10, 11 };
                     if (_player._point.X == 24 && firstDown.Contains(_player._point.Y))
                     {
-                        _messageBox.AddMessage("going Down");
                         _floorLevel = FloorLevel.GroundFLoor;
+                        _player._position.X -= 50;
+                        _player._point.X -= 1;
+                        _player.Update(_sprites);
+                        foreach (Tile tile in tiles)
+                        {
+                            tile._position.Y -= 200;
+                            tile._furniture = Furniture.None;
+                            tile.SetFurniture();
+                        }
+                        SetTileFurniture(_sprites, _furnitureLocations);
+
                         ChangeLevel();
                     }
                     else if (_player._point.X == 24 && firstUp.Contains(_player._point.Y))
                     {
-                        _messageBox.AddMessage("going UP");
                         _floorLevel = FloorLevel.SecondFLoor;
                         ChangeLevel();
                     }
@@ -319,7 +324,6 @@ namespace Semester2Prototype
 
                     if (_player._point.X == 24 && SecondDown.Contains(_player._point.Y))
                     {
-                        _messageBox.AddMessage("going Down");
                         _floorLevel = FloorLevel.FirstFloor;
                         ChangeLevel();
                     }

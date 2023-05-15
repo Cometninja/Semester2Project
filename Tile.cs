@@ -32,10 +32,11 @@ namespace Semester2Prototype
         {
             _centerBox = new Rectangle((int)(_position.X), (int)(_position.Y), 50, 50);
             Player player = sprites.OfType<Player>().First();
-            if (_centerBox.Contains(player._center))
+            if (_centerBox.Contains(player._center) )
             {
                 player._point = _point;
             }
+            
         }
         public override void Draw(SpriteBatch spriteBatch)
         {
