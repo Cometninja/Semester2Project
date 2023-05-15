@@ -20,8 +20,9 @@ namespace Semester2Prototype
 
         static List<Sprite> _sprites = new List<Sprite>();
         static Player _player;
-        static Texture2D _square, 
-            playerSpriteSheet, 
+        static Texture2D _square,
+            playerSpriteSheet,
+            _messageBoxImage,
             _journalImage, 
             _floorSpriteSheet, 
             _npcSpriteSheet,
@@ -33,12 +34,13 @@ namespace Semester2Prototype
         public float _volume = 1f;
         public State _state;
         public State _menuState;
-        public SpriteFont _mainfont, buttonFont;
+        public SpriteFont _mainFont, buttonFont;
         public GameState _gameState = GameState.MainMenu;
         public FloorLevel _floorLevel = FloorLevel.GroundFLoor;
         public Point _windowSize = new Point(750, 500);
         public Texture2D _rectangleTxr, _backgroundTxr, buttonTexture;
         public List<List<Point>> _furnitureLocations;
+
 
         protected Song song;
 
@@ -68,6 +70,7 @@ namespace Semester2Prototype
             _spriteBatch = new SpriteBatch(GraphicsDevice);
             _furnitureFunctions = new FurnitureFunctions(this);
             _furnitureLocations = _furnitureFunctions.PlaceFurniture();
+            
 
             song = Content.Load<Song>("Song");
             MediaPlayer.Play(song);
@@ -78,11 +81,12 @@ namespace Semester2Prototype
 
             _square = Content.Load<Texture2D>("whiteSquare");
             playerSpriteSheet = Content.Load<Texture2D>("DetectiveSpriteSheet");
-            _mainfont = Content.Load<SpriteFont>("mainFont");
+            _mainFont = Content.Load<SpriteFont>("mainFont");
             _journalImage = Content.Load<Texture2D>("LargeJournal");
             _floorSpriteSheet = Content.Load<Texture2D>("FloorTileSpriteSheet");
             _npcSpriteSheet = Content.Load<Texture2D>("NPCspritesheet");
             _furnitureSheet = Content.Load<Texture2D>("furniture spritesheet");
+            _messageBoxImage = Content.Load<Texture2D>("MessageBox");
 
 
             var buttonTexture = Content.Load<Texture2D>("UI/Controls/Button");
@@ -93,7 +97,8 @@ namespace Semester2Prototype
             MakeFloorPlan();
 
             _player = new Player(playerSpriteSheet, new Vector2(400, 250), _playerPoint, this);
-           
+
+            _sprites.Add(new MessageBox(_messageBoxImage, new Vector2(0, 0), _mainFont));
             _sprites.Add(_player);
 
             // add in the NPCs
@@ -123,7 +128,7 @@ namespace Semester2Prototype
 
             
 
-            _sprites.Add(new Journal(_journalImage, new Vector2(0, 0), _mainfont,this));
+            _sprites.Add(new Journal(_journalImage, new Vector2(0, 0), _mainFont,this));
             _player.GetDebugImage(_square);
         }
         void MediaPlayer_MediaStateChanged(object sender, System.
