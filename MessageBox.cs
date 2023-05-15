@@ -29,17 +29,6 @@ namespace Semester2Prototype
         public override void Draw(SpriteBatch spriteBatch)
         {
 
-            //int count = _messages.Count - 1;
-            //foreach (string message in _messages)
-            //{
-            //    spriteBatch.DrawString(_messageBoxFont,
-            //        message,
-            //        new Vector2(
-            //            (_position.X - _image.Width / 2) + 10,
-            //            (_position.Y - _image.Height / 2) + 5 + (20 * count)),
-            //        Color.White);
-            //    count--;
-            //}
         }
 
         public void AddMessage(string message)
