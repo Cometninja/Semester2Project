@@ -194,7 +194,7 @@ namespace Semester2Prototype
                 _windowBounds.Width / 3,
                 (int)(_windowBounds.Height / 1.15f));
             _rightPage = new Rectangle(
-                (int)(_windowBounds.Width / 1.71f),
+                (int)(_windowBounds.Width / 1.625f),
                 (int)(_windowBounds.Height / 12.5f),
                 _windowBounds.Width / 3,
                 (int)(_windowBounds.Height / 1.15f));

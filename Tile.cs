@@ -381,6 +381,21 @@ namespace Semester2Prototype
                 case Furniture.CounterTop:
                     _furnitureImage = new Rectangle(68,119,14,14);
                     break;
+                case Furniture.Bed:
+                    _furnitureImage = new Rectangle(169,35,33,32);
+                    break;
+                case Furniture.Shower:
+                    _furnitureImage = new Rectangle(407,289,14,33);
+                    break;
+                case Furniture.CoffeeTable:
+                    _furnitureImage = new Rectangle(50,51,17,16);
+                    break;
+                case Furniture.Wardrobe:
+                    _furnitureImage = new Rectangle(101,34,17,33);
+                    break;
+                case Furniture.Sink:
+                    _furnitureImage = new Rectangle(101,254,16,17);
+                    break;
                 default: 
                     _furnitureImage = Rectangle.Empty;
                     break;

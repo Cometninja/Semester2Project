@@ -27,9 +27,17 @@ namespace Semester2Prototype
         int tickCount = 0;
         bool _displayEnter;
         public List<List<string>> _dialogs;
+        static Point _dialogPos = new Point(0, 50);
+        static Point _dialogWindowSize = new Point(400, 100);
 
-        Rectangle _playerDialogBox = new Rectangle(0, 50, 400, 100);
-        Rectangle _npcDialogBox = new Rectangle(400, 50, 400, 100);
+        static Rectangle _playerDialogBox = new Rectangle(
+            _dialogPos,
+            _dialogWindowSize);
+        static Rectangle _npcDialogBox = new Rectangle(
+            _playerDialogBox.Width,
+            _dialogPos.Y,
+            _dialogWindowSize.X,
+            _dialogWindowSize.Y);
 
         Texture2D _dialogeBox;
 

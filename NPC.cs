@@ -221,11 +221,11 @@ namespace Semester2Prototype
                         if (_journal._goals["ChangingRoomClue"])
                         {
                             playerDialog.Add("You said that you didn't leave the reception desk all evening, yet I found this piece of your uniform showing you left the desk at least once yesterday.");
-                            npcDialog.Add("Oh- umm… that…#" +
-                                "I was umm…#" +
-                                "OK YES I LEFT THE DESK AT 9PM TO GO TO THE CHANGING ROOM WITH THE COOK! -OK!#" +
+                            npcDialog.Add("Oh... umm... that...#" +
+                                "I was umm...#" +
+                                "OK YES I LEFT THE DESK AT 9PM TO GO TO THE CHANGING ROOM WITH THE COOK! OK!#" +
                                 "NOW LEAVE ME AND MY PRIVATE LIFE ALONE!");
-                            _journal._goals["lockedRecepionist"] = false;
+                            _journal._goals["lockedRecepionist"] = true;
                         }
 
                         playerDialog.Add("Goodbye");
@@ -389,9 +389,11 @@ namespace Semester2Prototype
                     break;
             }
 
-            List<List<string>> result = new List<List<string>>();
-            result.Add(npcDialog);
-            result.Add(playerDialog);
+            List<List<string>> result = new List<List<string>>
+            {
+                npcDialog,
+                playerDialog
+            };
             return result;
         }
     }

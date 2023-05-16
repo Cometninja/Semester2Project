@@ -72,7 +72,6 @@
     }
     public enum Furniture 
     { 
-        None,
         Table,
         CounterTop,
         ChairLeft, 
@@ -83,7 +82,14 @@
         Toilet,
         Cabnet,
         Shelves,
-        Locker
+        Locker,
+        Bed,
+        Shower,
+        CoffeeTable,
+        Wardrobe,
+        Sink,
+        None
+
     } //TODO add in more furniture
 
 }

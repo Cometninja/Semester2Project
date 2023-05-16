@@ -37,7 +37,7 @@ namespace Semester2Prototype
         public SpriteFont _mainFont, buttonFont;
         public GameState _gameState = GameState.MainMenu;
         public FloorLevel _floorLevel = FloorLevel.GroundFLoor;
-        public Point _windowSize = new Point(750, 500);
+        public Point _windowSize = new Point(800, 500);
         public Texture2D _rectangleTxr, _backgroundTxr, buttonTexture;
         public List<List<Point>> _furnitureLocations;
 
@@ -287,6 +287,7 @@ namespace Semester2Prototype
                         _player._position.X -= 50; 
                         _player._point.X -= 1;
                         _player.Update(_sprites);
+
                         foreach (Tile tile in tiles)
                         {
                             tile._position.Y += 200;
@@ -357,50 +358,12 @@ namespace Semester2Prototype
         {
             foreach (Tile tile in sprites.OfType<Tile>().ToList())
             {
-                if (furnitureLocations[0].Contains(tile._point))
+                for (int i = 0; i < furnitureLocations.Count; i++) 
                 {
-                    tile._furniture = Furniture.Table;
-                }
-                else if (furnitureLocations[1].Contains(tile._point))
-                {
-                    tile._furniture = Furniture.CounterTop;
-                }
-                else if (furnitureLocations[2].Contains(tile._point))
-                {
-                    tile._furniture = Furniture.ChairLeft;
-                    tile._flipped = true;
-                }
-                else if (furnitureLocations[3].Contains(tile._point))
-                {
-                    tile._furniture = Furniture.ChairRight;
-                }
-                else if (furnitureLocations[4].Contains(tile._point))
-                {
-                    tile._furniture = Furniture.ChairDown;
-                }
-                else if (furnitureLocations[5].Contains(tile._point))
-                {
-                    tile._furniture= Furniture.ChairUp;
-                }
-                else if (furnitureLocations[6].Contains(tile._point))
-                {
-                    tile._furniture = Furniture.Sofa;
-                }
-                else if (furnitureLocations[7].Contains(tile._point))
-                {
-                    tile._furniture = Furniture.Toilet;
-                }
-                else if (furnitureLocations[8].Contains(tile._point))
-                {
-                    tile._furniture = Furniture.Cabnet;
-                }
-                else if (furnitureLocations[9].Contains(tile._point))
-                {
-                    tile._furniture = Furniture.Shelves;
-                }
-                else if (furnitureLocations[10].Contains(tile._point))
-                {
-                    tile._furniture = Furniture.Locker;
+                    if (furnitureLocations[i].Contains(tile._point))
+                    {
+                        tile._furniture = (Furniture)i;
+                    }
                 }
 
                 tile.SetFurniture();
