@@ -5,16 +5,20 @@ using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Semester2Prototype.Controls;
+using Microsoft.Xna.Framework.Audio;
 
 namespace Semester2Prototype.States
 {
-    internal class OptionState : State
+    public class MenuState : State
     {
         private List<Component> _components;
 
-        Texture2D _rectangleTxr, _backgroundTxr, _buttonTexture;
-        SpriteFont _buttonFont, _titleFont;
+        Texture2D _rectangleTxr, _buttonTexture;
+        SpriteFont _titleFont, _buttonFont;
+
         static Point _screenSize = new Point(800, 800);
+
+
 
         static int _rectWidth = 300; // set the width of the rectangle
         static int _rectHeight = 1000; // set the height of the rectangle
@@ -22,51 +26,54 @@ namespace Semester2Prototype.States
         static int _centerX = _screenSize.X / 2; // calculate the X coordinate of the center of the screen
 
         Rectangle rect = new Rectangle(_centerX - _rectWidth / 2, 0, _rectWidth, _rectHeight); // create the rectangle
-        public OptionState(Game1 game, GraphicsDevice graphicsDevice, ContentManager content)
+
+
+        public MenuState(Game1 game, GraphicsDevice graphicsDevice, ContentManager content)
           : base(game, graphicsDevice, content)
         {
             _buttonTexture = _content.Load<Texture2D>("UI/Controls/Button");
             _buttonFont = _content.Load<SpriteFont>("UI/Fonts/Font");
-            _titleFont = _content.Load<SpriteFont>("UI/Fonts/TitleMoldyen");
             _rectangleTxr = _content.Load<Texture2D>("UI/RectangleTxr");
-            _backgroundTxr = _content.Load<Texture2D>("UI/Txr_Background");
+            _titleFont = _content.Load<SpriteFont>("UI/Fonts/TitleMoldyen");
 
+            
 
-            var keybindsGameButton = new Button(_buttonTexture, _buttonFont)
+            var newGameButton = new Button(_buttonTexture, _buttonFont)
             {
-                Text = "Keybinds",
+                Text = "New Game",
                 Position = new Vector2((rect.X + _titleFont.MeasureString("New Game").X / 2), 200),
             };
 
 
-            keybindsGameButton.Click += KeybindsGameButton_Click;
+            newGameButton.Click += NewGameButton_Click;
 
-            var SoundGameButton = new Button(_buttonTexture, _buttonFont)
+            var optionGameButton = new Button(_buttonTexture, _buttonFont)
             {
                 Position = new Vector2((rect.X + _titleFont.MeasureString("New Game").X / 2), 250),
-                Text = "Sound",
+                Text = "Options",
             };
 
-            SoundGameButton.Click += SoundGameButton_Click;
+            optionGameButton.Click += OptionGameButton_Click;
 
-            var exitGameButton = new Button(_buttonTexture, _buttonFont)
+            var quitGameButton = new Button(_buttonTexture, _buttonFont)
             {
                 Position = new Vector2((rect.X + _titleFont.MeasureString("New Game").X / 2), 300),
-                Text = "Back",
+                Text = "Quit Game",
             };
 
-            exitGameButton.Click += ExitGameButton_Click;
+            quitGameButton.Click += QuitGameButton_Click;
 
             _components = new List<Component>()
       {
-        keybindsGameButton,
-        SoundGameButton,
-        exitGameButton,
+        newGameButton,
+        optionGameButton,
+        quitGameButton,
       };
         }
 
         public override void Draw(GameTime gameTime, SpriteBatch spriteBatch)
         {
+
 
             Color tDimGrey = new Color(Color.Black, 175);
 
@@ -76,32 +83,28 @@ namespace Semester2Prototype.States
 
             Vector2 textSize = _titleFont.MeasureString("Title");
             spriteBatch.DrawString(_titleFont,
-                "Options",
-                new Vector2(rect.X + rect.Width / 2 - _titleFont.MeasureString("Options").X / 2, 100),
-                Color.White );
+                "10 SUSpects",
+                new Vector2(rect.X + rect.Width/2 - _titleFont.MeasureString("10 SUSpects").X / 2 , 100 ),
+                Color.Red);
             // 800 x 600 window size
-
-
 
             foreach (var component in _components)
                 component.Draw(gameTime, spriteBatch);
 
-
         }
 
-        private void KeybindsGameButton_Click(object sender, EventArgs e)
+        private void OptionGameButton_Click(object sender, EventArgs e)
         {
             _game._buttonPressInstance.Play();
-            _game.ChangeState(new KeybindState(_game, _graphicsDevice, _content));
+            _game.ChangeState(new MenuOptionState(_game, _graphicsDevice, _content));
         }
 
-        private void SoundGameButton_Click(object sender, EventArgs e)
+        private void NewGameButton_Click(object sender, EventArgs e)
         {
             _game._buttonPressInstance.Play();
-            _game.ChangeState(new SoundState(_game, _graphicsDevice, _content));
+            _game._gameState = GameState.GamePlaying;
+            _game.IsMouseVisible = false;
         }
-
-
 
         public override void PostUpdate(GameTime gameTime)
         {
@@ -112,28 +115,26 @@ namespace Semester2Prototype.States
         {
             KeyboardState keyboardState = Keyboard.GetState();
 
-            if (keyboardState.IsKeyDown(Keys.Escape) && !_isEscapePressed)
+            if (keyboardState.IsKeyDown(Keys.Escape) && !_game._isEscapedPressed && _game._gameState == GameState.MainMenu)
             {
-                _isEscapePressed = true;
-                _game.ChangeState(new PauseState(_game, _graphicsDevice, _content));
+                _game._menuState = new MenuState(_game, _graphicsDevice, _content);
+                _game._isEscapedPressed = true;
+                _game._gameState = GameState.MainMenu;
+                _game.IsMouseVisible = true;
             }
-
-            else if (!keyboardState.IsKeyDown(Keys.Escape) && _isEscapePressed)
+            else if (!keyboardState.IsKeyDown(Keys.Escape) && _game._isEscapedPressed)
             {
-                _isEscapePressed = false;
+                _game._isEscapedPressed = false;
             }
 
             foreach (var component in _components)
                 component.Update(gameTime);
-
         }
 
-        private void ExitGameButton_Click(object sender, EventArgs e)
+        private void QuitGameButton_Click(object sender, EventArgs e)
         {
             _game._buttonPressInstance.Play();
-            _game.ChangeState(new PauseState(_game, _graphicsDevice, _content));
+            _game.Exit();
         }
     }
 }
-
-

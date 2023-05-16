@@ -116,17 +116,17 @@
 /processorParam:TextureFormat=Color
 /build:NPCspritesheet.png
 
-#begin Song.mp3
-/importer:Mp3Importer
-/processor:SongProcessor
-/processorParam:Quality=Best
-/build:Song.mp3
-
 #begin Sounds/ButtonPress.mp3
 /importer:Mp3Importer
 /processor:SoundEffectProcessor
 /processorParam:Quality=Best
 /build:Sounds/ButtonPress.mp3
+
+#begin Sounds/Song.mp3
+/importer:Mp3Importer
+/processor:SongProcessor
+/processorParam:Quality=Best
+/build:Sounds/Song.mp3
 
 #begin UI/Controls/Button.png
 /importer:TextureImporter

@@ -37,25 +37,41 @@ namespace Semester2Prototype.States
             _rectangleTxr = _content.Load<Texture2D>("UI/RectangleTxr");
             _titleFont = _content.Load<SpriteFont>("UI/Fonts/TitleMoldyen");
 
-            var plusGameButton = new Button(_smallButtonTexture, _buttonFont)
+            var plusSongGameButton = new Button(_smallButtonTexture, _buttonFont)
             {
                 Text = "+",
                 Position = new Vector2((_screenSize.X - _smallButtonTexture.Width) / 1.6f, 250)
             };
 
-            plusGameButton.Click += PlusGameButton_Click;
+            plusSongGameButton.Click += PlusSongGameButton_Click;
 
-            var minusGameButton = new Button(_smallButtonTexture, _buttonFont)
+            var minusSongGameButton = new Button(_smallButtonTexture, _buttonFont)
             {
                 Text = "-",
                 Position = new Vector2((_screenSize.X - _smallButtonTexture.Width) / 2.5f, 250)
             };
 
-            minusGameButton.Click += MinusGameButton_Click;
+            minusSongGameButton.Click += MinusSongGameButton_Click;
+
+            var plusSoundGameButton = new Button(_smallButtonTexture, _buttonFont)
+            {
+                Text = "+",
+                Position = new Vector2((_screenSize.X - _smallButtonTexture.Width) / 1.6f, 350)
+            };
+
+            plusSoundGameButton.Click += PlusSoundGameButton_Click;
+
+            var minusSoundGameButton = new Button(_smallButtonTexture, _buttonFont)
+            {
+                Text = "-",
+                Position = new Vector2((_screenSize.X - _smallButtonTexture.Width) / 2.5f, 350)
+            };
+
+            minusSoundGameButton.Click += MinusSoundGameButton_Click;
 
             var exitGameButton = new Button(_buttonTexture, _buttonFont)
             {
-                Position = new Vector2((_screenSize.X - _buttonTexture.Width) / 2, 300),
+                Position = new Vector2((_screenSize.X - _buttonTexture.Width) / 2, 450),
                 Text = "Back",
             };
 
@@ -64,8 +80,11 @@ namespace Semester2Prototype.States
             _components = new List<Component>()
       {
         exitGameButton,
-        plusGameButton,
-        minusGameButton,
+        plusSongGameButton,
+        minusSongGameButton,
+        plusSoundGameButton,
+        minusSoundGameButton,
+
       };
         }
 
@@ -92,11 +111,20 @@ namespace Semester2Prototype.States
                 new Vector2(rect.X + rect.Width / 2 - _titleFont.MeasureString("Sounds").X / 2, 100),
                 Color.White);
 
-            textSize = _smallFont.MeasureString("Master Volume");
+            textSize = _smallFont.MeasureString("Song Volume");
             spriteBatch.DrawString(_smallFont,
-                "Master Volume",
+                "Song Volume",
                 new Vector2(rect.X + rect.Width / 2 - _titleFont.MeasureString("Sounds").X / 2, 200),
                 Color.White);
+
+            textSize = _smallFont.MeasureString("Sound Volume");
+            spriteBatch.DrawString(_smallFont,
+                "Sound Volume",
+                new Vector2(rect.X + rect.Width / 2 - _titleFont.MeasureString("Sounds").X / 2, 300),
+                Color.White);
+
+
+            spriteBatch.DrawString(_smallFont, (_game._masterVolume * 100).ToString() + "%", new Vector2(_screenSize.X / 2.1f, _screenSize.Y / 2.25f), Color.White);
 
             spriteBatch.DrawString(_smallFont, (_game._volume * 100).ToString() + "%", new Vector2(_screenSize.X / 2.1f, _screenSize.Y / 3.15f), Color.White);
 
@@ -110,19 +138,34 @@ namespace Semester2Prototype.States
             _game.ChangeState(new OptionState(_game, _graphicsDevice, _content));
         }
 
-        private void PlusGameButton_Click(object sender, EventArgs e)
+        private void PlusSongGameButton_Click(object sender, EventArgs e)
         {
             _game._buttonPressInstance.Play();
             Debug.WriteLine("+");
-            _game.AdjustVolume(0.25f);          
+            _game.AdjustSongVolume(0.25f);          
         }
 
-        private void MinusGameButton_Click(object sender, EventArgs e)
+        private void MinusSongGameButton_Click(object sender, EventArgs e)
         {
             _game._buttonPressInstance.Play();
             Debug.WriteLine("-");
-            _game.AdjustVolume(-0.25f);
+            _game.AdjustSongVolume(-0.25f);
         }
+
+        private void PlusSoundGameButton_Click(object sender, EventArgs e)
+        {
+            _game._buttonPressInstance.Play();
+            Debug.WriteLine("+");
+            _game.AdjustSoundVolume(0.25f);
+        }
+
+        private void MinusSoundGameButton_Click(object sender, EventArgs e)
+        {
+            _game._buttonPressInstance.Play();
+            Debug.WriteLine("-");
+            _game.AdjustSoundVolume(-0.25f);
+        }
+
 
         public override void PostUpdate(GameTime gameTime)
         {

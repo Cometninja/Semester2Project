@@ -35,6 +35,7 @@ namespace Semester2Prototype
         public FurnitureFunctions _furnitureFunctions;
         public bool _isEscapedPressed;
         public float _volume = 1f;
+        public float _masterVolume = 1f;
         public State _state;
         public State _menuState;
         public SpriteFont _mainFont, buttonFont;
@@ -48,7 +49,7 @@ namespace Semester2Prototype
         public SoundEffect _buttonPress;
         public SoundEffectInstance _buttonPressInstance;
 
-        protected Song song;
+        protected Song _song;
 
         // 800 x 600 window size
 
@@ -83,8 +84,8 @@ namespace Semester2Prototype
             _furnitureLocations = _furnitureFunctions.PlaceFurniture();
             
 
-            song = Content.Load<Song>("Song");
-            //MediaPlayer.Play(song);
+            _song = Content.Load<Song>("Sounds/Song");
+            MediaPlayer.Play(_song);
             _currentState = new MenuState(this, _graphics.GraphicsDevice, Content);
 
             MediaPlayer.MediaStateChanged += MediaPlayer_MediaStateChanged;
@@ -149,10 +150,10 @@ namespace Semester2Prototype
                                          EventArgs e)
         {
             
-            //MediaPlayer.Play(song);
+            MediaPlayer.Play(_song);
         }
 
-        public void AdjustVolume(float change)
+        public void AdjustSongVolume(float change)
         {
             _volume += change;
             // Constrain volume to range [0, 1]
@@ -166,7 +167,25 @@ namespace Semester2Prototype
             }
             // Set volume for MediaPlayer
             MediaPlayer.Volume = _volume;
+
+            
         }
+        public void AdjustSoundVolume(float change)
+        {
+            _masterVolume += change;
+            // Constrain volume to range [0, 1]
+            if (_masterVolume < 0)
+            {
+                _masterVolume = 0;
+            }
+            else if (_masterVolume > 1)
+            {
+                _masterVolume = 1;
+            }
+            // Set volume for MediaPlayer
+            SoundEffect.MasterVolume = _masterVolume;
+        }
+
 
         protected override void UnloadContent()
         {
@@ -193,12 +212,14 @@ namespace Semester2Prototype
                     break;
                 case GameState.GamePlaying:
                     IsMouseVisible= false;
-                    if (Keyboard.GetState().IsKeyDown(Keys.Escape) && !_isEscapedPressed)
+                    
+                    /*if (Keyboard.GetState().IsKeyDown(Keys.Escape) && !_isEscapedPressed)
                         Exit();
                     else if (Keyboard.GetState().IsKeyUp(Keys.Escape) && _isEscapedPressed)
                     {
                         _isEscapedPressed = false;
-                    }
+                    }*/
+
                     if (_player._position.X % 50 == 0 && _sprites.OfType<Tile>().FirstOrDefault()._position.X % 50 == 0)
                     {
                         CheckChangeLevel();
@@ -223,7 +244,7 @@ namespace Semester2Prototype
             _currentState.Update(gameTime);
             _currentState.PostUpdate(gameTime);
 
-            if (keyboardState.IsKeyDown(Keys.Escape) && !_isEscapedPressed)
+            if (keyboardState.IsKeyDown(Keys.Escape) && !_isEscapedPressed && _gameState == GameState.GamePlaying)
             {
                 _menuState = new PauseState(this, GraphicsDevice, Content);
                 _isEscapedPressed = true;

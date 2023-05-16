@@ -5,20 +5,17 @@ using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Semester2Prototype.Controls;
-using Microsoft.Xna.Framework.Audio;
 
 namespace Semester2Prototype.States
 {
-    public class MenuState : State
+    public class PauseState : State
     {
         private List<Component> _components;
 
-        Texture2D _rectangleTxr, _buttonTexture;
-        SpriteFont _titleFont, _buttonFont;
+        Texture2D _rectangleTxr, _backgroundTxr, _buttonTexture;
+        SpriteFont _buttonFont, _titleFont;
 
         static Point _screenSize = new Point(800, 800);
-
-
 
         static int _rectWidth = 300; // set the width of the rectangle
         static int _rectHeight = 1000; // set the height of the rectangle
@@ -27,25 +24,23 @@ namespace Semester2Prototype.States
 
         Rectangle rect = new Rectangle(_centerX - _rectWidth / 2, 0, _rectWidth, _rectHeight); // create the rectangle
 
-
-        public MenuState(Game1 game, GraphicsDevice graphicsDevice, ContentManager content)
+        public PauseState(Game1 game, GraphicsDevice graphicsDevice, ContentManager content)
           : base(game, graphicsDevice, content)
         {
             _buttonTexture = _content.Load<Texture2D>("UI/Controls/Button");
             _buttonFont = _content.Load<SpriteFont>("UI/Fonts/Font");
-            _rectangleTxr = _content.Load<Texture2D>("UI/RectangleTxr");
             _titleFont = _content.Load<SpriteFont>("UI/Fonts/TitleMoldyen");
+            _rectangleTxr = _content.Load<Texture2D>("UI/RectangleTxr");
 
-            
 
-            var newGameButton = new Button(_buttonTexture, _buttonFont)
+            var resumeGameButton = new Button(_buttonTexture, _buttonFont)
             {
-                Text = "New Game",
+                Text = "Resume",
                 Position = new Vector2((rect.X + _titleFont.MeasureString("New Game").X / 2), 200),
             };
 
 
-            newGameButton.Click += NewGameButton_Click;
+            resumeGameButton.Click += ResumeGameButton_Click;
 
             var optionGameButton = new Button(_buttonTexture, _buttonFont)
             {
@@ -55,19 +50,19 @@ namespace Semester2Prototype.States
 
             optionGameButton.Click += OptionGameButton_Click;
 
-            var quitGameButton = new Button(_buttonTexture, _buttonFont)
+            var exitGameButton = new Button(_buttonTexture, _buttonFont)
             {
                 Position = new Vector2((rect.X + _titleFont.MeasureString("New Game").X / 2), 300),
-                Text = "Quit Game",
+                Text = "Main menu",
             };
 
-            quitGameButton.Click += QuitGameButton_Click;
+            exitGameButton.Click += ExitGameButton_Click;
 
             _components = new List<Component>()
       {
-        newGameButton,
+        resumeGameButton,
         optionGameButton,
-        quitGameButton,
+        exitGameButton,
       };
         }
 
@@ -77,19 +72,26 @@ namespace Semester2Prototype.States
 
             Color tDimGrey = new Color(Color.Black, 175);
 
+            int rectWidth = 300; // set the width of the rectangle
+            int rectHeight = _screenSize.Y; // set the height of the rectangle
 
+            int rectX = (_screenSize.X - rectWidth) / 2; // calculate the X coordinate to center the rectangle
+            int rectY = 0; // set the Y coordinate of the rectangle position
+
+            Rectangle rect = new Rectangle(rectX, rectY, rectWidth, rectHeight); // create the rectangle
 
             spriteBatch.Draw(_rectangleTxr, rect, tDimGrey); // draw the rectangle centered on the screen along the X-axis
 
             Vector2 textSize = _titleFont.MeasureString("Title");
             spriteBatch.DrawString(_titleFont,
-                "10 SUSpects",
-                new Vector2(rect.X + rect.Width/2 - _titleFont.MeasureString("10 SUSpects").X / 2 , 100 ),
-                Color.Red);
-            // 800 x 600 window size
+                "Paused",
+                new Vector2(rect.X + rect.Width / 2 - _titleFont.MeasureString("Paused").X / 2, 100),
+                Color.White);
+
 
             foreach (var component in _components)
                 component.Draw(gameTime, spriteBatch);
+
 
         }
 
@@ -99,7 +101,7 @@ namespace Semester2Prototype.States
             _game.ChangeState(new OptionState(_game, _graphicsDevice, _content));
         }
 
-        private void NewGameButton_Click(object sender, EventArgs e)
+        private void ResumeGameButton_Click(object sender, EventArgs e)
         {
             _game._buttonPressInstance.Play();
             _game._gameState = GameState.GamePlaying;
@@ -113,14 +115,28 @@ namespace Semester2Prototype.States
 
         public override void Update(GameTime gameTime)
         {
+
+            KeyboardState keyboardState = Keyboard.GetState();
+
+            if (keyboardState.IsKeyDown(Keys.Escape) && !_isEscapePressed)
+            {
+                _isEscapePressed = true;
+                _game._gameState = GameState.GamePlaying;
+            }
+
+            else if (!keyboardState.IsKeyDown(Keys.Escape) && _isEscapePressed)
+            {
+                _isEscapePressed = false;
+            }
+
             foreach (var component in _components)
                 component.Update(gameTime);
         }
 
-        private void QuitGameButton_Click(object sender, EventArgs e)
+        private void ExitGameButton_Click(object sender, EventArgs e)
         {
             _game._buttonPressInstance.Play();
-            _game.Exit();
+            _game.ChangeState(new MenuState(_game, _graphicsDevice, _content));
         }
     }
 }
