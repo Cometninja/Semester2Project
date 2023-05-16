@@ -13,8 +13,11 @@ namespace Semester2Prototype
         public Point _point;
         public TileState _tileState = TileState.Empty;
         static Game1 _game1;
-
-        public Tile(Texture2D image, Vector2 position, Point point, Game1 game1) : base(image, position)
+        Texture2D _furnitureSheet;
+        public Furniture _furniture =  Furniture.None;
+        public Rectangle _furnitureImage;
+        public bool _flipped;
+        public Tile(Texture2D image,Texture2D furnitureSheet, Vector2 position, Point point, Game1 game1) : base(image, position)
         {
             _game1 = game1;
             _sourceRect = new Rectangle(1, 1, 50, 50);
@@ -23,16 +26,17 @@ namespace Semester2Prototype
             _center = new Vector2(image.Width / 2, image.Height / 2);
             _centerBox = new Rectangle((int)(_position.X), (int)(_position.Y), 50, 50);
             _floorLevel = _game1._floorLevel;
+            _furnitureSheet = furnitureSheet;
         }
         public override void Update(List<Sprite> sprites)
         {
             _centerBox = new Rectangle((int)(_position.X), (int)(_position.Y), 50, 50);
             Player player = sprites.OfType<Player>().First();
-            if (_centerBox.Contains(player._center))
+            if (_centerBox.Contains(player._center) )
             {
                 player._point = _point;
             }
-
+            
         }
         public override void Draw(SpriteBatch spriteBatch)
         {
@@ -48,6 +52,22 @@ namespace Semester2Prototype
                     1f,
                     SpriteEffects.None,
                     1f);
+                if(_furniture != Furniture.None) 
+                {
+                    SpriteEffects flipped = SpriteEffects.None;
+                    
+                    if (_flipped)
+                        flipped = SpriteEffects.FlipHorizontally;
+
+                    spriteBatch.Draw(_furnitureSheet,
+                        new Rectangle((int)_position.X -25, (int)_position.Y-25, 50, 50),
+                        _furnitureImage,
+                        Color.White,
+                        0f,
+                        new Vector2(0,0),
+                        flipped,
+                        1f);
+               }
             }
         }
         public void SetUpFLoorPlan()
@@ -74,14 +94,28 @@ namespace Semester2Prototype
                 _tileState = TileState.Interactive;
                 _sourceRect = new Rectangle(52, 1, 50, 50);
             }
+            if(_furniture != Furniture.None)
+            {
+                _tileState = TileState.Wall;
+            }
         }
 
         public void ContainsNPC(List<Sprite> sprites)
         {
             List<NPC> npcs = sprites.OfType<NPC>().ToList();
+            List<Clue> clues = sprites.OfType<Clue>().ToList();
+
             foreach (NPC npc in npcs)
             {
                 if (_centerBox.Contains(npc._center))
+                {
+                    _tileState = TileState.Wall;
+                }
+            }
+            
+            foreach (Clue clue in clues)
+            {
+                if (_centerBox.Contains(clue._center))
                 {
                     _tileState = TileState.Wall;
                 }
@@ -91,7 +125,6 @@ namespace Semester2Prototype
         public List<List<int>> LayoutRoom(FloorLevel level)
         {
             List<List<int>> ints = new List<List<int>>();
-
 
             int[] X0;
             int[] X1;
@@ -203,15 +236,10 @@ namespace Semester2Prototype
                     break;
             }
 
-
-
-
-
             for (int X = 0; X < 30; X++)
             {
                 ints.Add(new List<int>());
             }
-
 
             for (int i = 1; i < 29; i++)
             {
@@ -314,6 +342,64 @@ namespace Semester2Prototype
             }
             return ints;
         }
+        
+        public void SetFurniture()
+        {
+            
+            switch (_furniture) 
+            { 
+                case Furniture.Table: 
+                    _furnitureImage = new Rectangle(67, 33, 17, 17); 
+                    break;
+                case Furniture.ChairLeft:
+                    _furnitureImage = new Rectangle(272,205,18,18);
+                    break;
+                case Furniture.ChairRight:
+                    _furnitureImage = new Rectangle(272,205,18,18);
+                    break;
+                case Furniture.ChairDown:
+                    _furnitureImage = new Rectangle(272,238,18,18);
+                    break;
+                case Furniture.ChairUp:
+                    _furnitureImage = new Rectangle(272,222,18,18);
+                    break;
+                case Furniture.Sofa:
+                    _furnitureImage = new Rectangle(255,51,31,15);
+                    break;
+                case Furniture.Toilet:
+                    _furnitureImage = new Rectangle(544,300,14,23);
+                    break;
+                case Furniture.Cabnet:
+                    _furnitureImage = new Rectangle(0,187,14,31);
+                    break;
+                case Furniture.Shelves:
+                    _furnitureImage = new Rectangle(102,307,15,31);
+                    break;
+                case Furniture.Locker:
+                    _furnitureImage = new Rectangle(17,68,15,31);
+                    break;
+                case Furniture.CounterTop:
+                    _furnitureImage = new Rectangle(68,119,14,14);
+                    break;
+                case Furniture.Bed:
+                    _furnitureImage = new Rectangle(169,35,33,32);
+                    break;
+                case Furniture.Shower:
+                    _furnitureImage = new Rectangle(407,289,14,33);
+                    break;
+                case Furniture.CoffeeTable:
+                    _furnitureImage = new Rectangle(50,51,17,16);
+                    break;
+                case Furniture.Wardrobe:
+                    _furnitureImage = new Rectangle(101,34,17,33);
+                    break;
+                case Furniture.Sink:
+                    _furnitureImage = new Rectangle(101,254,16,17);
+                    break;
+                default: 
+                    _furnitureImage = Rectangle.Empty;
+                    break;
+            }
+        }
     }
-
 }

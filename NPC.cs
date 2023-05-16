@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
 
 namespace Semester2Prototype
@@ -21,6 +22,7 @@ namespace Semester2Prototype
         static List<Sprite> _sprites = new List<Sprite>();
         public bool _dialoge = false;
         static Journal _journal;
+        public bool _spokenTo = false;
 
         public NPC(Texture2D image, Vector2 position, NPCCharacter character) : base(image, position)
         {
@@ -176,6 +178,8 @@ namespace Semester2Prototype
             List<string> playerDialog = new List<string>();
 
             _journal = _sprites.OfType<Journal>().FirstOrDefault();
+            _spokenTo = true;
+            
             switch (_NPCCharacter)
             {
                 case NPCCharacter.Manager:
@@ -190,12 +194,22 @@ namespace Semester2Prototype
                             "Talk with the receptionist to get up to speed on what's happened.#" +
                             "I will stay here to await your verdict, good luck detective.");
                         _journal._goals["IntroManager"] = true;
+                        _journal._journalTasks.Add(_journal._tasks[1]);
                     }
-                    else
+                    else if (!_journal._goals["IntroReceptionist"])
                     {
                         playerDialog.Add("May I ask another question?");
 
                         npcDialog.Add("As I said speak to the receptionist at the front to get up to speed.");
+                    }
+                    else
+                    {
+
+                        playerDialog.Add("I am ready to make my Decision!");
+                        npcDialog.Add("Are you sure?");
+
+                        playerDialog.Add("Goodbye");
+                        npcDialog.Add("Goodbye");
                     }
                     break;
                 case NPCCharacter.Receptionist:
@@ -217,11 +231,11 @@ namespace Semester2Prototype
                         if (_journal._goals["ChangingRoomClue"])
                         {
                             playerDialog.Add("You said that you didn't leave the reception desk all evening, yet I found this piece of your uniform showing you left the desk at least once yesterday.");
-                            npcDialog.Add("Oh- umm… that…#" +
-                                "I was umm…#" +
-                                "OK YES I LEFT THE DESK AT 9PM TO GO TO THE CHANGING ROOM WITH THE COOK! -OK!#" +
+                            npcDialog.Add("Oh... umm... that...#" +
+                                "I was umm...#" +
+                                "OK YES I LEFT THE DESK AT 9PM TO GO TO THE CHANGING ROOM WITH THE COOK! OK!#" +
                                 "NOW LEAVE ME AND MY PRIVATE LIFE ALONE!");
-                            _journal._goals["lockedRecepionist"] = false;
+                            _journal._goals["lockedRecepionist"] = true;
                         }
 
                         playerDialog.Add("Goodbye");
@@ -265,6 +279,7 @@ namespace Semester2Prototype
                     }
                     else
                     {
+                        playerDialog.Add("Hello");
                         npcDialog.Add("I am sorry but is there someone else you need to talk to first?");
                     }
                     break;
@@ -384,11 +399,11 @@ namespace Semester2Prototype
                     break;
             }
 
-
-
-            List<List<string>> result = new List<List<string>>();
-            result.Add(npcDialog);
-            result.Add(playerDialog);
+            List<List<string>> result = new List<List<string>>
+            {
+                npcDialog,
+                playerDialog
+            };
             return result;
         }
     }

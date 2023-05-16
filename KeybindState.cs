@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Reflection.Metadata;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
@@ -27,12 +28,12 @@ namespace Semester2Prototype.States
         public KeybindState(Game1 game, GraphicsDevice graphicsDevice, ContentManager content)
           : base(game, graphicsDevice, content)
         {
-            _buttonTexture = _content.Load<Texture2D>("UI/Controls/Button");
             _rectangleTxr = _content.Load<Texture2D>("UI/RectangleTxr");
             _keybindTxr = _content.Load<Texture2D>("UI/KeybindTxr");
+
             _titleFont = _content.Load<SpriteFont>("UI/Fonts/TitleMoldyen");
             _buttonFont = _content.Load<SpriteFont>("UI/Fonts/Font");
-
+            _buttonTexture = _content.Load<Texture2D>("UI/Controls/Button");
 
 
             var exitGameButton = new Button(_buttonTexture, _buttonFont)

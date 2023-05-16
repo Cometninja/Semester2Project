@@ -15,7 +15,7 @@ namespace Semester2Prototype
         List<string> _npcDialoge;
         string _cursor = ">>";
         SpriteFont _font;
-        Vector2 _cursorPos = new Vector2(55, 60);
+        Vector2 _cursorPos = new Vector2(5, 60);
         bool _ButtonPressed = false;
         int _spacing = 15;
         int _answer = 0;
@@ -27,9 +27,17 @@ namespace Semester2Prototype
         int tickCount = 0;
         bool _displayEnter;
         public List<List<string>> _dialogs;
+        static Point _dialogPos = new Point(0, 50);
+        static Point _dialogWindowSize = new Point(400, 100);
 
-        Rectangle _playerDialogBox = new Rectangle(50, 50, 400, 100);
-        Rectangle _npcDialogBox = new Rectangle(450, 50, 400, 100);
+        static Rectangle _playerDialogBox = new Rectangle(
+            _dialogPos,
+            _dialogWindowSize);
+        static Rectangle _npcDialogBox = new Rectangle(
+            _playerDialogBox.Width,
+            _dialogPos.Y,
+            _dialogWindowSize.X,
+            _dialogWindowSize.Y);
 
         Texture2D _dialogeBox;
 
@@ -79,10 +87,23 @@ namespace Semester2Prototype
                 string[] responce = _npcDialoge[_question].Split('#');
                 if (_answer == responce.Count())
                 {
+                    Game1 game = _player._game1;
                     if (_playerDialoge[_question] == "Goodbye" || _npcDialoge.Count == 1)
                     {
-                        Game1 game = _player._game1;
                         game._gameState = GameState.GamePlaying;
+                    }
+                    if (_playerDialoge[_question] == "I am ready to make my Decision!")
+                    {
+                        _playerDialoge.Clear();
+                        _npcDialoge.Clear();
+                        _playerDialoge.Add("yes");
+                        _npcDialoge.Add("Very well I will Gather the Guests in the Lounge.");
+                        _playerDialoge.Add("no");
+                        _npcDialoge.Add("Please come see me when you are ready.");
+                    }
+                    if (_playerDialoge[_question] == "yes")
+                    {
+                        game._gameState = GameState.Accusation;
                     }
                     else
                     {
@@ -119,13 +140,13 @@ namespace Semester2Prototype
             {
                 foreach (string s in _playerDialoge)
                 {
-                    spriteBatch.DrawString(_font, s, new Vector2(75, numb), Color.White);
+                    spriteBatch.DrawString(_font, s, new Vector2(_playerDialogBox.X + 25, numb), Color.White);
                     numb += _spacing;
                 }
             }
             else
             {
-                spriteBatch.DrawString(_font, "PRESS ENTER TO CONTINUE...", new Vector2(75, numb), Color.White);
+                spriteBatch.DrawString(_font, "PRESS ENTER TO CONTINUE...", new Vector2(_playerDialogBox.X + 25, numb), Color.White);
             }
 
             if (_npcAnswer)

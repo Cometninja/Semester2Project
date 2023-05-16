@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Xml.Linq;
 using Microsoft.Xna.Framework;
@@ -22,19 +23,27 @@ namespace Semester2Prototype
 
         static List<Sprite> _sprites = new List<Sprite>();
         static Player _player;
-        static MessageBox _messageBox;
-        static Texture2D square, playerSpriteSheet, messageBoxImage, _journalImage, _floorSpriteSheet, _npcSpriteSheet;
+        static Texture2D _square,
+            playerSpriteSheet,
+            _messageBoxImage,
+            _journalImage, 
+            _floorSpriteSheet, 
+            _npcSpriteSheet,
+            _furnitureSheet;
         static Point _point = new Point(1500, 1250);
 
+        public FurnitureFunctions _furnitureFunctions;
         public bool _isEscapedPressed;
         public float _volume = 1f;
         public State _state;
         public State _menuState;
-        public SpriteFont _mainfont, buttonFont;
+        public SpriteFont _mainFont, buttonFont;
         public GameState _gameState = GameState.MainMenu;
         public FloorLevel _floorLevel = FloorLevel.GroundFLoor;
-        public Point _windowSize = new Point(750, 500);
+        public Point _windowSize = new Point(800, 500);
         public Texture2D _rectangleTxr, _backgroundTxr, buttonTexture;
+        public List<List<Point>> _furnitureLocations;
+
 
         public SoundEffect _buttonPress;
         public SoundEffectInstance _buttonPressInstance;
@@ -58,7 +67,8 @@ namespace Semester2Prototype
             IsMouseVisible = true;
             _graphics.PreferredBackBufferWidth = _windowSize.X;
             _graphics.PreferredBackBufferHeight = _windowSize.Y;
-            //_graphics.IsFullScreen= true;
+
+            _graphics.IsFullScreen = false;
             _graphics.ApplyChanges();
 
             base.Initialize();
@@ -69,6 +79,9 @@ namespace Semester2Prototype
             _menuState = new MenuState(this, GraphicsDevice, Content);
             // Create a new SpriteBatch, which can be used to draw textures.
             _spriteBatch = new SpriteBatch(GraphicsDevice);
+            _furnitureFunctions = new FurnitureFunctions(this);
+            _furnitureLocations = _furnitureFunctions.PlaceFurniture();
+            
 
             song = Content.Load<Song>("Song");
             //MediaPlayer.Play(song);
@@ -77,13 +90,15 @@ namespace Semester2Prototype
             MediaPlayer.MediaStateChanged += MediaPlayer_MediaStateChanged;
             _spriteBatch = new SpriteBatch(GraphicsDevice);
 
-            square = Content.Load<Texture2D>("whiteSquare");
+            _square = Content.Load<Texture2D>("whiteSquare");
             playerSpriteSheet = Content.Load<Texture2D>("DetectiveSpriteSheet");
-            messageBoxImage = Content.Load<Texture2D>("MessageBox");
-            _mainfont = Content.Load<SpriteFont>("mainFont");
+            _mainFont = Content.Load<SpriteFont>("mainFont");
             _journalImage = Content.Load<Texture2D>("LargeJournal");
             _floorSpriteSheet = Content.Load<Texture2D>("FloorTileSpriteSheet");
             _npcSpriteSheet = Content.Load<Texture2D>("NPCspritesheet");
+            _furnitureSheet = Content.Load<Texture2D>("furniture spritesheet");
+            _messageBoxImage = Content.Load<Texture2D>("MessageBox");
+
 
             var buttonTexture = Content.Load<Texture2D>("UI/Controls/Button");
             var buttonFont = Content.Load<SpriteFont>("UI/Fonts/Font");
@@ -96,11 +111,8 @@ namespace Semester2Prototype
             MakeFloorPlan();
 
             _player = new Player(playerSpriteSheet, new Vector2(400, 250), _playerPoint, this);
-            _sprites.Add(
-                new MessageBox(messageBoxImage,
-                    new Vector2(_graphics.PreferredBackBufferWidth / 2,
-                        _graphics.PreferredBackBufferHeight - messageBoxImage.Height / 2),
-                    _mainfont));
+
+            _sprites.Add(new MessageBox(_messageBoxImage, new Vector2(0, 0), _mainFont));
             _sprites.Add(_player);
 
             // add in the NPCs
@@ -116,14 +128,22 @@ namespace Semester2Prototype
             _sprites.Add(new NPC(_npcSpriteSheet, new Vector2(1000, 250), NPCCharacter.MrSanders));
             _sprites.Add(new NPC(_npcSpriteSheet, new Vector2(1050, 250), NPCCharacter.MrRoss));
 
-            foreach (Tile tile in _sprites.OfType<Tile>().ToList())
-            {
-                tile.SetUpFLoorPlan();
-                tile.ContainsNPC(_sprites);
-            }
+            _sprites.Add(new Clue(_square, new Vector2(600, 350), ClueType.ChefKnife));
+            _sprites.Add(new Clue(_square, new Vector2(650, 350), ClueType.MayFlowerPhoto));
+            _sprites.Add(new Clue(_square, new Vector2(700, 350), ClueType.DiscardedClothing));
+            _sprites.Add(new Clue(_square, new Vector2(750, 350), ClueType.HotelMasterKey));
+            _sprites.Add(new Clue(_square, new Vector2(800, 350), ClueType.HotelReceptionLogs));
+            _sprites.Add(new Clue(_square, new Vector2(850, 350), ClueType.KitchenChecks));
+            _sprites.Add(new Clue(_square, new Vector2(900, 350), ClueType.FinancialDocuments));
+            _sprites.Add(new Clue(_square, new Vector2(950, 350), ClueType.VictimsDocuments));
+            
+            
+            SetTileFurniture(_sprites ,_furnitureLocations);
 
-            _sprites.Add(new Journal(_journalImage, new Vector2(0, 0), _mainfont));
-            _player.GetDebugImage(square);
+            
+
+            _sprites.Add(new Journal(_journalImage, new Vector2(0, 0), _mainFont,this));
+            _player.GetDebugImage(_square);
         }
         void MediaPlayer_MediaStateChanged(object sender, System.
                                          EventArgs e)
@@ -156,7 +176,8 @@ namespace Semester2Prototype
         protected override void Update(GameTime gameTime)
         {
             KeyboardState keyboardState = Keyboard.GetState();
-            _messageBox = _sprites.OfType<MessageBox>().FirstOrDefault();
+
+            List<Sprite> sprites = _sprites.Where(sprite => sprite.GetType() != _sprites.OfType<Tile>().First().GetType()).ToList();
             foreach (Sprite sprite in _sprites)
             {
                 sprite.Update(_sprites);
@@ -165,25 +186,27 @@ namespace Semester2Prototype
             switch (_gameState)
             {
                 case GameState.MainMenu:
+                    IsMouseVisible = true;
                     _menuState.Update(gameTime);
                     break;
                 case GameState.GameStart:
                     break;
                 case GameState.GamePlaying:
-                    /*if (Keyboard.GetState().IsKeyDown(Keys.Escape) && !_isEscapedPressed)
+                    IsMouseVisible= false;
+                    if (Keyboard.GetState().IsKeyDown(Keys.Escape) && !_isEscapedPressed)
                         Exit();
                     else if (Keyboard.GetState().IsKeyUp(Keys.Escape) && _isEscapedPressed)
                     {
                         _isEscapedPressed = false;
-                    }*/
+                    }
                     if (_player._position.X % 50 == 0 && _sprites.OfType<Tile>().FirstOrDefault()._position.X % 50 == 0)
                     {
                         CheckChangeLevel();
                     }
                     MoveThePlayer();
-
                     break;
                 case GameState.JournalScreen:
+                    _sprites.OfType<Journal>().FirstOrDefault().Update(_sprites);
                     break;
                 case GameState.Dialoge:
                     _player._dialoge.DialogeUpdate(gameTime);
@@ -236,6 +259,11 @@ namespace Semester2Prototype
                 case GameState.Dialoge:
                     _player._dialoge.DialogeDraw(_spriteBatch);
                     break;
+                case GameState.Accusation:
+
+                    Debug.WriteLine("You Have Been Accused");
+                    
+                    break;
             }
             base.Draw(gameTime);
             _spriteBatch.End();
@@ -247,7 +275,7 @@ namespace Semester2Prototype
             {
                 for (int row = 0, x = 0; row < _point.X; row += 50, x++)
                 {
-                    _sprites.Add(new Tile(_floorSpriteSheet, new Vector2(row, col) - adjustment, new Point(x, y), this));
+                    _sprites.Add(new Tile(_floorSpriteSheet,_furnitureSheet, new Vector2(row, col) - adjustment, new Point(x, y), this));
                 }
             }
         }
@@ -274,14 +302,19 @@ namespace Semester2Prototype
                     int[] groundUp = new int[] { 17, 18, 19 };
                     if (_player._point.X == 24 && groundUp.Contains(_player._point.Y))
                     {
-                        _messageBox.AddMessage("going UP");
                         _floorLevel = FloorLevel.FirstFloor;
-                        _player._position.X -= 50;
+                        _player._position.X -= 50; 
                         _player._point.X -= 1;
+                        _player.Update(_sprites);
+
                         foreach (Tile tile in tiles)
                         {
                             tile._position.Y += 200;
+                            tile._furniture = Furniture.None;
+                            tile.SetFurniture();
                         }
+
+                        SetTileFurniture(_sprites,_furnitureFunctions.PlaceFurniture());
                         ChangeLevel();
                     }
 
@@ -291,14 +324,33 @@ namespace Semester2Prototype
                     int[] firstUp = new int[] { 9, 10, 11 };
                     if (_player._point.X == 24 && firstDown.Contains(_player._point.Y))
                     {
-                        _messageBox.AddMessage("going Down");
                         _floorLevel = FloorLevel.GroundFLoor;
+                        _player._position.X -= 50;
+                        _player._point.X -= 1;
+                        _player.Update(_sprites);
+                        foreach (Tile tile in tiles)
+                        {
+                            tile._position.Y -= 200;
+                            tile._furniture = Furniture.None;
+                            tile.SetFurniture();
+                        }
+                        SetTileFurniture(_sprites, _furnitureFunctions.PlaceFurniture());
+
                         ChangeLevel();
                     }
                     else if (_player._point.X == 24 && firstUp.Contains(_player._point.Y))
                     {
-                        _messageBox.AddMessage("going UP");
                         _floorLevel = FloorLevel.SecondFLoor;
+                        _player._position.X -= 50;
+                        _player._point.X -= 1;
+                        _player.Update(_sprites);
+                        foreach (Tile tile in tiles)
+                        {
+                            tile._position.Y -= 200;
+                            tile._furniture = Furniture.None;
+                            tile.SetFurniture();
+                        }
+                        SetTileFurniture(_sprites, _furnitureFunctions.PlaceFurniture());
                         ChangeLevel();
                     }
                     break;
@@ -307,8 +359,18 @@ namespace Semester2Prototype
 
                     if (_player._point.X == 24 && SecondDown.Contains(_player._point.Y))
                     {
-                        _messageBox.AddMessage("going Down");
                         _floorLevel = FloorLevel.FirstFloor;
+                        _player._position.X -= 50;
+                        _player._point.X -= 1;
+                        _player.Update(_sprites);
+                        foreach (Tile tile in tiles)
+                        {
+                            tile._position.Y += 200;
+                            tile._furniture = Furniture.None;
+                            tile.SetFurniture();
+                        }
+                        SetTileFurniture(_sprites, _furnitureFunctions.PlaceFurniture());
+
                         ChangeLevel();
                     }
                     break;
@@ -332,5 +394,25 @@ namespace Semester2Prototype
             _menuState = state;
             _currentState = state;
         }
+        static void SetTileFurniture(List<Sprite> sprites, List<List<Point>> furnitureLocations)
+        {
+            foreach (Tile tile in sprites.OfType<Tile>().ToList())
+            {
+                for (int i = 0; i < furnitureLocations.Count; i++) 
+                {
+                    if (furnitureLocations[i].Contains(tile._point))
+                    {
+                        tile._furniture = (Furniture)i;
+                    }
+                }
+
+                tile.SetFurniture();
+                tile.SetUpFLoorPlan();
+                tile.ContainsNPC(sprites);
+            }
+            
+
+        }
+
     }
 }
