@@ -159,6 +159,13 @@
 /processorParam:TextureFormat=Compressed
 /build:UI/Fonts/Font.spritefont
 
+#begin UI/Fonts/LargeFont.spritefont
+/importer:FontDescriptionImporter
+/processor:FontDescriptionProcessor
+/processorParam:PremultiplyAlpha=True
+/processorParam:TextureFormat=Compressed
+/build:UI/Fonts/LargeFont.spritefont
+
 #begin UI/Fonts/Moldyen.spritefont
 /importer:FontDescriptionImporter
 /processor:FontDescriptionProcessor

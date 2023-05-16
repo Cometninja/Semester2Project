@@ -15,9 +15,8 @@ namespace Semester2Prototype.States
         private List<Component> _components;
 
 
-        SpriteBatch _spriteBatch;
-        SpriteFont _smallFont, _titleFont, _buttonFont;
-        Texture2D _rectangleTxr, _backgroundTxr, _buttonTexture, _smallButtonTexture;
+        SpriteFont _smallFont, _titleFont, _buttonFont, _largeButtonFont;
+        Texture2D _rectangleTxr, _buttonTexture, _smallButtonTexture;
 
         static Point _screenSize = new Point(800, 800);
 
@@ -33,11 +32,12 @@ namespace Semester2Prototype.States
             _buttonTexture = _content.Load<Texture2D>("UI/Controls/Button");
             _smallButtonTexture = _content.Load<Texture2D>("UI/Controls/Small Button");
             _buttonFont = _content.Load<SpriteFont>("UI/Fonts/Font");
+            _largeButtonFont = _content.Load<SpriteFont>("UI/Fonts/LargeFont");
             _smallFont = _content.Load<SpriteFont>("UI/Fonts/Moldyen");
             _rectangleTxr = _content.Load<Texture2D>("UI/RectangleTxr");
             _titleFont = _content.Load<SpriteFont>("UI/Fonts/TitleMoldyen");
 
-            var plusSongGameButton = new Button(_smallButtonTexture, _buttonFont)
+            var plusSongGameButton = new Button(_smallButtonTexture, _largeButtonFont)
             {
                 Text = "+",
                 Position = new Vector2((_screenSize.X - _smallButtonTexture.Width) / 1.6f, 250)
@@ -45,7 +45,7 @@ namespace Semester2Prototype.States
 
             plusSongGameButton.Click += PlusSongGameButton_Click;
 
-            var minusSongGameButton = new Button(_smallButtonTexture, _buttonFont)
+            var minusSongGameButton = new Button(_smallButtonTexture, _largeButtonFont)
             {
                 Text = "-",
                 Position = new Vector2((_screenSize.X - _smallButtonTexture.Width) / 2.5f, 250)
@@ -53,7 +53,7 @@ namespace Semester2Prototype.States
 
             minusSongGameButton.Click += MinusSongGameButton_Click;
 
-            var plusSoundGameButton = new Button(_smallButtonTexture, _buttonFont)
+            var plusSoundGameButton = new Button(_smallButtonTexture, _largeButtonFont)
             {
                 Text = "+",
                 Position = new Vector2((_screenSize.X - _smallButtonTexture.Width) / 1.6f, 350)
@@ -61,7 +61,7 @@ namespace Semester2Prototype.States
 
             plusSoundGameButton.Click += PlusSoundGameButton_Click;
 
-            var minusSoundGameButton = new Button(_smallButtonTexture, _buttonFont)
+            var minusSoundGameButton = new Button(_smallButtonTexture, _largeButtonFont)
             {
                 Text = "-",
                 Position = new Vector2((_screenSize.X - _smallButtonTexture.Width) / 2.5f, 350)
