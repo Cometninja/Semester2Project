@@ -13,7 +13,6 @@ namespace Semester2Prototype
 
     public class Game1 : Game
     {
-
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
         private State _currentState;
@@ -29,6 +28,7 @@ namespace Semester2Prototype
             _npcSpriteSheet,
             _furnitureSheet;
         static Point _point = new Point(1500, 1250);
+        static List<Clue> _clues;
 
         public FurnitureFunctions _furnitureFunctions;
         public bool _isEscapedPressed;
@@ -41,7 +41,7 @@ namespace Semester2Prototype
         public Point _windowSize = new Point(800, 500);
         public Texture2D _rectangleTxr, _backgroundTxr, buttonTexture;
         public List<List<Point>> _furnitureLocations;
-
+       
 
         protected Song song;
 
@@ -58,7 +58,7 @@ namespace Semester2Prototype
             IsMouseVisible = true;
             _graphics.PreferredBackBufferWidth = _windowSize.X;
             _graphics.PreferredBackBufferHeight = _windowSize.Y;
-            _graphics.IsFullScreen = false;
+            _graphics.IsFullScreen = true;
             _graphics.ApplyChanges();
 
             base.Initialize();
@@ -115,19 +115,19 @@ namespace Semester2Prototype
             _sprites.Add(new NPC(_npcSpriteSheet, new Vector2(1000, 250), NPCCharacter.MrSanders));
             _sprites.Add(new NPC(_npcSpriteSheet, new Vector2(1050, 250), NPCCharacter.MrRoss));
 
-            _sprites.Add(new Clue(_square, new Vector2(600, 350), ClueType.ChefKnife));
-            _sprites.Add(new Clue(_square, new Vector2(650, 350), ClueType.MayFlowerPhoto));
-            _sprites.Add(new Clue(_square, new Vector2(700, 350), ClueType.DiscardedClothing));
-            _sprites.Add(new Clue(_square, new Vector2(750, 350), ClueType.HotelMasterKey));
-            _sprites.Add(new Clue(_square, new Vector2(800, 350), ClueType.HotelReceptionLogs));
-            _sprites.Add(new Clue(_square, new Vector2(850, 350), ClueType.KitchenChecks));
-            _sprites.Add(new Clue(_square, new Vector2(900, 350), ClueType.FinancialDocuments));
-            _sprites.Add(new Clue(_square, new Vector2(950, 350), ClueType.VictimsDocuments));
-            
-            
-            SetTileFurniture(_sprites ,_furnitureLocations);
+            _sprites.Add(new Clue(_square, ClueType.ChefKnife));
+            _sprites.Add(new Clue(_square, ClueType.MayFlowerPhoto));
+            _sprites.Add(new Clue(_square, ClueType.DiscardedClothing));
+            _sprites.Add(new Clue(_square, ClueType.HotelMasterKey));
+            _sprites.Add(new Clue(_square, ClueType.HotelReceptionLogs));
+            _sprites.Add(new Clue(_square, ClueType.KitchenChecks));
+            _sprites.Add(new Clue(_square, ClueType.FinancialDocuments));
+            _sprites.Add(new Clue(_square, ClueType.VictimsDocuments));
 
-            
+            _clues = _sprites.OfType<Clue>().ToList();
+
+            SetClueLocation(_floorLevel);
+            SetTileFurniture(_sprites ,_furnitureLocations);
 
             _sprites.Add(new Journal(_journalImage, new Vector2(0, 0), _mainFont,this));
             _player.GetDebugImage(_square);
@@ -301,8 +301,11 @@ namespace Semester2Prototype
                             tile.SetFurniture();
                         }
 
+                        
+                        SetClueLocation(_floorLevel);
                         SetTileFurniture(_sprites,_furnitureFunctions.PlaceFurniture());
                         ChangeLevel();
+
                     }
 
                     break;
@@ -321,9 +324,10 @@ namespace Semester2Prototype
                             tile._furniture = Furniture.None;
                             tile.SetFurniture();
                         }
+                        SetClueLocation(_floorLevel);
                         SetTileFurniture(_sprites, _furnitureFunctions.PlaceFurniture());
-
                         ChangeLevel();
+
                     }
                     else if (_player._point.X == 24 && firstUp.Contains(_player._point.Y))
                     {
@@ -337,6 +341,7 @@ namespace Semester2Prototype
                             tile._furniture = Furniture.None;
                             tile.SetFurniture();
                         }
+                        SetClueLocation(_floorLevel);
                         SetTileFurniture(_sprites, _furnitureFunctions.PlaceFurniture());
                         ChangeLevel();
                     }
@@ -356,8 +361,8 @@ namespace Semester2Prototype
                             tile._furniture = Furniture.None;
                             tile.SetFurniture();
                         }
+                        SetClueLocation(_floorLevel);
                         SetTileFurniture(_sprites, _furnitureFunctions.PlaceFurniture());
-
                         ChangeLevel();
                     }
                     break;
@@ -373,7 +378,7 @@ namespace Semester2Prototype
             List<Tile> tiles = _sprites.OfType<Tile>().ToList();
             foreach (Tile t in tiles)
             {
-                t.SetUpFLoorPlan();
+                t.SetUpFLoorPlan(_clues);
             }
         }
         public void ChangeState(State state)
@@ -394,12 +399,29 @@ namespace Semester2Prototype
                 }
 
                 tile.SetFurniture();
-                tile.SetUpFLoorPlan();
+                tile.SetUpFLoorPlan(_clues);
                 tile.ContainsNPC(sprites);
             }
-            
-
         }
+        static void SetClueLocation(FloorLevel floorLevel)
+        {
+            List<Clue> clues = _sprites.OfType<Clue>().ToList();
 
+            foreach(Clue clue in clues)
+            {
+                clue._position = new Vector2(2000,2000);
+            }
+            switch (floorLevel)
+            {
+                case FloorLevel.GroundFLoor:
+                    break;
+                case FloorLevel.FirstFloor:
+                    break;
+                case FloorLevel.SecondFLoor:
+                    //Knife
+                    clues[0]._position = _sprites.OfType<Tile>().First(tile => tile._point == new Point(14,2))._position;          
+                    break;
+            }
+        }
     }
 }

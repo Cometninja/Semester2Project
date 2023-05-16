@@ -8,10 +8,11 @@ namespace Semester2Prototype
 {
     internal class Clue : Sprite
     {
-        ClueType _clueType;
+        public ClueType _clueType;
         public bool _found = false;
 
-        public Clue(Texture2D image,Vector2 pos,ClueType clueType) :base(image,pos)
+
+        public Clue(Texture2D image,ClueType clueType) :base(image,Vector2.Zero)
         { 
             _clueType = clueType;
             _center = new Vector2(_position.X + 16, _position.Y + 30);

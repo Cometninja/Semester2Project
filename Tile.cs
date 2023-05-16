@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
@@ -70,12 +71,22 @@ namespace Semester2Prototype
                }
             }
         }
-        public void SetUpFLoorPlan()
+        public void SetUpFLoorPlan(List<Clue> clues)
         {
             _floorLevel = _game1._floorLevel;
             List<List<int>> ints = LayoutRoom(_floorLevel);
             _tileState = TileState.Empty;
             _sourceRect = new Rectangle(1, 1, 50, 50);
+            
+            foreach (Clue clue in clues) 
+            {
+                
+                if(_position == clue._position) 
+                {
+                    _tileState = TileState.Wall;
+                    break;
+                }
+            }
 
             if (_point.X == 0 || _point.X == 29 || _point.Y == 0 || _point.Y == 24)
             {
@@ -352,6 +363,7 @@ namespace Semester2Prototype
                     _furnitureImage = new Rectangle(67, 33, 17, 17); 
                     break;
                 case Furniture.ChairLeft:
+                    _flipped = true;
                     _furnitureImage = new Rectangle(272,205,18,18);
                     break;
                 case Furniture.ChairRight:

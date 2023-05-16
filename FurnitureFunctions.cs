@@ -179,7 +179,6 @@ namespace Semester2Prototype
                     furniture[0].Add(new Point(25,23));
                     furniture[0].Add(new Point(28,22));
                     furniture[0].Add(new Point(28,23));
-                    
 
                     //chair left 2
                     furniture[2].Add(new Point(2,18));

@@ -63,8 +63,6 @@ namespace Semester2Prototype.States
                 Color.White);
 
 
-            spriteBatch.Draw(_keybindTxr, new Rectangle(0, 0, _screenSize.X / 5, _screenSize.Y / 5), Color.White);
-
 
             foreach (var component in _components)
                 component.Draw(gameTime, spriteBatch);

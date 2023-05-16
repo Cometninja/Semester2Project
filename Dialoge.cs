@@ -103,6 +103,7 @@ namespace Semester2Prototype
                     }
                     if (_playerDialoge[_question] == "yes")
                     {
+                        
                         game._gameState = GameState.Accusation;
                     }
                     else
