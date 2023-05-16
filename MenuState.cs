@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Input;
 using Semester2Prototype.Controls;
+using Microsoft.Xna.Framework.Audio;
 
 namespace Semester2Prototype.States
 {
@@ -93,12 +95,15 @@ namespace Semester2Prototype.States
 
         private void OptionGameButton_Click(object sender, EventArgs e)
         {
+            _game._buttonPressInstance.Play();
             _game.ChangeState(new OptionState(_game, _graphicsDevice, _content));
         }
 
         private void NewGameButton_Click(object sender, EventArgs e)
         {
+            _game._buttonPressInstance.Play();
             _game._gameState = GameState.GamePlaying;
+            _game.IsMouseVisible = false;
         }
 
         public override void PostUpdate(GameTime gameTime)
@@ -114,6 +119,7 @@ namespace Semester2Prototype.States
 
         private void QuitGameButton_Click(object sender, EventArgs e)
         {
+            _game._buttonPressInstance.Play();
             _game.Exit();
         }
     }

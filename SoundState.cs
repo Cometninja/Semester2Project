@@ -106,18 +106,20 @@ namespace Semester2Prototype.States
 
         private void ExitGameButton_Click(object sender, EventArgs e)
         {
+            _game._buttonPressInstance.Play();
             _game.ChangeState(new OptionState(_game, _graphicsDevice, _content));
         }
 
         private void PlusGameButton_Click(object sender, EventArgs e)
         {
-
+            _game._buttonPressInstance.Play();
             Debug.WriteLine("+");
             _game.AdjustVolume(0.25f);          
         }
 
         private void MinusGameButton_Click(object sender, EventArgs e)
         {
+            _game._buttonPressInstance.Play();
             Debug.WriteLine("-");
             _game.AdjustVolume(-0.25f);
         }

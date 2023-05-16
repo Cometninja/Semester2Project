@@ -91,11 +91,13 @@ namespace Semester2Prototype.States
 
         private void KeybindsGameButton_Click(object sender, EventArgs e)
         {
+            _game._buttonPressInstance.Play();
             _game.ChangeState(new KeybindState(_game, _graphicsDevice, _content));
         }
 
         private void SoundGameButton_Click(object sender, EventArgs e)
         {
+            _game._buttonPressInstance.Play();
             _game.ChangeState(new SoundState(_game, _graphicsDevice, _content));
         }
 
@@ -128,6 +130,7 @@ namespace Semester2Prototype.States
 
         private void ExitGameButton_Click(object sender, EventArgs e)
         {
+            _game._buttonPressInstance.Play();
             _game.ChangeState(new PauseState(_game, _graphicsDevice, _content));
         }
     }

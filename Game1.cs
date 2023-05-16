@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Xml.Linq;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
@@ -33,6 +35,9 @@ namespace Semester2Prototype
         public FloorLevel _floorLevel = FloorLevel.GroundFLoor;
         public Point _windowSize = new Point(750, 500);
         public Texture2D _rectangleTxr, _backgroundTxr, buttonTexture;
+
+        public SoundEffect _buttonPress;
+        public SoundEffectInstance _buttonPressInstance;
 
         protected Song song;
 
@@ -84,6 +89,9 @@ namespace Semester2Prototype
             var buttonFont = Content.Load<SpriteFont>("UI/Fonts/Font");
             _rectangleTxr = Content.Load<Texture2D>("UI/RectangleTxr");
             _backgroundTxr = Content.Load<Texture2D>("UI/Txr_Background");
+
+            _buttonPress = Content.Load<SoundEffect>("Sounds/ButtonPress");
+            _buttonPressInstance = _buttonPress.CreateInstance();
 
             MakeFloorPlan();
 
@@ -197,6 +205,7 @@ namespace Semester2Prototype
                 _menuState = new PauseState(this, GraphicsDevice, Content);
                 _isEscapedPressed = true;
                 _gameState = GameState.MainMenu;
+                IsMouseVisible = true;
             }
             else if (!keyboardState.IsKeyDown(Keys.Escape) && _isEscapedPressed)
             {

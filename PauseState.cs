@@ -97,12 +97,15 @@ namespace Semester2Prototype.States
 
         private void OptionGameButton_Click(object sender, EventArgs e)
         {
+            _game._buttonPressInstance.Play();
             _game.ChangeState(new OptionState(_game, _graphicsDevice, _content));
         }
 
         private void ResumeGameButton_Click(object sender, EventArgs e)
         {
+            _game._buttonPressInstance.Play();
             _game._gameState = GameState.GamePlaying;
+            _game.IsMouseVisible = false;
         }
 
         public override void PostUpdate(GameTime gameTime)
@@ -132,6 +135,7 @@ namespace Semester2Prototype.States
 
         private void ExitGameButton_Click(object sender, EventArgs e)
         {
+            _game._buttonPressInstance.Play();
             _game.ChangeState(new MenuState(_game, _graphicsDevice, _content));
         }
     }

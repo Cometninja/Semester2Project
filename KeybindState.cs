@@ -73,6 +73,7 @@ namespace Semester2Prototype.States
 
         private void ExitGameButton_Click(object sender, EventArgs e)
         {
+            _game._buttonPressInstance.Play();
             _game.ChangeState(new OptionState(_game, _graphicsDevice, _content));
         }
 
