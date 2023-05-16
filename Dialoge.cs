@@ -87,10 +87,23 @@ namespace Semester2Prototype
                 string[] responce = _npcDialoge[_question].Split('#');
                 if (_answer == responce.Count())
                 {
+                    Game1 game = _player._game1;
                     if (_playerDialoge[_question] == "Goodbye" || _npcDialoge.Count == 1)
                     {
-                        Game1 game = _player._game1;
                         game._gameState = GameState.GamePlaying;
+                    }
+                    if (_playerDialoge[_question] == "I am ready to make my Decision!")
+                    {
+                        _playerDialoge.Clear();
+                        _npcDialoge.Clear();
+                        _playerDialoge.Add("yes");
+                        _npcDialoge.Add("Very well I will Gather the Guests in the Lounge.");
+                        _playerDialoge.Add("no");
+                        _npcDialoge.Add("Please come see me when you are ready.");
+                    }
+                    if (_playerDialoge[_question] == "yes")
+                    {
+                        game._gameState = GameState.Accusation;
                     }
                     else
                     {

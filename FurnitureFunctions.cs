@@ -188,7 +188,7 @@ namespace Semester2Prototype
                     furniture[3].Add(new Point(8,6));
                     furniture[3].Add(new Point(18,6));
                     //chair up 5
-                    furniture[5].Add(new Point(7,26));
+                    furniture[5].Add(new Point(26,7));
                     //sofa 6
                     furniture[6].Add(new Point(7,1));
                     furniture[6].Add(new Point(8,1));
@@ -232,36 +232,80 @@ namespace Semester2Prototype
                     furniture[11].Add(new Point(12,3));
                     furniture[11].Add(new Point(13,3));
                     
-                    furniture[11].Add(new Point(7,2));
-                    furniture[11].Add(new Point(8,2));
-                    furniture[11].Add(new Point(9,2));
-                    furniture[11].Add(new Point(7,2));
-                    furniture[11].Add(new Point(8,2));
-                    furniture[11].Add(new Point(9,2));
+                    furniture[11].Add(new Point(7,21));
+                    furniture[11].Add(new Point(8,21));
+                    furniture[11].Add(new Point(9,21));
+                    furniture[11].Add(new Point(7,22));
+                    furniture[11].Add(new Point(8,22));
+                    furniture[11].Add(new Point(9,22));
                     
-                    furniture[11].Add(new Point(1,2));
-                    furniture[11].Add(new Point(1,2));
-                    furniture[11].Add(new Point(1,2));
-                    furniture[11].Add(new Point(1,2));
-                    furniture[11].Add(new Point(1,2));
-                    furniture[11].Add(new Point(1,2));
+                    furniture[11].Add(new Point(17,21));
+                    furniture[11].Add(new Point(18,21));
+                    furniture[11].Add(new Point(19,21));
+                    furniture[11].Add(new Point(17,22));
+                    furniture[11].Add(new Point(18,22));
+                    furniture[11].Add(new Point(19,22));
                     
-                    furniture[11].Add(new Point(1,2));
-                    furniture[11].Add(new Point(1,2));
-                    furniture[11].Add(new Point(1,2));
-                    furniture[11].Add(new Point(1,2));
-                    furniture[11].Add(new Point(1,2));
-                    furniture[11].Add(new Point(1,2));
                     //shower 12
-                    furniture[12].Add(new Point(0,0));
+                    furniture[12].Add(new Point(1,6));
+                    furniture[12].Add(new Point(1,7));
+                    furniture[12].Add(new Point(2,6));
+                    furniture[12].Add(new Point(2,7));
+                    
+                    furniture[12].Add(new Point(11,6));
+                    furniture[12].Add(new Point(11,7));
+                    furniture[12].Add(new Point(12,6));
+                    furniture[12].Add(new Point(12,7));
+                    
+                    furniture[12].Add(new Point(8,17));
+                    furniture[12].Add(new Point(9,17));
+                    furniture[12].Add(new Point(8,18));
+                    furniture[12].Add(new Point(9,18));
+                    
+                    furniture[12].Add(new Point(18,17));
+                    furniture[12].Add(new Point(19,17));
+                    furniture[12].Add(new Point(18,18));
+                    furniture[12].Add(new Point(19,18));
+
                     //coffeetable 13
-                    furniture[13].Add(new Point(0,0));
+                    furniture[13].Add(new Point(7,3));
+                    furniture[13].Add(new Point(8,3));
+                    furniture[13].Add(new Point(17,3));
+                    furniture[13].Add(new Point(18,3));
+                    furniture[13].Add(new Point(2,21));
+                    furniture[13].Add(new Point(3,21));
+                    furniture[13].Add(new Point(12,21));
+                    furniture[13].Add(new Point(13,21));
+                    
                     //wardrobe 14
-                    furniture[14].Add(new Point(0,0));
+                    furniture[14].Add(new Point(6,5));
+                    furniture[14].Add(new Point(6,6));
+
+                    furniture[14].Add(new Point(28,6));
+                    furniture[14].Add(new Point(28,7));
+                    
                     //sink 15
-                    furniture[15].Add(new Point(0,0));
+                    furniture[15].Add(new Point(1,9));
+                    furniture[15].Add(new Point(7,15));
+                    furniture[15].Add(new Point(13,9));
+                    furniture[15].Add(new Point(17,15));
+                    
                     //cuboard 16
-                    furniture[16].Add(new Point(0,0));
+                    furniture[16].Add(new Point(1,1));
+                    furniture[16].Add(new Point(11,1));
+                    furniture[16].Add(new Point(4,6));
+                    furniture[16].Add(new Point(14,6));
+                    furniture[16].Add(new Point(6,18));
+                    furniture[16].Add(new Point(16,18));
+                    furniture[16].Add(new Point(19,23));
+                    
+                    furniture[16].Add(new Point(28,1));
+                    furniture[16].Add(new Point(28,2));
+                    furniture[16].Add(new Point(25,17));
+                    furniture[16].Add(new Point(26,17));
+                    furniture[16].Add(new Point(28,21));
+
+
 
 
 
@@ -320,6 +364,84 @@ namespace Semester2Prototype
                     furniture[9].Add(new Point(11, 15));
                     furniture[9].Add(new Point(11, 16));
 
+                    //Bed 11
+                    furniture[11].Add(new Point(1, 2));
+                    furniture[11].Add(new Point(2, 2));
+                    furniture[11].Add(new Point(3, 2));
+                    furniture[11].Add(new Point(1, 3));
+                    furniture[11].Add(new Point(2, 3));
+                    furniture[11].Add(new Point(3, 3));
+
+                    furniture[11].Add(new Point(11, 2));
+                    furniture[11].Add(new Point(12, 2));
+                    furniture[11].Add(new Point(13, 2));
+                    furniture[11].Add(new Point(11, 3));
+                    furniture[11].Add(new Point(12, 3));
+                    furniture[11].Add(new Point(13, 3));
+
+                    furniture[11].Add(new Point(7, 21));
+                    furniture[11].Add(new Point(8, 21));
+                    furniture[11].Add(new Point(9, 21));
+                    furniture[11].Add(new Point(7, 22));
+                    furniture[11].Add(new Point(8, 22));
+                    furniture[11].Add(new Point(9, 22));
+
+                    furniture[11].Add(new Point(17, 21));
+                    furniture[11].Add(new Point(18, 21));
+                    furniture[11].Add(new Point(19, 21));
+                    furniture[11].Add(new Point(17, 22));
+                    furniture[11].Add(new Point(18, 22));
+                    furniture[11].Add(new Point(19, 22));
+
+                    //shower 12
+                    furniture[12].Add(new Point(1, 6));
+                    furniture[12].Add(new Point(1, 7));
+                    furniture[12].Add(new Point(2, 6));
+                    furniture[12].Add(new Point(2, 7));
+
+                    furniture[12].Add(new Point(11, 6));
+                    furniture[12].Add(new Point(11, 7));
+                    furniture[12].Add(new Point(12, 6));
+                    furniture[12].Add(new Point(12, 7));
+
+                    furniture[12].Add(new Point(8, 17));
+                    furniture[12].Add(new Point(9, 17));
+                    furniture[12].Add(new Point(8, 18));
+                    furniture[12].Add(new Point(9, 18));
+
+                    furniture[12].Add(new Point(18, 17));
+                    furniture[12].Add(new Point(19, 17));
+                    furniture[12].Add(new Point(18, 18));
+                    furniture[12].Add(new Point(19, 18));
+
+                    //coffeetable 13
+                    furniture[13].Add(new Point(7, 3));
+                    furniture[13].Add(new Point(8, 3));
+                    furniture[13].Add(new Point(17, 3));
+                    furniture[13].Add(new Point(18, 3));
+                    furniture[13].Add(new Point(2, 21));
+                    furniture[13].Add(new Point(3, 21));
+                    furniture[13].Add(new Point(12, 21));
+                    furniture[13].Add(new Point(13, 21));
+
+                    //wardrobe 14
+                    furniture[14].Add(new Point(6, 5));
+                    furniture[14].Add(new Point(6, 6));
+
+                    //sink 15
+                    furniture[15].Add(new Point(1, 9));
+                    furniture[15].Add(new Point(7, 15));
+                    furniture[15].Add(new Point(13, 9));
+                    furniture[15].Add(new Point(17, 15));
+
+                    //cuboard 16
+                    furniture[16].Add(new Point(1, 1));
+                    furniture[16].Add(new Point(11, 1));
+                    furniture[16].Add(new Point(4, 6));
+                    furniture[16].Add(new Point(14, 6));
+                    furniture[16].Add(new Point(6, 18));
+                    furniture[16].Add(new Point(16, 18));
+                    furniture[16].Add(new Point(19, 23));
 
                     //table 0
                     //chair left 2

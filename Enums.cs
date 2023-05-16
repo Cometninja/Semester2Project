@@ -25,7 +25,8 @@
         Pause, 
         Options, 
         Keybinds, 
-        Sound 
+        Sound,
+        Accusation
     }
     public enum FloorLevel 
     { 

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
 
 namespace Semester2Prototype
@@ -195,11 +196,20 @@ namespace Semester2Prototype
                         _journal._goals["IntroManager"] = true;
                         _journal._journalTasks.Add(_journal._tasks[1]);
                     }
-                    else
+                    else if (!_journal._goals["IntroReceptionist"])
                     {
                         playerDialog.Add("May I ask another question?");
 
                         npcDialog.Add("As I said speak to the receptionist at the front to get up to speed.");
+                    }
+                    else
+                    {
+
+                        playerDialog.Add("I am ready to make my Decision!");
+                        npcDialog.Add("Are you sure?");
+
+                        playerDialog.Add("Goodbye");
+                        npcDialog.Add("Goodbye");
                     }
                     break;
                 case NPCCharacter.Receptionist:

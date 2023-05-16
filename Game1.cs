@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -245,6 +246,11 @@ namespace Semester2Prototype
                 case GameState.Dialoge:
                     _player._dialoge.DialogeDraw(_spriteBatch);
                     break;
+                case GameState.Accusation:
+
+                    Debug.WriteLine("You Have Been Accused");
+                    
+                    break;
             }
             base.Draw(gameTime);
             _spriteBatch.End();
@@ -315,13 +321,23 @@ namespace Semester2Prototype
                             tile._furniture = Furniture.None;
                             tile.SetFurniture();
                         }
-                        SetTileFurniture(_sprites, _furnitureLocations);
+                        SetTileFurniture(_sprites, _furnitureFunctions.PlaceFurniture());
 
                         ChangeLevel();
                     }
                     else if (_player._point.X == 24 && firstUp.Contains(_player._point.Y))
                     {
                         _floorLevel = FloorLevel.SecondFLoor;
+                        _player._position.X -= 50;
+                        _player._point.X -= 1;
+                        _player.Update(_sprites);
+                        foreach (Tile tile in tiles)
+                        {
+                            tile._position.Y -= 200;
+                            tile._furniture = Furniture.None;
+                            tile.SetFurniture();
+                        }
+                        SetTileFurniture(_sprites, _furnitureFunctions.PlaceFurniture());
                         ChangeLevel();
                     }
                     break;
@@ -331,6 +347,17 @@ namespace Semester2Prototype
                     if (_player._point.X == 24 && SecondDown.Contains(_player._point.Y))
                     {
                         _floorLevel = FloorLevel.FirstFloor;
+                        _player._position.X -= 50;
+                        _player._point.X -= 1;
+                        _player.Update(_sprites);
+                        foreach (Tile tile in tiles)
+                        {
+                            tile._position.Y += 200;
+                            tile._furniture = Furniture.None;
+                            tile.SetFurniture();
+                        }
+                        SetTileFurniture(_sprites, _furnitureFunctions.PlaceFurniture());
+
                         ChangeLevel();
                     }
                     break;
