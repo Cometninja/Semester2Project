@@ -51,7 +51,10 @@ namespace Semester2Prototype
             {
                 _found = true;
                 journal._cluesFound++;
-
+                if (journal._cluesFound == 8)
+                {
+                    journal._allFound = true;
+                }
                 switch (_clueType)
                 {
                     case ClueType.ChefKnife:

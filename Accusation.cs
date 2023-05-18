@@ -5,6 +5,8 @@ using System.Diagnostics;
 using System.Net;
 using System.Runtime.CompilerServices;
 using Microsoft.Xna.Framework.Input;
+using System.Linq;
+using System.Runtime.InteropServices;
 
 namespace Semester2Prototype
 {
@@ -18,19 +20,26 @@ namespace Semester2Prototype
         Vector2 _cursorPos= new Vector2(-20,0);
         List<Vector2> _namePos = new List<Vector2>();
         int _charSelect = 0;
-        bool _isButtonDown,_charSelecting,_confirmingChoice;
+        bool _isButtonDown,_confirmingChoice;
         string _text;
+        bool _decisionMade;
         List<string> options = new List<string>();
+        Journal _journal;
+        Game1 _game1;
+        NPC _accused;
 
-        public Accusation(Texture2D messageBoxImage,SpriteFont font,Game1 game1,List<NPC> npcs) 
+        public Accusation(Texture2D messageBoxImage,SpriteFont font,Game1 game1,List<NPC> npcs,Journal journal) 
         {
+            _journal= journal;
             Rectangle window = game1.GraphicsDevice.Viewport.Bounds;
+            _game1 = game1;
             _textBoxRect = new Rectangle(window.X, (int)(window.Height * 0.6), window.Width, (int)(window.Height *0.4));
             _box = messageBoxImage;
             _font = font;
             _npcs = npcs;
             int ySpacing = 20;
             int xSpacing = 50;
+            _accused = npcs.First();
             for (int i = 0, j = 0; i < _npcs.Count; i++, j++)
             {
                 if (i == 5)
@@ -43,7 +52,7 @@ namespace Semester2Prototype
 
             foreach (NPC npc in npcs)
             {
-                options.Add(npc._NPCCharacter.ToString());
+                options.Add(AddSpace(npc._NPCCharacter.ToString()));
             }
             _text = GetText(0);
 
@@ -51,7 +60,7 @@ namespace Semester2Prototype
 
         public void Update()
         {
-            if (Keyboard.GetState().IsKeyDown(Keys.W) && !_isButtonDown)
+            if (Keyboard.GetState().IsKeyDown(Keys.W) && !_isButtonDown && !_decisionMade)
             {
                 _isButtonDown = true;
                 _charSelect--;
@@ -60,11 +69,11 @@ namespace Semester2Prototype
                     _charSelect = options.Count -1;
                 }
             }
-            if (Keyboard.GetState().IsKeyDown(Keys.S) && !_isButtonDown)
+            if (Keyboard.GetState().IsKeyDown(Keys.S) && !_isButtonDown && !_decisionMade)
             {
                 _charSelect++;
                 _isButtonDown = true;
-                if (_charSelect == options.Count)
+                if (_charSelect >= options.Count)
                 {
                     _charSelect = 0;
                 }
@@ -73,13 +82,14 @@ namespace Semester2Prototype
             { 
                 _isButtonDown = false;
             }
-            if (Keyboard.GetState().IsKeyDown(Keys.Enter) && !_isButtonDown)
+            if (Keyboard.GetState().IsKeyDown(Keys.Enter) && !_isButtonDown && !_decisionMade)
             {
                 _isButtonDown = true;
                 _text = GetText(1);
 
                 if (!_confirmingChoice)
                 {
+                    _accused = _npcs.First(npc => npc._NPCCharacter.ToString() == options[_charSelect]);
                     _charSelect = 0;
                     _confirmingChoice = true;
                     options.Clear();
@@ -89,6 +99,12 @@ namespace Semester2Prototype
                 else if (_charSelect == 0)
                 {
                     options.Clear();
+                    _decisionMade = true;
+
+                    //run function to show if player got the answer right......
+                    //the if player hasnt found all clues then the accused gets away for lack of evidence
+                    //when the player gets all the clues then they can only accuse manager
+
 
                 }
                 else if (_charSelect == 1)
@@ -102,18 +118,77 @@ namespace Semester2Prototype
                     }
                 }
             }
+            if (_decisionMade) 
+            {
+                switch (_accused._NPCCharacter)
+                {
+                    case NPCCharacter.Manager:
+                        if (!_journal._allFound)
+                        {
+                            _text= GetText(3);
+                        }
+                        else
+                        {
+                            _text= GetText(4);
+                        }
+                        break;
+                    case NPCCharacter.Receptionist:
+                        _text= GetText(3);
+                        break;
+                    case NPCCharacter.Cleaner:
+                        _text= GetText(3);
+                        break;
+                    case NPCCharacter.Chef:
+                        _text= GetText(3);
+                        break;
+                    case NPCCharacter.Cook:
+                        _text= GetText(3);
+                        break;
+                    case NPCCharacter.MrMontgomery:
+                        _text= GetText(3);
+                        break;
+                    case NPCCharacter.MrsPark:
+                        _text= GetText(3);
+                        break;
+                    case NPCCharacter.MsMayflower:
+                        _text= GetText(3);
+                        break;
+                    case NPCCharacter.MrSanders:
+                        _text= GetText(3);
+                        break;
+                    case NPCCharacter.MrRoss:
+                        _text= GetText(3);
+                        break;
+                }
+                
+            }
             
         }
 
         public void Draw(SpriteBatch spriteBatch) 
         {
             spriteBatch.Draw(_box, _textBoxRect, Color.White);
-            spriteBatch.DrawString(
-                _font,
-                _text, 
-                new Vector2(_textBoxRect.Width/2 - _font.MeasureString(_text).X/2,_textBoxRect.Top + 10),
-                Color.White);
             
+
+            
+            if (!_decisionMade) 
+            { 
+                spriteBatch.DrawString(
+                    _font,
+                    _text, 
+                    new Vector2(_textBoxRect.Width/2 - _font.MeasureString(_text).X/2,_textBoxRect.Top + 10),
+                    Color.White);
+            }
+            else
+            {
+                spriteBatch.DrawString(
+                    _font,
+                    _text, 
+                    new Vector2(_textBoxRect.Left + 10,_textBoxRect.Top + 10),
+                    Color.White);
+
+            }
+
             for (int i =0;i < options.Count;i++ )
             {
                 spriteBatch.DrawString(
@@ -128,16 +203,55 @@ namespace Semester2Prototype
 
         public string GetText(int index)
         {
+            string ManagerAccusation = "Manager:wha- what? NO!\n " +
+                "Detective: Yes, you murdered him because he was going to expose you for defrauding the company and stealing fund meant for the hotel!!\n" +
+                "Manager:But how!?!?\n" +
+                "Detective: I found the account records in your office and the documents in Mr Richards brief case. The Cleaner Mentioned you were the one who \"Lost\" the Master Key and you are the only one with a true motive and no alibi.\n" +
+                "Manager: I'm sorry, I didnt know what to do!!!!!";
+            string FinalMessage = 
+                "--------- Congradulations --------\n" +
+                "______You found the Murderer______";
             string[] messages = new string[]
             {
                 "You now have to choose who you beleive the murderer is.",
-                $"Are you sure you want to accuse {options[_charSelect]}???"
-                
-           
-            };
+                $"Are you sure you want to accuse {AddSpace(_npcs[_charSelect]._NPCCharacter.ToString())}???",
+                "You have choose wisely",
+                $"You dont have enough evidence to convict {AddSpace(_accused._NPCCharacter.ToString())}\nYOU HAVE FAILED!!!!",
+                ManagerAccusation,
+                FinalMessage
 
+
+
+
+
+
+            };
             return messages[index];
         }
+
+        public string AddSpace(string text)
+        {
+            bool first = false;
+            string result = string.Empty;
+
+            foreach(char c in text)
+            {
+                if (c.ToString() == c.ToString().ToUpper())
+                {
+                    if(!first)
+                    {
+                        first = true;
+                        result += c;
+                    }
+                    else
+                        result += " "+c;
+                }
+                else result += c;
+            }
+            return result;
+        }
+
+
 
     }
 }

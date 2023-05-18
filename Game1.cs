@@ -38,7 +38,7 @@ namespace Semester2Prototype
         public State _menuState;
         public SpriteFont _mainFont, buttonFont;
 
-        public GameState _gameState = GameState.Accusation;
+        public GameState _gameState = GameState.MainMenu;
         
         public FloorLevel _floorLevel = FloorLevel.GroundFLoor;
         public Point _windowSize = new Point(800, 500);
@@ -50,6 +50,8 @@ namespace Semester2Prototype
         protected Song song;
 
         Point _playerPoint = new Point(0, 0);
+        internal Game1 _game1;
+
         public Game1()
         {
             _graphics = new GraphicsDeviceManager(this);
@@ -232,7 +234,7 @@ namespace Semester2Prototype
                         }
 
 
-                        _accusation = new Accusation(_messageBoxImage, _mainFont, this, npcs);
+                        _accusation = new Accusation(_messageBoxImage, _mainFont, this, npcs,_player._journal);
                         _startAccusation = true;
                     }
                     
@@ -284,7 +286,8 @@ namespace Semester2Prototype
                     _player._dialoge.DialogeDraw(_spriteBatch);
                     break;
                 case GameState.Accusation:
-                    _accusation.Draw(_spriteBatch);
+                    if(_accusation != null)
+                        _accusation.Draw(_spriteBatch);
                     break;
             }
             base.Draw(gameTime);
@@ -421,6 +424,8 @@ namespace Semester2Prototype
             _menuState = state;
             _currentState = state;
         }
+
+      
         static void SetTileFurniture(List<Sprite> sprites, List<List<Point>> furnitureLocations)
         {
             foreach (Tile tile in sprites.OfType<Tile>().ToList())
