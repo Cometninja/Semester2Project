@@ -5,6 +5,7 @@ using System.Linq;
 using System.Xml.Linq;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
+using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
@@ -47,8 +48,8 @@ namespace Semester2Prototype
 
 
 
-        public SoundEffect _buttonPress;
-        public SoundEffectInstance _buttonPressInstance;
+        public SoundEffect _buttonPress, _clueFound;
+        public SoundEffectInstance _buttonPressInstance, _clueFoundInstance;
 
         protected Song _song;
 
@@ -108,7 +109,10 @@ namespace Semester2Prototype
             _backgroundTxr = Content.Load<Texture2D>("UI/Txr_Background");
 
             _buttonPress = Content.Load<SoundEffect>("Sounds/ButtonPress");
+            _clueFound = Content.Load<SoundEffect>("Sounds/ClueFindSound");
+            
             _buttonPressInstance = _buttonPress.CreateInstance();
+            _clueFoundInstance = _clueFound.CreateInstance();
 
             MakeFloorPlan();
 

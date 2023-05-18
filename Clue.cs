@@ -1,6 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Security.Cryptography;
+using System.Xml.Linq;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Audio;
+using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 
 
@@ -10,9 +13,15 @@ namespace Semester2Prototype
     {
         ClueType _clueType;
         public bool _found = false;
+        public Game1 _game1;
+
+        public SoundEffect _clueFound;
+        public SoundEffectInstance _clueFoundInstance;
+
+
 
         public Clue(Texture2D image,Vector2 pos,ClueType clueType) :base(image,pos)
-        { 
+        {
             _clueType = clueType;
             _center = new Vector2(_position.X + 16, _position.Y + 30);
         }
@@ -40,6 +49,7 @@ namespace Semester2Prototype
             if (!_found)
             {
                 _found = true;
+                _clueFoundInstance.Play();
                 journal._cluesFound++;
 
                 switch (_clueType)
