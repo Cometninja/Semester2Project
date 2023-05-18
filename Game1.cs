@@ -58,7 +58,7 @@ namespace Semester2Prototype
             IsMouseVisible = true;
             _graphics.PreferredBackBufferWidth = _windowSize.X;
             _graphics.PreferredBackBufferHeight = _windowSize.Y;
-            _graphics.IsFullScreen = true;
+            _graphics.IsFullScreen = false;
             _graphics.ApplyChanges();
 
             base.Initialize();
@@ -407,6 +407,15 @@ namespace Semester2Prototype
         {
             List<Clue> clues = _sprites.OfType<Clue>().ToList();
 
+            //clues[0] Knife
+            //clues[1] Photo
+            //clues[2] Clothing
+            //clues[3] MasterKey
+            //clues[4] ReceptionLogs
+            //clues[5] KitchenChecks
+            //clues[6] Financial Docs
+            //clues[7] Victems Docs
+
             foreach(Clue clue in clues)
             {
                 clue._position = new Vector2(2000,2000);
@@ -414,12 +423,21 @@ namespace Semester2Prototype
             switch (floorLevel)
             {
                 case FloorLevel.GroundFLoor:
+                    clues[2]._position = _sprites.OfType<Tile>().First(tile => tile._point == new Point(7,1))._position;          
+                    clues[3]._position = _sprites.OfType<Tile>().First(tile => tile._point == new Point(28,23))._position;          
+                    clues[4]._position = _sprites.OfType<Tile>().First(tile => tile._point == new Point(8,17))._position;          
+                    clues[5]._position = _sprites.OfType<Tile>().First(tile => tile._point == new Point(8,5))._position;          
+                    clues[6]._position = _sprites.OfType<Tile>().First(tile => tile._point == new Point(2,7))._position;          
+
                     break;
                 case FloorLevel.FirstFloor:
+                    clues[1]._position = _sprites.OfType<Tile>().First(tile => tile._point == new Point(19,20))._position;          
+
                     break;
                 case FloorLevel.SecondFLoor:
-                    //Knife
                     clues[0]._position = _sprites.OfType<Tile>().First(tile => tile._point == new Point(14,2))._position;          
+                    clues[7]._position = _sprites.OfType<Tile>().First(tile => tile._point == new Point(19,1))._position;          
+
                     break;
             }
         }
