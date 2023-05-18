@@ -124,9 +124,9 @@ namespace Semester2Prototype.States
                 Color.White);
 
 
-            spriteBatch.DrawString(_smallFont, (_game._masterVolume * 100).ToString() + "%", new Vector2(_screenSize.X / 2.1f, _screenSize.Y / 2.25f), Color.White);
+            spriteBatch.DrawString(_smallFont, (_game._masterVolume * 100).ToString("0") + "%", new Vector2(_screenSize.X / 2.1f, _screenSize.Y / 2.25f), Color.White);
 
-            spriteBatch.DrawString(_smallFont, (_game._volume * 100).ToString() + "%", new Vector2(_screenSize.X / 2.1f, _screenSize.Y / 3.15f), Color.White);
+            spriteBatch.DrawString(_smallFont, (_game._volume * 100).ToString("0") + "%", new Vector2(_screenSize.X / 2.1f, _screenSize.Y / 3.15f), Color.White);
 
             foreach (var component in _components)
                 component.Draw(gameTime, spriteBatch);
@@ -142,28 +142,28 @@ namespace Semester2Prototype.States
         {
             _game._buttonPressInstance.Play();
             Debug.WriteLine("+");
-            _game.AdjustSongVolume(0.25f);          
+            _game.AdjustSongVolume(0.1f);          
         }
 
         private void MinusSongGameButton_Click(object sender, EventArgs e)
         {
             _game._buttonPressInstance.Play();
             Debug.WriteLine("-");
-            _game.AdjustSongVolume(-0.25f);
+            _game.AdjustSongVolume(-0.1f);
         }
 
         private void PlusSoundGameButton_Click(object sender, EventArgs e)
         {
             _game._buttonPressInstance.Play();
             Debug.WriteLine("+");
-            _game.AdjustSoundVolume(0.25f);
+            _game.AdjustSoundVolume(0.1f);
         }
 
         private void MinusSoundGameButton_Click(object sender, EventArgs e)
         {
             _game._buttonPressInstance.Play();
             Debug.WriteLine("-");
-            _game.AdjustSoundVolume(-0.25f);
+            _game.AdjustSoundVolume(-0.1f);
         }
 
 

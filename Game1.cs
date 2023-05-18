@@ -108,7 +108,7 @@ namespace Semester2Prototype
             _rectangleTxr = Content.Load<Texture2D>("UI/RectangleTxr");
             _backgroundTxr = Content.Load<Texture2D>("UI/Txr_Background");
 
-            _buttonPress = Content.Load<SoundEffect>("Sounds/ButtonPress");
+            _buttonPress = Content.Load<SoundEffect>("Sounds/ButtonPressOld");
             _clueFound = Content.Load<SoundEffect>("Sounds/ClueFindSound");
             
             _buttonPressInstance = _buttonPress.CreateInstance();

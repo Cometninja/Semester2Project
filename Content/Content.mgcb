@@ -122,6 +122,12 @@
 /processorParam:Quality=Best
 /build:Sounds/ButtonPress.mp3
 
+#begin Sounds/ButtonPressOld.mp3
+/importer:Mp3Importer
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Sounds/ButtonPressOld.mp3
+
 #begin Sounds/ClueFindSound.wav
 /importer:WavImporter
 /processor:SoundEffectProcessor
