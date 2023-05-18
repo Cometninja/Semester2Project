@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
@@ -36,12 +37,15 @@ namespace Semester2Prototype
         public State _state;
         public State _menuState;
         public SpriteFont _mainFont, buttonFont;
-        public GameState _gameState = GameState.MainMenu;
+
+        public GameState _gameState = GameState.Accusation;
+        
         public FloorLevel _floorLevel = FloorLevel.GroundFLoor;
         public Point _windowSize = new Point(800, 500);
         public Texture2D _rectangleTxr, _backgroundTxr, buttonTexture;
         public List<List<Point>> _furnitureLocations;
-       
+        public bool _startAccusation;
+        static Accusation _accusation;
 
         protected Song song;
 
@@ -164,7 +168,7 @@ namespace Semester2Prototype
         protected override void Update(GameTime gameTime)
         {
             KeyboardState keyboardState = Keyboard.GetState();
-
+            
             List<Sprite> sprites = _sprites.Where(sprite => sprite.GetType() != _sprites.OfType<Tile>().First().GetType()).ToList();
             foreach (Sprite sprite in _sprites)
             {
@@ -199,6 +203,39 @@ namespace Semester2Prototype
                 case GameState.Dialoge:
                     _player._dialoge.DialogeUpdate(gameTime);
                     DialogueControls();
+                    break;
+                case GameState.Accusation:
+                    if (_startAccusation)
+                    {
+                        _accusation.Update();
+                    }
+                    else
+                    {
+                        List<NPC> npcs = _sprites.OfType<NPC>().ToList();
+                        int X = 1;
+                        int Y = 15;
+                        Vector2 playerFinalPos = _player._position - _sprites.OfType<Tile>().First(tile => tile._point == new Point(3, 17))._position;
+
+                        foreach (Tile tile in _sprites.OfType<Tile>().ToList())
+                        {
+                            tile._position += playerFinalPos;
+                        }
+                        foreach (NPC npc in npcs)
+                        {
+                            npc._position = _sprites.OfType<Tile>().First(tile => tile._point == new Point(X, Y))._position;
+                            X++;
+                            if (X > 5)
+                            {
+                                X = 1;
+                                Y = 16;
+                            }
+                        }
+
+
+                        _accusation = new Accusation(_messageBoxImage, _mainFont, this, npcs);
+                        _startAccusation = true;
+                    }
+                    
                     break;
             }
             if (_nextState != null)
@@ -247,9 +284,7 @@ namespace Semester2Prototype
                     _player._dialoge.DialogeDraw(_spriteBatch);
                     break;
                 case GameState.Accusation:
-
-                    Debug.WriteLine("You Have Been Accused");
-                    
+                    _accusation.Draw(_spriteBatch);
                     break;
             }
             base.Draw(gameTime);

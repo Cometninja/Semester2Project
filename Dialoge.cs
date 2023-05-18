@@ -29,6 +29,7 @@ namespace Semester2Prototype
         public List<List<string>> _dialogs;
         static Point _dialogPos = new Point(0, 50);
         static Point _dialogWindowSize = new Point(400, 100);
+        bool _finalQuestion;
 
         static Rectangle _playerDialogBox = new Rectangle(
             _dialogPos,
@@ -80,6 +81,16 @@ namespace Semester2Prototype
                 _question = 0;
                 _cursorPos.Y -= (_spacing * _playerDialoge.Count);
             }
+            if (_finalQuestion)
+            {
+                _displayEnter = false;
+                _playerDialoge.Clear();
+                _npcDialoge.Clear();
+                _playerDialoge.Add("yes");
+                _npcDialoge.Add("Very well I will Gather the Guests in the Lounge.");
+                _playerDialoge.Add("no");
+                _npcDialoge.Add("Please come see me when you are ready.");
+            }
 
             if (Keyboard.GetState().IsKeyDown(Keys.Enter) && !_ButtonPressed)
             {
@@ -92,14 +103,10 @@ namespace Semester2Prototype
                     {
                         game._gameState = GameState.GamePlaying;
                     }
-                    if (_playerDialoge[_question] == "I am ready to make my Decision!")
+                    if (_playerDialoge[0] == "I am ready to make my Decision!")
                     {
-                        _playerDialoge.Clear();
-                        _npcDialoge.Clear();
-                        _playerDialoge.Add("yes");
-                        _npcDialoge.Add("Very well I will Gather the Guests in the Lounge.");
-                        _playerDialoge.Add("no");
-                        _npcDialoge.Add("Please come see me when you are ready.");
+                        _finalQuestion = true;
+                        
                     }
                     if (_playerDialoge[_question] == "yes")
                     {
@@ -181,7 +188,14 @@ namespace Semester2Prototype
                 tickCount = 0;
                 if (count == splitAnswer.Length)
                 {
-                    _displayEnter = true;
+                    if(!_finalQuestion)
+                    {
+                        _displayEnter = true;
+                    }
+                    else
+                    {
+                        _displayEnter = false;
+                    }
                     count = 0;
                     _answer++;
                     _printing = false;
