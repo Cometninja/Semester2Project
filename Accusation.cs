@@ -7,6 +7,7 @@ using System.Runtime.CompilerServices;
 using Microsoft.Xna.Framework.Input;
 using System.Linq;
 using System.Runtime.InteropServices;
+using System.Security.Cryptography.X509Certificates;
 
 namespace Semester2Prototype
 {
@@ -22,11 +23,15 @@ namespace Semester2Prototype
         int _charSelect = 0;
         bool _isButtonDown,_confirmingChoice;
         string _text;
-        bool _decisionMade;
+        bool _decisionMade, _cursorVisable = true;
         List<string> options = new List<string>();
         Journal _journal;
         Game1 _game1;
         NPC _accused;
+        int _tickCount = 0;
+        bool _printing;
+        bool _displayFinalMessage;
+        bool _centerText;
 
         public Accusation(Texture2D messageBoxImage,SpriteFont font,Game1 game1,List<NPC> npcs,Journal journal) 
         {
@@ -60,6 +65,8 @@ namespace Semester2Prototype
 
         public void Update()
         {
+            Rectangle window = _game1.GraphicsDevice.Viewport.Bounds;
+            _textBoxRect = new Rectangle(window.X, (int)(window.Height * 0.6), window.Width, (int)(window.Height * 0.4));
             if (Keyboard.GetState().IsKeyDown(Keys.W) && !_isButtonDown && !_decisionMade)
             {
                 _isButtonDown = true;
@@ -89,7 +96,7 @@ namespace Semester2Prototype
 
                 if (!_confirmingChoice)
                 {
-                    _accused = _npcs.First(npc => npc._NPCCharacter.ToString() == options[_charSelect]);
+                    _accused = _npcs.First(npc => npc._NPCCharacter.ToString() == RemoveSpace(options[_charSelect]));
                     _charSelect = 0;
                     _confirmingChoice = true;
                     options.Clear();
@@ -118,6 +125,23 @@ namespace Semester2Prototype
                     }
                 }
             }
+            if (_printing)
+            {
+                _tickCount++;
+                _text = PrintString(GetText(4), _tickCount);
+               
+            }
+
+            if (_displayFinalMessage) 
+            {
+                if (Keyboard.GetState().IsKeyDown(Keys.Enter) && !_isButtonDown)
+                {
+                    _centerText = true;
+                    _isButtonDown= true;
+                    _text= GetText(5);
+                }
+            }
+
             if (_decisionMade) 
             {
                 switch (_accused._NPCCharacter)
@@ -129,7 +153,10 @@ namespace Semester2Prototype
                         }
                         else
                         {
-                            _text= GetText(4);
+                            if (!_displayFinalMessage) 
+                            { 
+                                _printing = true;
+                            }
                         }
                         break;
                     case NPCCharacter.Receptionist:
@@ -171,19 +198,20 @@ namespace Semester2Prototype
             
 
             
-            if (!_decisionMade) 
+            if (!_decisionMade || _centerText) 
             { 
                 spriteBatch.DrawString(
                     _font,
                     _text, 
                     new Vector2(_textBoxRect.Width/2 - _font.MeasureString(_text).X/2,_textBoxRect.Top + 10),
                     Color.White);
+                spriteBatch.DrawString(_font, _cursor, _namePos[_charSelect] + _cursorPos, Color.White);
             }
             else
             {
                 spriteBatch.DrawString(
                     _font,
-                    _text, 
+                    WrapAround(_text), 
                     new Vector2(_textBoxRect.Left + 10,_textBoxRect.Top + 10),
                     Color.White);
 
@@ -197,7 +225,6 @@ namespace Semester2Prototype
                     _namePos[i], 
                     Color.White) ;
             }
-            spriteBatch.DrawString(_font, _cursor, _namePos[_charSelect] + _cursorPos, Color.White);
         }
 
 
@@ -209,7 +236,7 @@ namespace Semester2Prototype
                 "Detective: I found the account records in your office and the documents in Mr Richards brief case. The Cleaner Mentioned you were the one who \"Lost\" the Master Key and you are the only one with a true motive and no alibi.\n" +
                 "Manager: I'm sorry, I didnt know what to do!!!!!";
             string FinalMessage = 
-                "--------- Congradulations --------\n" +
+                "_________ Congradulations ________\n" +
                 "______You found the Murderer______";
             string[] messages = new string[]
             {
@@ -251,7 +278,66 @@ namespace Semester2Prototype
             return result;
         }
 
+        public string RemoveSpace(string text)
+        {
+            string result = string.Empty;
+            foreach (char c in text) 
+            { 
+                if (c != ' ') 
+                { 
+                    result += c;
+                }    
+            }
+            return result;
+        }
 
+        public string WrapAround(string text)
+        {
+            string[] strings = text.Split(' ');
+            string result = string.Empty;
+
+            foreach(string s in strings) 
+            {
+                if (_font.MeasureString(result + s).X > _textBoxRect.Width)
+                {
+                    result += "\n"+ s + " ";
+                }
+                else result += s + " ";
+            }
+            return result;
+        }
+        int _printingindex = 0;
+        string _displayText = string.Empty;
+        public string PrintString(string text, int tickCount)
+        {
+            string[] split = text.Split(' ');
+
+            if (tickCount % 5 == 0) 
+            {
+                _printingindex++;
+                if (_printingindex < split.Count())
+                {
+                    _displayText = string.Empty;
+                    for(int i = 0;i < _printingindex; i++) 
+                    {
+                       _displayText += split[i] + " ";    
+                    }
+                }
+                else
+                {
+                    _printing = false; 
+                    _displayText = text;
+                    _displayFinalMessage = true;
+                }
+            }
+            return _displayText;
+
+
+
+
+        }
+        
+        
 
     }
 }

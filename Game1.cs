@@ -38,7 +38,7 @@ namespace Semester2Prototype
         public State _menuState;
         public SpriteFont _mainFont, buttonFont;
 
-        public GameState _gameState = GameState.MainMenu;
+        public GameState _gameState = GameState.Accusation;
         
         public FloorLevel _floorLevel = FloorLevel.GroundFLoor;
         public Point _windowSize = new Point(800, 500);
@@ -57,6 +57,7 @@ namespace Semester2Prototype
             _graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
             IsMouseVisible = true;
+               
         }
 
         protected override void Initialize()
@@ -234,7 +235,7 @@ namespace Semester2Prototype
                         }
 
 
-                        _accusation = new Accusation(_messageBoxImage, _mainFont, this, npcs,_player._journal);
+                        _accusation = new Accusation(_messageBoxImage, _mainFont, this, npcs,_sprites.OfType<Journal>().First());
                         _startAccusation = true;
                     }
                     
