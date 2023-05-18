@@ -18,16 +18,26 @@ namespace Semester2Prototype.States
 
         static Point _screenSize = new Point(800, 800);
 
-        static int _rectWidth = 600; // set the width of the rectangle
-        static int _rectHeight = 1000; // set the height of the rectangle
-
-        static int _centerX = _screenSize.X / 2; // calculate the X coordinate of the center of the screen
-
-        Rectangle rect = new Rectangle(_centerX - _rectWidth / 2, 0, _rectWidth, _rectHeight); // create the rectangle
+        Rectangle rect;
 
         public KeybindState(Game1 game, GraphicsDevice graphicsDevice, ContentManager content)
           : base(game, graphicsDevice, content)
         {
+
+            // Get the screen dimensions
+            int screenWidth = graphicsDevice.Viewport.Width;
+            int screenHeight = graphicsDevice.Viewport.Height;
+
+            // Calculate the rectangle position
+            int rectWidth = 600; // set the width of the rectangle
+            int rectHeight = 1000; // set the height of the rectangle
+            int rectX = screenWidth / 2 - rectWidth / 2;
+            int rectY = screenHeight / 2 - rectHeight / 2;
+
+            rect = new Rectangle(rectX, rectY, rectWidth, rectHeight);
+
+            rect = new Rectangle(rectX, rectY, rectWidth, rectHeight);
+
             _rectangleTxr = _content.Load<Texture2D>("UI/RectangleTxr");
             _keybindTxr = _content.Load<Texture2D>("UI/KeybindTxr");
 
@@ -38,7 +48,7 @@ namespace Semester2Prototype.States
 
             var exitGameButton = new Button(_buttonTexture, _buttonFont)
             {
-                Position = new Vector2(rect.X + rect.Width / 2 - _titleFont.MeasureString("Options").X / 2, 300),
+                Position = new Vector2(rect.X + rect.Width / 2 - _titleFont.MeasureString("Options").X / 2, 350),
                 Text = "Back",
             };
 

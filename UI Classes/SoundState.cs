@@ -20,15 +20,25 @@ namespace Semester2Prototype.States
 
         static Point _screenSize = new Point(800, 800);
 
-        static int _rectWidth = 300; // set the width of the rectangle
-        static int _rectHeight = 1000; // set the height of the rectangle
 
-        static int _centerX = _screenSize.X / 2; // calculate the X coordinate of the center of the screen
 
-        Rectangle rect = new Rectangle(_centerX - _rectWidth / 2, 0, _rectWidth, _rectHeight); // create the rectangle
+        Rectangle rect;
         public SoundState(Game1 game, GraphicsDevice graphicsDevice, ContentManager content)
           : base(game, graphicsDevice, content)
         {
+
+            // Get the screen dimensions
+            int screenWidth = graphicsDevice.Viewport.Width;
+            int screenHeight = graphicsDevice.Viewport.Height;
+
+            // Calculate the rectangle position
+            int rectWidth = 300; // set the width of the rectangle
+            int rectHeight = 1000; // set the height of the rectangle
+            int rectX = screenWidth / 2 - rectWidth / 2;
+            int rectY = screenHeight / 2 - rectHeight / 2;
+
+            rect = new Rectangle(rectX, rectY, rectWidth, rectHeight);
+
             _buttonTexture = _content.Load<Texture2D>("UI/Controls/Button");
             _smallButtonTexture = _content.Load<Texture2D>("UI/Controls/Small Button");
             _buttonFont = _content.Load<SpriteFont>("UI/Fonts/Font");
@@ -40,7 +50,7 @@ namespace Semester2Prototype.States
             var plusSongGameButton = new Button(_smallButtonTexture, _largeButtonFont)
             {
                 Text = "+",
-                Position = new Vector2((_screenSize.X - _smallButtonTexture.Width) / 1.6f, 250)
+                Position = new Vector2((_screenSize.X - _smallButtonTexture.Width) / 1.6f, 225)
             };
 
             plusSongGameButton.Click += PlusSongGameButton_Click;
@@ -48,7 +58,7 @@ namespace Semester2Prototype.States
             var minusSongGameButton = new Button(_smallButtonTexture, _largeButtonFont)
             {
                 Text = "-",
-                Position = new Vector2((_screenSize.X - _smallButtonTexture.Width) / 2.5f, 250)
+                Position = new Vector2((_screenSize.X - _smallButtonTexture.Width) / 2.6f, 225)
             };
 
             minusSongGameButton.Click += MinusSongGameButton_Click;
@@ -64,14 +74,14 @@ namespace Semester2Prototype.States
             var minusSoundGameButton = new Button(_smallButtonTexture, _largeButtonFont)
             {
                 Text = "-",
-                Position = new Vector2((_screenSize.X - _smallButtonTexture.Width) / 2.5f, 350)
+                Position = new Vector2((_screenSize.X - _smallButtonTexture.Width) / 2.6f, 350)
             };
 
             minusSoundGameButton.Click += MinusSoundGameButton_Click;
 
             var exitGameButton = new Button(_buttonTexture, _buttonFont)
             {
-                Position = new Vector2((_screenSize.X - _buttonTexture.Width) / 2, 450),
+                Position = new Vector2((rect.X + _titleFont.MeasureString("New Game").X / 2), 425),
                 Text = "Back",
             };
 
@@ -114,7 +124,7 @@ namespace Semester2Prototype.States
             textSize = _smallFont.MeasureString("Song Volume");
             spriteBatch.DrawString(_smallFont,
                 "Song Volume",
-                new Vector2(rect.X + rect.Width / 2 - _titleFont.MeasureString("Sounds").X / 2, 200),
+                new Vector2(rect.X + rect.Width / 2 - _titleFont.MeasureString("Sounds").X / 2, 175),
                 Color.White);
 
             textSize = _smallFont.MeasureString("Sound Volume");
@@ -123,10 +133,10 @@ namespace Semester2Prototype.States
                 new Vector2(rect.X + rect.Width / 2 - _titleFont.MeasureString("Sounds").X / 2, 300),
                 Color.White);
 
+            spriteBatch.DrawString(_smallFont, (_game._volume * 100).ToString("0") + "%", new Vector2(_screenSize.X / 2.1f, 225), Color.White);
 
             spriteBatch.DrawString(_smallFont, (_game._masterVolume * 100).ToString("0") + "%", new Vector2(_screenSize.X / 2.1f, _screenSize.Y / 2.25f), Color.White);
 
-            spriteBatch.DrawString(_smallFont, (_game._volume * 100).ToString("0") + "%", new Vector2(_screenSize.X / 2.1f, _screenSize.Y / 3.15f), Color.White);
 
             foreach (var component in _components)
                 component.Draw(gameTime, spriteBatch);

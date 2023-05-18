@@ -49,7 +49,6 @@ namespace Semester2Prototype
             if (!_found)
             {
                 _found = true;
-                _clueFoundInstance.Play();
                 journal._cluesFound++;
 
                 switch (_clueType)

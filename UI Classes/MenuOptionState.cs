@@ -16,15 +16,25 @@ namespace Semester2Prototype.States
         SpriteFont _buttonFont, _titleFont;
         static Point _screenSize = new Point(800, 800);
 
-        static int _rectWidth = 300; // set the width of the rectangle
-        static int _rectHeight = 1000; // set the height of the rectangle
 
-        static int _centerX = _screenSize.X / 2; // calculate the X coordinate of the center of the screen
 
-        Rectangle rect = new Rectangle(_centerX - _rectWidth / 2, 0, _rectWidth, _rectHeight); // create the rectangle
+        Rectangle rect;
         public MenuOptionState(Game1 game, GraphicsDevice graphicsDevice, ContentManager content)
           : base(game, graphicsDevice, content)
         {
+
+            // Get the screen dimensions
+            int screenWidth = graphicsDevice.Viewport.Width;
+            int screenHeight = graphicsDevice.Viewport.Height;
+
+            // Calculate the rectangle position
+            int rectWidth = 300; // set the width of the rectangle
+            int rectHeight = 1000; // set the height of the rectangle
+            int rectX = screenWidth / 2 - rectWidth / 2;
+            int rectY = screenHeight / 2 - rectHeight / 2;
+
+            rect = new Rectangle(rectX, rectY, rectWidth, rectHeight);
+
             _buttonTexture = _content.Load<Texture2D>("UI/Controls/Button");
             _buttonFont = _content.Load<SpriteFont>("UI/Fonts/Font");
             _titleFont = _content.Load<SpriteFont>("UI/Fonts/TitleMoldyen");
@@ -43,7 +53,7 @@ namespace Semester2Prototype.States
 
             var SoundGameButton = new Button(_buttonTexture, _buttonFont)
             {
-                Position = new Vector2((rect.X + _titleFont.MeasureString("New Game").X / 2), 250),
+                Position = new Vector2((rect.X + _titleFont.MeasureString("New Game").X / 2), 275),
                 Text = "Sound",
             };
 
@@ -51,7 +61,7 @@ namespace Semester2Prototype.States
 
             var exitGameButton = new Button(_buttonTexture, _buttonFont)
             {
-                Position = new Vector2((rect.X + _titleFont.MeasureString("New Game").X / 2), 300),
+                Position = new Vector2((rect.X + _titleFont.MeasureString("New Game").X / 2), 350),
                 Text = "Back",
             };
 
