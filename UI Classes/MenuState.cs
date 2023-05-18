@@ -19,7 +19,6 @@ namespace Semester2Prototype.States
         static Point _screenSize = new Point(800, 800);
 
 
-
         static int _rectWidth = 300; // set the width of the rectangle
         static int _rectHeight = 1000; // set the height of the rectangle
 
@@ -30,7 +29,7 @@ namespace Semester2Prototype.States
 
         public MenuState(Game1 game, GraphicsDevice graphicsDevice, ContentManager content)
           : base(game, graphicsDevice, content)
-        {
+        { 
             _buttonTexture = _content.Load<Texture2D>("UI/Controls/Button");
             _buttonFont = _content.Load<SpriteFont>("UI/Fonts/Font");
             _rectangleTxr = _content.Load<Texture2D>("UI/RectangleTxr");

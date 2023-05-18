@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace Semester2Prototype.States
 {
@@ -15,6 +16,14 @@ namespace Semester2Prototype.States
         protected GraphicsDevice _graphicsDevice;
 
         public Game1 _game;
+
+        public Texture2D _image;
+
+        public Vector2 _position, _center;
+
+        public Rectangle _bounds;
+
+        public Rectangle _sourceRect;
 
         #endregion
 
@@ -33,6 +42,7 @@ namespace Semester2Prototype.States
             _graphicsDevice = graphicsDevice;
 
             _content = content;
+
         }
 
         public abstract void Update(GameTime gameTime);
