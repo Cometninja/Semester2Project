@@ -5,6 +5,7 @@ using System.Diagnostics;
 using System.Net;
 using System.Runtime.CompilerServices;
 using Microsoft.Xna.Framework.Input;
+using System.Linq;
 
 namespace Semester2Prototype
 {
@@ -21,9 +22,12 @@ namespace Semester2Prototype
         bool _isButtonDown,_charSelecting,_confirmingChoice;
         string _text;
         List<string> options = new List<string>();
+        NPC _theAccused;
+        Game1 _game;
 
         public Accusation(Texture2D messageBoxImage,SpriteFont font,Game1 game1,List<NPC> npcs) 
         {
+            _game = game1;
             Rectangle window = game1.GraphicsDevice.Viewport.Bounds;
             _textBoxRect = new Rectangle(window.X, (int)(window.Height * 0.6), window.Width, (int)(window.Height *0.4));
             _box = messageBoxImage;
@@ -80,6 +84,8 @@ namespace Semester2Prototype
 
                 if (!_confirmingChoice)
                 {
+                    _theAccused = _npcs.First(npc => npc._NPCCharacter.ToString() == options[_charSelect]);
+
                     _charSelect = 0;
                     _confirmingChoice = true;
                     options.Clear();
@@ -89,6 +95,7 @@ namespace Semester2Prototype
                 else if (_charSelect == 0)
                 {
                     options.Clear();
+                    if (_game.)
 
                 }
                 else if (_charSelect == 1)
