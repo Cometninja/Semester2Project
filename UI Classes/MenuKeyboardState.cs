@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Reflection.Metadata;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
@@ -17,7 +16,7 @@ namespace Semester2Prototype.States
         SpriteFont _titleFont, _buttonFont;
 
         static Point _screenSize = new Point(800, 800);
- 
+
 
         Rectangle rect;
 

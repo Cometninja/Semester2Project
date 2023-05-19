@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Input;
 using Semester2Prototype.Controls;
 
 namespace Semester2Prototype.States
@@ -87,7 +86,7 @@ namespace Semester2Prototype.States
             spriteBatch.DrawString(_titleFont,
                 "Options",
                 new Vector2(rect.X + rect.Width / 2 - _titleFont.MeasureString("Options").X / 2, 100),
-                Color.White );
+                Color.White);
             // 800 x 600 window size
 
 

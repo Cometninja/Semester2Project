@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Reflection.Metadata;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
@@ -75,7 +74,6 @@ namespace Semester2Prototype.States
                 new Vector2(rect.X + rect.Width / 2 - _titleFont.MeasureString("Keybinds").X / 2, 100),
                 Color.White);
 
-            spriteBatch.Draw(_keybindTxr, new Vector2(rect.X, 150), Color.White);
 
 
             foreach (var component in _components)

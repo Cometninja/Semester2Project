@@ -6,7 +6,6 @@ using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Semester2Prototype.Controls;
-using static System.Net.Mime.MediaTypeNames;
 
 namespace Semester2Prototype.States
 {
@@ -136,7 +135,7 @@ namespace Semester2Prototype.States
 
             spriteBatch.DrawString(_smallFont, (_game._masterVolume * 100).ToString("0") + "%", new Vector2(_screenSize.X / 2.1f, _screenSize.Y / 2.25f), Color.White);
 
-            
+
 
             foreach (var component in _components)
                 component.Draw(gameTime, spriteBatch);

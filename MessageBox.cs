@@ -39,6 +39,6 @@ namespace Semester2Prototype
         {
             _messages.Clear();
         }
-       
+
     }
 }

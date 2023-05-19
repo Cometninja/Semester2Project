@@ -5,7 +5,6 @@ using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Semester2Prototype.Controls;
-using Microsoft.Xna.Framework.Audio;
 
 namespace Semester2Prototype.States
 {
@@ -106,10 +105,10 @@ namespace Semester2Prototype.States
             _game._buttonPressInstance.Play();
             _game.Exit();
         }
-    
 
 
-    public override void PostUpdate(GameTime gameTime)
+
+        public override void PostUpdate(GameTime gameTime)
         {
             // remove sprites if they're not needed
         }

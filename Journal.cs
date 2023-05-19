@@ -1,11 +1,5 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
@@ -28,21 +22,23 @@ namespace Semester2Prototype
         JournalPage _journalPage;
         public bool _isKeysPressed;
         public int _cluesFound = 0;
+        // Debug
+        public bool _allFound = true;
         string[] _titles = new string[] { "Tasks", "Clues", "Suspects", "page4" };
 
         public string[] _tasks;
         public List<string> _clueMessages = new List<string>();
 
 
-        public Journal(Texture2D image, Vector2 position, SpriteFont font,Game1 game1) : base(image, position)
+        public Journal(Texture2D image, Vector2 position, SpriteFont font, Game1 game1) : base(image, position)
         {
             _windowSize = new Vector2(game1.GraphicsDevice.Viewport.Width, game1.GraphicsDevice.Viewport.Height);
             _font = font;
             _goals = SetGoals();
-            _game1= game1;
+            _game1 = game1;
             _windowBounds = _game1.GraphicsDevice.Viewport.Bounds;
             _journalPage = JournalPage.Tasks;
-            _tasks   = new string[] {
+            _tasks = new string[] {
             "Speak to the Manager",
             "Speak to the Receptionist",
             "Speak to the Cleaner",
@@ -59,7 +55,7 @@ namespace Semester2Prototype
 
         public override void Draw(SpriteBatch spriteBatch)
         {
-            
+
             if (_isJournalDisplayed)
             {
                 spriteBatch.Draw(_image,
@@ -67,29 +63,29 @@ namespace Semester2Prototype
                     null,
                     Color.White,
                     0f,
-                    new Vector2(0,0),
+                    new Vector2(0, 0),
                     SpriteEffects.None,
                     1f);
-                
+
                 spriteBatch.DrawString(_font,
                     _titles[(int)_journalPage],
                     new Vector2(
-                            _leftPage.X + 
-                            _leftPage.Width/2 - 
-                            _font.MeasureString(_titles[(int)_journalPage]).X/2,
-                        _leftPage.Y), 
-                    Color.Black); 
-                
+                            _leftPage.X +
+                            _leftPage.Width / 2 -
+                            _font.MeasureString(_titles[(int)_journalPage]).X / 2,
+                        _leftPage.Y),
+                    Color.Black);
+
                 int spacing = 20;
                 Rectangle page = _leftPage;
                 switch (_journalPage)
                 {
                     case JournalPage.Tasks:
-                        foreach(string s in _journalTasks)
+                        foreach (string s in _journalTasks)
                         {
-                            spriteBatch.DrawString(_font, 
-                                s, 
-                                new Vector2(page.X,page.Y+spacing), 
+                            spriteBatch.DrawString(_font,
+                                s,
+                                new Vector2(page.X, page.Y + spacing),
                                 Color.Black);
                             spacing += 20;
                         }
@@ -102,20 +98,20 @@ namespace Semester2Prototype
                         float number = 20;
                         int entryCount = 0;
                         bool newPage = false;
-                        foreach(string s in _journalClues)
+                        foreach (string s in _journalClues)
                         {
-                            entryCount ++;
+                            entryCount++;
                             if (entryCount > 3 && !newPage)
                             {
-                                newPage = true; 
+                                newPage = true;
                                 page = _rightPage;
                                 number = 20;
                             }
                             string[] split = s.Split(' ');
                             string result = string.Empty;
-                            foreach(string s2 in split)
+                            foreach (string s2 in split)
                             {
-                                if(_font.MeasureString(result + s2 +" ").X > page.Width)
+                                if (_font.MeasureString(result + s2 + " ").X > page.Width)
                                 {
                                     result += "\n" + s2 + " ";
                                 }
@@ -203,12 +199,12 @@ namespace Semester2Prototype
             switch (_journalPage)
             {
                 case JournalPage.Tasks:
-                    
+
                     break;
                 case JournalPage.Clues:
-                    
+
                     break;
-                case JournalPage.Suspects: 
+                case JournalPage.Suspects:
                     break;
                 case JournalPage.page4:
                     break;
@@ -240,7 +236,7 @@ namespace Semester2Prototype
             {
                 _isKeysPressed = true;
                 _journalPage--;
-                if((int)_journalPage < 0) 
+                if ((int)_journalPage < 0)
                 {
                     _journalPage = (JournalPage)3;
                 }

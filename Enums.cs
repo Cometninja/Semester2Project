@@ -1,60 +1,60 @@
 ﻿namespace Semester2Prototype
 {
-    public enum Facing 
-    { 
-        Up, 
-        Down, 
-        Left, 
-        Right 
+    public enum Facing
+    {
+        Up,
+        Down,
+        Left,
+        Right
     }
     public enum Moving
-    { 
-        Still, 
-        Down, 
-        Up, 
-        Left, 
-        Right 
+    {
+        Still,
+        Down,
+        Up,
+        Left,
+        Right
     }
-    public enum GameState 
-    { 
-        GameStart, 
-        GamePlaying, 
-        JournalScreen, 
-        Dialoge, 
-        MainMenu, 
-        Pause, 
-        Options, 
-        Keybinds, 
+    public enum GameState
+    {
+        GameStart,
+        GamePlaying,
+        JournalScreen,
+        Dialoge,
+        MainMenu,
+        Pause,
+        Options,
+        Keybinds,
         Sound,
         Accusation
     }
-    public enum FloorLevel 
-    { 
-        GroundFLoor, 
-        FirstFloor, 
-        SecondFLoor 
+    public enum FloorLevel
+    {
+        GroundFLoor,
+        FirstFloor,
+        SecondFLoor
     }
-    public enum TileState 
-    { 
-        Empty, 
-        Interactive, 
-        Wall 
+    public enum TileState
+    {
+        Empty,
+        Interactive,
+        Wall
     }
-    public enum NPCCharacter 
-    { 
-        Manager, 
-        Receptionist, 
-        Cleaner, 
-        Chef, 
-        Cook, 
-        MrMontgomery, 
-        MrsPark, 
-        MsMayflower, 
-        MrSanders, 
-        MrRoss 
+    public enum NPCCharacter
+    {
+        Manager,
+        Receptionist,
+        Cleaner,
+        Chef,
+        Cook,
+        MrMontgomery,
+        MrsPark,
+        MsMayflower,
+        MrSanders,
+        MrRoss
     }
-    public enum ClueType 
-    { 
+    public enum ClueType
+    {
         ChefKnife,
         MayFlowerPhoto,
         DiscardedClothing,
@@ -64,18 +64,18 @@
         FinancialDocuments,
         VictimsDocuments
     }
-    public enum JournalPage 
-    { 
-        Tasks, 
-        Clues, 
-        Suspects, 
-        page4 
+    public enum JournalPage
+    {
+        Tasks,
+        Clues,
+        Suspects,
+        page4
     }
-    public enum Furniture 
-    { 
+    public enum Furniture
+    {
         Table,
         CounterTop,
-        ChairLeft, 
+        ChairLeft,
         ChairRight,
         ChairDown,
         ChairUp,

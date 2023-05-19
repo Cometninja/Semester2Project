@@ -6,7 +6,6 @@ using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Semester2Prototype.Controls;
-using static System.Net.Mime.MediaTypeNames;
 
 namespace Semester2Prototype.States
 {
@@ -101,7 +100,7 @@ namespace Semester2Prototype.States
         public override void Draw(GameTime gameTime, SpriteBatch spriteBatch)
         {
 
-            
+
 
             Color tDimGrey = new Color(Color.Black, 175);
 
@@ -152,7 +151,7 @@ namespace Semester2Prototype.States
         {
             _game._buttonPressInstance.Play();
             Debug.WriteLine("+");
-            _game.AdjustSongVolume(0.1f);          
+            _game.AdjustSongVolume(0.1f);
         }
 
         private void MinusSongGameButton_Click(object sender, EventArgs e)
