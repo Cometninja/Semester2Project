@@ -11,9 +11,6 @@ namespace Semester2Prototype
         public Color _color = Color.White;
         public Rectangle _bounds;
         public Rectangle _sourceRect;
-        public MessageBox messageBox;
-
-        
         public Sprite(Texture2D image, Vector2 position)
         {
             _image = image;
@@ -24,7 +21,6 @@ namespace Semester2Prototype
         }
         public virtual void Update(List<Sprite> sprites)
         {
-
         }
         public virtual void Draw(SpriteBatch spriteBatch)
         {

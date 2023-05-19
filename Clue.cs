@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Security.Cryptography;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
@@ -12,8 +11,8 @@ namespace Semester2Prototype
         public bool _found = false;
 
 
-        public Clue(Texture2D image,ClueType clueType) :base(image,Vector2.Zero)
-        { 
+        public Clue(Texture2D image, ClueType clueType) : base(image, Vector2.Zero)
+        {
             _clueType = clueType;
             _center = new Vector2(_position.X + 16, _position.Y + 30);
         }
@@ -23,7 +22,7 @@ namespace Semester2Prototype
             _center = new Vector2(_position.X + 16, _position.Y + 30);
             if (!_found)
             {
-                _color = new Color(Color.Yellow,0.1f);
+                _color = new Color(Color.White, 0.01f);
             }
             else
             {
@@ -59,7 +58,7 @@ namespace Semester2Prototype
                 {
                     case ClueType.ChefKnife:
                         journal._goals["FoundKnife"] = true;
-                        journal._journalClues.Add("The murder weapon A blood stained 13-inch knife. "  +
+                        journal._journalClues.Add("The murder weapon A blood stained 13-inch knife. " +
                             "Its labelled as property of the hotel kitchen. " +
                             "The Murderer must have had access to the area around the kitchen at some point.");
                         break;
@@ -95,7 +94,7 @@ namespace Semester2Prototype
                         journal._goals["KitchenChecks"] = true;
                         journal._journalClues.Add("Checks from yesterday's dinners and when they were served. " +
                             "Mr Richards [Victim], Mrs Park, and Ms Mayflower served at 19:00. " +
-                            "Mr Montgomery at 22:00 " );
+                            "Mr Montgomery at 22:00 ");
                         break;
                     case ClueType.FinancialDocuments:
                         journal._goals["FinancialDocuments"] = true;

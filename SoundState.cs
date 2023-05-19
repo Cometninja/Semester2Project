@@ -14,9 +14,8 @@ namespace Semester2Prototype.States
         private List<Component> _components;
 
 
-        SpriteBatch _spriteBatch;
         SpriteFont _smallFont, _titleFont, _buttonFont;
-        Texture2D _rectangleTxr, _backgroundTxr, _buttonTexture, _smallButtonTexture;
+        Texture2D _rectangleTxr, _buttonTexture, _smallButtonTexture;
         Point _screenSize = new Point(800, 800);
         public SoundState(Game1 game, GraphicsDevice graphicsDevice, ContentManager content)
           : base(game, graphicsDevice, content)
@@ -62,7 +61,7 @@ namespace Semester2Prototype.States
 
         public override void Draw(GameTime gameTime, SpriteBatch spriteBatch)
         {
-            
+
             Color tDimGrey = new Color(Color.Black, 175);
 
             int rectWidth = 400; // set the width of the rectangle

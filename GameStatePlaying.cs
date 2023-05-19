@@ -11,7 +11,6 @@ namespace Semester2Prototype.States
         Texture2D journalImage, _rectangleTxr, _backgroundTxr;
         SpriteFont smallJournalFont;
         Point _screenSize = new Point(800, 800);
-        bool isPauseState;
 
         string[] journalFeatures = { "Feature 1", "Feature 2", "Feature 3" };
         string[] journalFeatures2 = { "Feature 4", "Feature 5", "Feature 6" };

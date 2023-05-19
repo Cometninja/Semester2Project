@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
-using System.Diagnostics;
 
 namespace Semester2Prototype
 {
@@ -142,7 +142,7 @@ namespace Semester2Prototype
                 _isPPressed = false;
             }
 
-            if (Keyboard.GetState().IsKeyDown(Keys.E) && !_isKeysPressed )
+            if (Keyboard.GetState().IsKeyDown(Keys.E) && !_isKeysPressed)
             {
                 DebugBounds = true;
                 detection = _bounds;
@@ -177,13 +177,12 @@ namespace Semester2Prototype
                     }
                 }
                 List<Clue> clues = _sprites.OfType<Clue>().ToList();
-                bool allfound;
-                foreach(Clue clue in clues)
+                foreach (Clue clue in clues)
                 {
                     if (detection.Contains(clue._center))
                     {
-                        clue.FoundClue(_messageBox,_journal);
-                        
+                        clue.FoundClue(_messageBox, _journal);
+
                         Debug.WriteLine("you found a clue!!!!");
                     }
                 }
@@ -193,9 +192,9 @@ namespace Semester2Prototype
             {
                 DebugBounds = false;
             }
-            if(Keyboard.GetState().GetPressedKeyCount() == 0) 
-            { 
-                _isKeysPressed= false;
+            if (Keyboard.GetState().GetPressedKeyCount() == 0)
+            {
+                _isKeysPressed = false;
             }
         }
         public void PlayerMove(Player player)
@@ -222,7 +221,7 @@ namespace Semester2Prototype
                         {
                             npc._position.Y++;
                         }
-                        foreach(Clue clue in clues)
+                        foreach (Clue clue in clues)
                         {
                             clue._position.Y++;
                         }
@@ -315,8 +314,15 @@ namespace Semester2Prototype
                     }
                     if (player._position.X % 50 == 0 && sourceTile._position.X % 50 == 0)
                     {
+                        if(_moving == Moving.Left ||  _moving == Moving.Right)
+                        {
+                            player._sourceRect = GetPlayerImage()[3][0];
+                        }
+                        else
+                        {
+                            player._sourceRect = GetPlayerImage()[3][0];
+                        }
                         _moving = Moving.Still;
-                        player._sourceRect = GetPlayerImage()[3][0];
                     }
                     break;
 
@@ -352,28 +358,28 @@ namespace Semester2Prototype
                 animations.Add(new List<Rectangle>());
             }
             // Down animation
-            animations[0].Add(new Rectangle(0, 0, 36, 52));
-            animations[0].Add(new Rectangle(36, 0, 36, 52));
-            animations[0].Add(new Rectangle(0, 0, 36, 52));
-            animations[0].Add(new Rectangle(72, 0, 36, 52));
+            animations[0].Add(new Rectangle(0, 0, 36, 54));
+            animations[0].Add(new Rectangle(36, 0, 36, 54));
+            animations[0].Add(new Rectangle(0, 0, 36, 54));
+            animations[0].Add(new Rectangle(72, 0, 36, 54));
 
             // Up animation
-            animations[3].Add(new Rectangle(0, 156, 36, 52));
-            animations[3].Add(new Rectangle(36, 156, 36, 52));
-            animations[3].Add(new Rectangle(0, 156, 36, 52));
-            animations[3].Add(new Rectangle(72, 156, 36, 52));
+            animations[1].Add(new Rectangle(0, 53, 36, 53));
+            animations[1].Add(new Rectangle(36, 53, 36, 53));
+            animations[1].Add(new Rectangle(0, 53, 36, 53));
+            animations[1].Add(new Rectangle(72, 53, 36, 53));
 
             // Right animation
-            animations[2].Add(new Rectangle(0, 104, 36, 52));
-            animations[2].Add(new Rectangle(36, 104, 36, 52));
-            animations[2].Add(new Rectangle(0, 104, 36, 52));
-            animations[2].Add(new Rectangle(72, 104, 36, 52));
+            animations[2].Add(new Rectangle(0, 106, 36, 52));
+            animations[2].Add(new Rectangle(36, 106, 36, 52));
+            animations[2].Add(new Rectangle(0, 106, 36, 52));
+            animations[2].Add(new Rectangle(72, 106, 36, 52));
 
             // Left animation
-            animations[1].Add(new Rectangle(0, 52, 36, 52));
-            animations[1].Add(new Rectangle(36, 52, 36, 52));
-            animations[1].Add(new Rectangle(0, 52, 36, 52));
-            animations[1].Add(new Rectangle(72, 52, 36, 52));
+            animations[3].Add(new Rectangle(0, 158, 36, 52));
+            animations[3].Add(new Rectangle(36, 158, 36, 52));
+            animations[3].Add(new Rectangle(0, 158, 36, 52));
+            animations[3].Add(new Rectangle(72, 158, 36, 52));
 
             return animations;
         }

@@ -12,7 +12,7 @@ namespace Semester2Prototype.States
     {
         private List<Component> _components;
 
-        Texture2D _rectangleTxr, _backgroundTxr, _buttonTexture;
+        Texture2D _rectangleTxr, _buttonTexture;
         SpriteFont _buttonFont;
         Point _screenSize = new Point(800, 800);
         public PauseState(Game1 game, GraphicsDevice graphicsDevice, ContentManager content)

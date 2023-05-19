@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net.Http;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
@@ -15,13 +14,13 @@ namespace Semester2Prototype
         public TileState _tileState = TileState.Empty;
         static Game1 _game1;
         Texture2D _furnitureSheet;
-        public Furniture _furniture =  Furniture.None;
+        public Furniture _furniture = Furniture.None;
         public Rectangle _furnitureImage;
         public bool _flipped;
-        public Tile(Texture2D image,Texture2D furnitureSheet, Vector2 position, Point point, Game1 game1) : base(image, position)
+        public Tile(Texture2D image, Texture2D furnitureSheet, Vector2 position, Point point, Game1 game1) : base(image, position)
         {
             _game1 = game1;
-            _sourceRect = new Rectangle(1, 1, 50, 50);
+            _sourceRect = new Rectangle(45, 55, 8, 8);
             _bounds = new Rectangle((int)_position.X, (int)_position.Y, _image.Width, _image.Height);
             _point = point;
             _center = new Vector2(image.Width / 2, image.Height / 2);
@@ -33,11 +32,11 @@ namespace Semester2Prototype
         {
             _centerBox = new Rectangle((int)(_position.X), (int)(_position.Y), 50, 50);
             Player player = sprites.OfType<Player>().First();
-            if (_centerBox.Contains(player._center) )
+            if (_centerBox.Contains(player._center))
             {
                 player._point = _point;
             }
-            
+
         }
         public override void Draw(SpriteBatch spriteBatch)
         {
@@ -45,30 +44,29 @@ namespace Semester2Prototype
             {
                 spriteBatch.Draw(
                     _image,
-                    _position,
+                    new Rectangle((int)_position.X,(int)_position.Y,50,50),
                     _sourceRect,
                     _color,
                     0f,
-                    new Vector2(50 / 2, 50 / 2),
-                    1f,
+                    new Vector2(4,4),
                     SpriteEffects.None,
-                    1f);
-                if(_furniture != Furniture.None) 
+                    0f);
+                if (_furniture != Furniture.None)
                 {
                     SpriteEffects flipped = SpriteEffects.None;
-                    
+
                     if (_flipped)
                         flipped = SpriteEffects.FlipHorizontally;
 
                     spriteBatch.Draw(_furnitureSheet,
-                        new Rectangle((int)_position.X -25, (int)_position.Y-25, 50, 50),
+                        new Rectangle((int)_position.X - 25, (int)_position.Y - 25, 50, 50),
                         _furnitureImage,
                         Color.White,
                         0f,
-                        new Vector2(0,0),
+                        new Vector2(0, 0),
                         flipped,
                         1f);
-               }
+                }
             }
         }
         public void SetUpFLoorPlan(List<Clue> clues)
@@ -76,12 +74,11 @@ namespace Semester2Prototype
             _floorLevel = _game1._floorLevel;
             List<List<int>> ints = LayoutRoom(_floorLevel);
             _tileState = TileState.Empty;
-            _sourceRect = new Rectangle(1, 1, 50, 50);
-            
-            foreach (Clue clue in clues) 
+            _sourceRect = new Rectangle(45, 55, 8, 8);
+
+            foreach (Clue clue in clues)
             {
-                
-                if(_position == clue._position) 
+                if (_position == clue._position)
                 {
                     _tileState = TileState.Wall;
                     break;
@@ -91,16 +88,16 @@ namespace Semester2Prototype
             if (_point.X == 0 || _point.X == 29 || _point.Y == 0 || _point.Y == 24)
             {
                 _tileState = TileState.Wall;
-                _sourceRect = new Rectangle(1, 52, 50, 50);
+                _sourceRect = new Rectangle(9, 1, 8, 8);
             }
 
             if (ints[_point.Y].Contains(_point.X))
             {
                 _tileState = TileState.Wall;
-                _sourceRect = new Rectangle(1, 52, 50, 50);
+                _sourceRect = new Rectangle(9, 1, 8, 8);
             }
-                        
-            if(_furniture != Furniture.None)
+
+            if (_furniture != Furniture.None)
             {
                 _tileState = TileState.Wall;
             }
@@ -118,7 +115,7 @@ namespace Semester2Prototype
                     _tileState = TileState.Wall;
                 }
             }
-            
+
             foreach (Clue clue in clues)
             {
                 if (_centerBox.Contains(clue._center))
@@ -234,7 +231,7 @@ namespace Semester2Prototype
                     X17 = new int[] { 7, 17 };
                     X18 = new int[] { 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17 };
                     X19 = new int[] { 0 };
-                    X20 = new int[] { 25, 26, 27, 28 };
+                    X20 = new int[] { 24,25, 26, 27, 28 };
                     X21 = new int[] { 24 };
                     X22 = new int[] { 0 };
                     X23 = new int[] { 24 };
@@ -348,62 +345,62 @@ namespace Semester2Prototype
             }
             return ints;
         }
-        
+
         public void SetFurniture()
         {
-            
-            switch (_furniture) 
-            { 
-                case Furniture.Table: 
-                    _furnitureImage = new Rectangle(67, 33, 17, 17); 
+
+            switch (_furniture)
+            {
+                case Furniture.Table:
+                    _furnitureImage = new Rectangle(67, 33, 17, 17);
                     break;
                 case Furniture.ChairLeft:
                     _flipped = true;
-                    _furnitureImage = new Rectangle(272,205,18,18);
+                    _furnitureImage = new Rectangle(272, 205, 18, 18);
                     break;
                 case Furniture.ChairRight:
-                    _furnitureImage = new Rectangle(272,205,18,18);
+                    _furnitureImage = new Rectangle(272, 205, 18, 18);
                     break;
                 case Furniture.ChairDown:
-                    _furnitureImage = new Rectangle(272,238,18,18);
+                    _furnitureImage = new Rectangle(272, 238, 18, 18);
                     break;
                 case Furniture.ChairUp:
-                    _furnitureImage = new Rectangle(272,222,18,18);
+                    _furnitureImage = new Rectangle(272, 222, 18, 18);
                     break;
                 case Furniture.Sofa:
-                    _furnitureImage = new Rectangle(255,51,31,15);
+                    _furnitureImage = new Rectangle(255, 51, 31, 15);
                     break;
                 case Furniture.Toilet:
-                    _furnitureImage = new Rectangle(544,300,14,23);
+                    _furnitureImage = new Rectangle(544, 300, 14, 23);
                     break;
                 case Furniture.Cabnet:
-                    _furnitureImage = new Rectangle(0,187,14,31);
+                    _furnitureImage = new Rectangle(0, 187, 14, 31);
                     break;
                 case Furniture.Shelves:
-                    _furnitureImage = new Rectangle(102,307,15,31);
+                    _furnitureImage = new Rectangle(102, 307, 15, 31);
                     break;
                 case Furniture.Locker:
-                    _furnitureImage = new Rectangle(17,68,15,31);
+                    _furnitureImage = new Rectangle(17, 68, 15, 31);
                     break;
                 case Furniture.CounterTop:
-                    _furnitureImage = new Rectangle(68,119,14,14);
+                    _furnitureImage = new Rectangle(68, 119, 14, 14);
                     break;
                 case Furniture.Bed:
-                    _furnitureImage = new Rectangle(169,35,33,32);
+                    _furnitureImage = new Rectangle(169, 35, 33, 32);
                     break;
                 case Furniture.Shower:
-                    _furnitureImage = new Rectangle(407,289,14,33);
+                    _furnitureImage = new Rectangle(407, 289, 14, 33);
                     break;
                 case Furniture.CoffeeTable:
-                    _furnitureImage = new Rectangle(50,51,17,16);
+                    _furnitureImage = new Rectangle(50, 51, 17, 16);
                     break;
                 case Furniture.Wardrobe:
-                    _furnitureImage = new Rectangle(101,34,17,33);
+                    _furnitureImage = new Rectangle(101, 34, 17, 33);
                     break;
                 case Furniture.Sink:
-                    _furnitureImage = new Rectangle(101,254,16,17);
+                    _furnitureImage = new Rectangle(101, 254, 16, 17);
                     break;
-                default: 
+                default:
                     _furnitureImage = Rectangle.Empty;
                     break;
             }

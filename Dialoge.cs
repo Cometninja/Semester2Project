@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -15,7 +16,7 @@ namespace Semester2Prototype
         List<string> _npcDialoge;
         string _cursor = ">>";
         SpriteFont _font;
-        Vector2 _cursorPos = new Vector2(5, 60);
+        Vector2 _cursorPos = new Vector2(5,10);
         bool _ButtonPressed = false;
         int _spacing = 15;
         int _answer = 0;
@@ -27,8 +28,8 @@ namespace Semester2Prototype
         int tickCount = 0;
         bool _displayEnter;
         public List<List<string>> _dialogs;
-        static Point _dialogPos = new Point(0, 50);
-        static Point _dialogWindowSize = new Point(400,200);
+        static Point _dialogPos = new Point(0, 0);
+        static Point _dialogWindowSize = new Point(400, 200);
         bool _finalQuestion;
         List<Vector2> _optionPos = new List<Vector2>();
 
@@ -56,7 +57,7 @@ namespace Semester2Prototype
 
         public void DialogeUpdate(GameTime gameTime)
         {
-            if ((Keyboard.GetState().IsKeyDown(Keys.Down)|| Keyboard.GetState().IsKeyDown(Keys.S)) 
+            if ((Keyboard.GetState().IsKeyDown(Keys.Down) || Keyboard.GetState().IsKeyDown(Keys.S))
                 && !_ButtonPressed)
             {
                 _ButtonPressed = true;
@@ -74,10 +75,10 @@ namespace Semester2Prototype
                 _question--;
                 if (_question < 0)
                 {
-                    _question = _playerDialoge.Count -1;
+                    _question = _playerDialoge.Count - 1;
                 }
                 _cursorPos = _optionPos[_question];
-            
+
             }
             if (Keyboard.GetState().GetPressedKeyCount() == 0 && !_printing)
             {
@@ -142,16 +143,30 @@ namespace Semester2Prototype
         {
             spriteBatch.Draw(_dialogeBox, _playerDialogBox, Color.White);
             spriteBatch.Draw(_dialogeBox, _npcDialogBox, Color.White);
-            int numb = 60;
+            int numb = _playerDialogBox.X + 10;
 
             if (!_displayEnter)
             {
                 _optionPos.Clear();
                 foreach (string s in _playerDialoge)
                 {
+                    string[] splitQuestion = s.Split(' ');
+                    string result = string.Empty;
+                    foreach (string s2 in splitQuestion) 
+                    { 
+                        if (_font.MeasureString(result + " " + s2).X > (_playerDialogBox.Width - 50))
+                        {
+                            result += ("\n" +s2 + " ");
+                        }
+                        else
+                        {
+                            result += s2 + " ";
+                        }
+                    }
                     _optionPos.Add(new Vector2(_playerDialogBox.X + 5, numb));
-                    spriteBatch.DrawString(_font, s, new Vector2(_playerDialogBox.X + 25, numb), Color.White);
-                    numb += _spacing;
+
+                    spriteBatch.DrawString(_font, result, new Vector2(_playerDialogBox.X + 25, numb), Color.White);
+                    numb += (int)_font.MeasureString(result).Y;
                 }
             }
             else
@@ -190,7 +205,7 @@ namespace Semester2Prototype
                 tickCount = 0;
                 if (count == splitAnswer.Length)
                 {
-                    if(!_finalQuestion)
+                    if (!_finalQuestion)
                     {
                         _displayEnter = true;
                     }

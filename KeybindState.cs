@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Reflection.Metadata;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
@@ -13,7 +12,7 @@ namespace Semester2Prototype.States
     {
         private List<Component> _components;
 
-        Texture2D _rectangleTxr, _backgroundTxr, _buttonTexture, _keybindTxr;
+        Texture2D _rectangleTxr, _buttonTexture;
         SpriteFont _titleFont, _buttonFont;
         Point _screenSize = new Point(800, 800);
 
