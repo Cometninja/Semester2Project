@@ -41,7 +41,7 @@ namespace Semester2Prototype
         }
         public override void Draw(SpriteBatch spriteBatch)
         {
-            if (_position.X < 1050 && _position.X > -50 && _position.Y < 550 && _position.Y > -50)
+            if (_position.X < 1050 && _position.X > -50 && _position.Y < 700 && _position.Y > -50)
             {
                 spriteBatch.Draw(
                     _image,
@@ -99,12 +99,7 @@ namespace Semester2Prototype
                 _tileState = TileState.Wall;
                 _sourceRect = new Rectangle(1, 52, 50, 50);
             }
-
-            if (_point.X == 10 && _point.Y == 5)
-            {
-                _tileState = TileState.Interactive;
-                _sourceRect = new Rectangle(52, 1, 50, 50);
-            }
+                        
             if(_furniture != Furniture.None)
             {
                 _tileState = TileState.Wall;

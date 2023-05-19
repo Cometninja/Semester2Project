@@ -28,6 +28,8 @@ namespace Semester2Prototype
         JournalPage _journalPage;
         public bool _isKeysPressed;
         public int _cluesFound = 0;
+        // Debug
+        public bool _allFound = true;
         string[] _titles = new string[] { "Tasks", "Clues", "Suspects", "page4" };
 
         public string[] _tasks;

@@ -30,6 +30,8 @@ namespace Semester2Prototype
         static Point _dialogPos = new Point(0, 50);
         static Point _dialogWindowSize = new Point(400, 100);
         bool _finalQuestion;
+        List<Vector2> options= new List<Vector2>();
+
 
         static Rectangle _playerDialogBox = new Rectangle(
             _dialogPos,
@@ -106,11 +108,9 @@ namespace Semester2Prototype
                     if (_playerDialoge[0] == "I am ready to make my Decision!")
                     {
                         _finalQuestion = true;
-                        
                     }
                     if (_playerDialoge[_question] == "yes")
                     {
-                        
                         game._gameState = GameState.Accusation;
                     }
                     else

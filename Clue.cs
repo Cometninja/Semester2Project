@@ -23,7 +23,7 @@ namespace Semester2Prototype
             _center = new Vector2(_position.X + 16, _position.Y + 30);
             if (!_found)
             {
-                _color = Color.Yellow;
+                _color = new Color(Color.Yellow,0.1f);
             }
             else
             {
@@ -33,7 +33,16 @@ namespace Semester2Prototype
         }
         public override void Draw(SpriteBatch spriteBatch)
         {
-            base.Draw(spriteBatch);
+            spriteBatch.Draw(
+                _image,
+                _position,
+                _sourceRect,
+                _color,
+                0f,
+                new Vector2(_sourceRect.Width / 2, _sourceRect.Height / 2),
+                1f,
+                SpriteEffects.None,
+                1f);
         }
 
         public void FoundClue(MessageBox messageBox, Journal journal)
@@ -42,7 +51,10 @@ namespace Semester2Prototype
             {
                 _found = true;
                 journal._cluesFound++;
-
+                if (journal._cluesFound == 8)
+                {
+                    journal._allFound = true;
+                }
                 switch (_clueType)
                 {
                     case ClueType.ChefKnife:

@@ -50,11 +50,14 @@ namespace Semester2Prototype
         protected Song song;
 
         Point _playerPoint = new Point(0, 0);
+        internal Game1 _game1;
+
         public Game1()
         {
             _graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
             IsMouseVisible = true;
+               
         }
 
         protected override void Initialize()
@@ -232,7 +235,7 @@ namespace Semester2Prototype
                         }
 
 
-                        _accusation = new Accusation(_messageBoxImage, _mainFont, this, npcs);
+                        _accusation = new Accusation(_messageBoxImage, _mainFont, this, npcs,_sprites.OfType<Journal>().First());
                         _startAccusation = true;
                     }
                     
@@ -284,7 +287,8 @@ namespace Semester2Prototype
                     _player._dialoge.DialogeDraw(_spriteBatch);
                     break;
                 case GameState.Accusation:
-                    _accusation.Draw(_spriteBatch);
+                    if(_accusation != null)
+                        _accusation.Draw(_spriteBatch);
                     break;
             }
             base.Draw(gameTime);
@@ -421,6 +425,8 @@ namespace Semester2Prototype
             _menuState = state;
             _currentState = state;
         }
+
+      
         static void SetTileFurniture(List<Sprite> sprites, List<List<Point>> furnitureLocations)
         {
             foreach (Tile tile in sprites.OfType<Tile>().ToList())
@@ -442,6 +448,15 @@ namespace Semester2Prototype
         {
             List<Clue> clues = _sprites.OfType<Clue>().ToList();
 
+            //clues[0] Knife
+            //clues[1] Photo
+            //clues[2] Clothing
+            //clues[3] MasterKey
+            //clues[4] ReceptionLogs
+            //clues[5] KitchenChecks
+            //clues[6] Financial Docs
+            //clues[7] Victems Docs
+
             foreach(Clue clue in clues)
             {
                 clue._position = new Vector2(2000,2000);
@@ -449,12 +464,21 @@ namespace Semester2Prototype
             switch (floorLevel)
             {
                 case FloorLevel.GroundFLoor:
+                    clues[2]._position = _sprites.OfType<Tile>().First(tile => tile._point == new Point(7,1))._position;          
+                    clues[3]._position = _sprites.OfType<Tile>().First(tile => tile._point == new Point(28,23))._position;          
+                    clues[4]._position = _sprites.OfType<Tile>().First(tile => tile._point == new Point(8,17))._position;          
+                    clues[5]._position = _sprites.OfType<Tile>().First(tile => tile._point == new Point(8,5))._position;          
+                    clues[6]._position = _sprites.OfType<Tile>().First(tile => tile._point == new Point(2,7))._position;          
+
                     break;
                 case FloorLevel.FirstFloor:
+                    clues[1]._position = _sprites.OfType<Tile>().First(tile => tile._point == new Point(19,20))._position;          
+
                     break;
                 case FloorLevel.SecondFLoor:
-                    //Knife
                     clues[0]._position = _sprites.OfType<Tile>().First(tile => tile._point == new Point(14,2))._position;          
+                    clues[7]._position = _sprites.OfType<Tile>().First(tile => tile._point == new Point(19,1))._position;          
+
                     break;
             }
         }
