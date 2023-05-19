@@ -16,6 +16,14 @@ namespace Semester2Prototype.States
 
         public Game1 _game;
 
+        public Texture2D _image;
+
+        public Vector2 _position, _center;
+
+        public Rectangle _bounds;
+
+        public Rectangle _sourceRect;
+
         #endregion
 
 
@@ -33,6 +41,7 @@ namespace Semester2Prototype.States
             _graphicsDevice = graphicsDevice;
 
             _content = content;
+
         }
 
         public abstract void Update(GameTime gameTime);

@@ -16,7 +16,6 @@ namespace Semester2Prototype
         List<string> _npcDialoge;
         string _cursor = ">>";
         SpriteFont _font;
-        Vector2 _cursorPos = new Vector2(5,10);
         bool _ButtonPressed = false;
         int _spacing = 15;
         int _answer = 0;
@@ -28,8 +27,9 @@ namespace Semester2Prototype
         int tickCount = 0;
         bool _displayEnter;
         public List<List<string>> _dialogs;
-        static Point _dialogPos = new Point(0, 0);
-        static Point _dialogWindowSize = new Point(400, 200);
+        static Point _dialogPos = new Point(0, 325);
+        Vector2 _cursorPos = new Vector2(_dialogPos.X +5,_dialogPos.Y+10);
+        static Point _dialogWindowSize = new Point(400, 175);
         bool _finalQuestion;
         List<Vector2> _optionPos = new List<Vector2>();
 
@@ -143,7 +143,7 @@ namespace Semester2Prototype
         {
             spriteBatch.Draw(_dialogeBox, _playerDialogBox, Color.White);
             spriteBatch.Draw(_dialogeBox, _npcDialogBox, Color.White);
-            int numb = _playerDialogBox.X + 10;
+            int numb = _playerDialogBox.Y + 10;
 
             if (!_displayEnter)
             {
@@ -171,6 +171,7 @@ namespace Semester2Prototype
             }
             else
             {
+                _cursorPos = new Vector2(5, 10);
                 spriteBatch.DrawString(_font, "PRESS ENTER TO CONTINUE...", new Vector2(_playerDialogBox.X + 25, numb), Color.White);
             }
 

@@ -270,9 +270,9 @@ namespace Semester2Prototype
                         if (_journal._goals["FoundMasterKey"])
                         {
                             playerDialog.Add("I found this master key in the storage closet, A place I thought only you would access. Can you tell me something?");
-                            npcDialog.Add("Wait… what?#" +
-                                "the Manager said they had lost it?#" +
-                                "I didn't know anything about the key in there I swear");
+                            npcDialog.Add("Wait... what?#" +
+                                "The Manager said they had lost it?#" +
+                                "I didn't know anything about the key in there I swear.");
                         }
                         playerDialog.Add("Goodbye");
                         npcDialog.Add("Goodbye");

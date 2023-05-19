@@ -97,6 +97,8 @@ namespace Semester2Prototype
                 _sourceRect = new Rectangle(9, 1, 8, 8);
             }
 
+
+
             if (_furniture != Furniture.None)
             {
                 _tileState = TileState.Wall;

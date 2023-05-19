@@ -127,7 +127,13 @@ namespace Semester2Prototype
                         }
                         break;
                     case JournalPage.Suspects: break;
-                    case JournalPage.page4: break;
+                    case JournalPage.page4:
+                        spriteBatch.DrawString(_font,
+                                $"Found Clues {_cluesFound}/8",
+                                new Vector2(page.X, page.Y + spacing),
+                                Color.Black);
+
+                        break;
                 }
             }
             else
@@ -135,7 +141,6 @@ namespace Semester2Prototype
                 spriteBatch.Draw(_image, new Rectangle(0, 0, 50, 50), null, Color.White);
             }
         }
-
         public void LoadJournalMessages()
         {
             //TODO add in file read system
@@ -242,7 +247,7 @@ namespace Semester2Prototype
                 }
                 DisplayJournal();
             }
-            if (Keyboard.GetState().IsKeyDown(Keys.P) && !_isKeysPressed)
+            if (Keyboard.GetState().IsKeyDown(Keys.Q) && !_isKeysPressed)
             {
                 _isKeysPressed = true;
                 _isJournalDisplayed = false;

@@ -14,6 +14,7 @@
     <Compile Remove="Content\TestingClass.cs" />
     <Compile Remove="DanTestingMenu.cs" />
     <Compile Remove="Menus.cs" />
+    <Compile Remove="SoundState.cs" />
     <Compile Remove="VarCollection.cs" />
     <Compile Remove="Wall.cs" />
   </ItemGroup>

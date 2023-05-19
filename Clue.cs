@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
 
 
@@ -9,6 +10,13 @@ namespace Semester2Prototype
     {
         public ClueType _clueType;
         public bool _found = false;
+        public Game1 _game1;
+
+        public SoundEffect _clueFound;
+        public SoundEffectInstance _clueFoundInstance;
+
+
+
 
 
         public Clue(Texture2D image, ClueType clueType) : base(image, Vector2.Zero)
@@ -76,7 +84,7 @@ namespace Semester2Prototype
                             "There is two identifiable labels' in pile, The Cook and Receptionist.");
                         break;
                     case ClueType.HotelMasterKey:
-                        journal._goals["FoundMaserKey"] = true;
+                        journal._goals["FoundMasterKey"] = true;
                         journal._journalClues.Add("An old battered key- must be a master key." +
                             "Why is in on the floor in here though?." +
                             "A plant, or a quick attempt at hiding it? " +

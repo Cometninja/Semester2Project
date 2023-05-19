@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
@@ -33,6 +34,7 @@ namespace Semester2Prototype
         public FurnitureFunctions _furnitureFunctions;
         public bool _isEscapedPressed;
         public float _volume = 1f;
+        public float _masterVolume = 1f;
         public State _state;
         public State _menuState;
         public SpriteFont _mainFont, buttonFont;
@@ -46,7 +48,17 @@ namespace Semester2Prototype
         public bool _startAccusation;
         static Accusation _accusation;
 
+
         protected Song song;
+
+        public SoundEffect _buttonPress, _clueFound;
+        public SoundEffectInstance _buttonPressInstance, _clueFoundInstance;
+
+        protected Song _song;
+
+        // 800 x 600 window size
+
+
 
         Point _playerPoint = new Point(0, 0);
 
@@ -63,6 +75,7 @@ namespace Semester2Prototype
             IsMouseVisible = true;
             _graphics.PreferredBackBufferWidth = _windowSize.X;
             _graphics.PreferredBackBufferHeight = _windowSize.Y;
+
             _graphics.IsFullScreen = false;
             _graphics.ApplyChanges();
 
@@ -80,8 +93,8 @@ namespace Semester2Prototype
             _furnitureLocations = _furnitureFunctions.PlaceFurniture();
 
 
-            song = Content.Load<Song>("Song");
-            MediaPlayer.Play(song);
+            _song = Content.Load<Song>("Sounds/Song");
+            MediaPlayer.Play(_song);
             _currentState = new MenuState(this, _graphics.GraphicsDevice, Content);
 
             MediaPlayer.MediaStateChanged += MediaPlayer_MediaStateChanged;
@@ -98,10 +111,18 @@ namespace Semester2Prototype
             _exclamationPoint = Content.Load<Texture2D>("Exclamation");
 
 
+
+
             var buttonTexture = Content.Load<Texture2D>("UI/Controls/Button");
             var buttonFont = Content.Load<SpriteFont>("UI/Fonts/Font");
             _rectangleTxr = Content.Load<Texture2D>("UI/RectangleTxr");
             _backgroundTxr = Content.Load<Texture2D>("UI/Txr_Background");
+
+            _buttonPress = Content.Load<SoundEffect>("Sounds/ButtonPressOld");
+            _clueFound = Content.Load<SoundEffect>("Sounds/ClueFindSound");
+
+            _buttonPressInstance = _buttonPress.CreateInstance();
+            _clueFoundInstance = _clueFound.CreateInstance();
 
             MakeFloorPlan();
 
@@ -112,16 +133,18 @@ namespace Semester2Prototype
 
             // add in the NPCs
 
-            _sprites.Add(new NPC(_npcSpriteSheet, new Vector2(600, 250), NPCCharacter.Manager));
-            _sprites.Add(new NPC(_npcSpriteSheet, new Vector2(650, 250), NPCCharacter.Receptionist));
-            _sprites.Add(new NPC(_npcSpriteSheet, new Vector2(700, 250), NPCCharacter.Cleaner));
-            _sprites.Add(new NPC(_npcSpriteSheet, new Vector2(750, 250), NPCCharacter.Chef));
-            _sprites.Add(new NPC(_npcSpriteSheet, new Vector2(800, 250), NPCCharacter.Cook));
-            _sprites.Add(new NPC(_npcSpriteSheet, new Vector2(850, 250), NPCCharacter.MrMontgomery));
-            _sprites.Add(new NPC(_npcSpriteSheet, new Vector2(900, 250), NPCCharacter.MrsPark));
-            _sprites.Add(new NPC(_npcSpriteSheet, new Vector2(950, 250), NPCCharacter.MsMayflower));
-            _sprites.Add(new NPC(_npcSpriteSheet, new Vector2(1000, 250), NPCCharacter.MrSanders));
-            _sprites.Add(new NPC(_npcSpriteSheet, new Vector2(1050, 250), NPCCharacter.MrRoss));
+
+
+            _sprites.Add(new NPC(Content.Load<Texture2D>("ManagerSprite"), new Vector2(600, 250), NPCCharacter.Manager));
+            _sprites.Add(new NPC(Content.Load<Texture2D>("ReceptionistSprite"), new Vector2(650, 250), NPCCharacter.Receptionist));
+            _sprites.Add(new NPC(Content.Load<Texture2D>("CleanerSprite"), new Vector2(700, 250), NPCCharacter.Cleaner));
+            _sprites.Add(new NPC(Content.Load<Texture2D>("ChefSprite"), new Vector2(750, 250), NPCCharacter.Chef));
+            _sprites.Add(new NPC(Content.Load<Texture2D>("ChefSprite"), new Vector2(800, 250), NPCCharacter.Cook));
+            _sprites.Add(new NPC(Content.Load<Texture2D>("GuestSprite"), new Vector2(850, 250), NPCCharacter.MrMontgomery));
+            _sprites.Add(new NPC(Content.Load<Texture2D>("BusinessWomanSprite"), new Vector2(900, 250), NPCCharacter.MrsPark));
+            _sprites.Add(new NPC(Content.Load<Texture2D>("BusinessWomanSprite"), new Vector2(950, 250), NPCCharacter.MsMayflower));
+            _sprites.Add(new NPC(Content.Load<Texture2D>("GuestSprite"), new Vector2(1000, 250), NPCCharacter.MrSanders));
+            _sprites.Add(new NPC(Content.Load<Texture2D>("GuestSprite"), new Vector2(1050, 250), NPCCharacter.MrRoss));
 
             _sprites.Add(new Clue(_exclamationPoint, ClueType.ChefKnife));
             _sprites.Add(new Clue(_exclamationPoint, ClueType.MayFlowerPhoto));
@@ -143,12 +166,11 @@ namespace Semester2Prototype
         void MediaPlayer_MediaStateChanged(object sender, System.
                                          EventArgs e)
         {
-            // 0.0f is silent, 1.0f is full volume
-            //MediaPlayer.Volume -= 0.1f;
-            MediaPlayer.Play(song);
+
+            MediaPlayer.Play(_song);
         }
 
-        public void AdjustVolume(float change)
+        public void AdjustSongVolume(float change)
         {
             _volume += change;
             // Constrain volume to range [0, 1]
@@ -162,7 +184,25 @@ namespace Semester2Prototype
             }
             // Set volume for MediaPlayer
             MediaPlayer.Volume = _volume;
+
+
         }
+        public void AdjustSoundVolume(float change)
+        {
+            _masterVolume += change;
+            // Constrain volume to range [0, 1]
+            if (_masterVolume < 0)
+            {
+                _masterVolume = 0;
+            }
+            else if (_masterVolume > 1)
+            {
+                _masterVolume = 1;
+            }
+            // Set volume for MediaPlayer
+            SoundEffect.MasterVolume = _masterVolume;
+        }
+
 
         protected override void UnloadContent()
         {
@@ -195,6 +235,7 @@ namespace Semester2Prototype
                     {
                         _isEscapedPressed = false;
                     }
+
                     if (_player._position.X % 50 == 0 && _sprites.OfType<Tile>().FirstOrDefault()._position.X % 50 == 0)
                     {
                         CheckChangeLevel();
@@ -252,11 +293,12 @@ namespace Semester2Prototype
             _currentState.Update(gameTime);
             _currentState.PostUpdate(gameTime);
 
-            if (keyboardState.IsKeyDown(Keys.Escape) && !_isEscapedPressed)
+            if (keyboardState.IsKeyDown(Keys.Escape) && !_isEscapedPressed && _gameState == GameState.GamePlaying)
             {
                 _menuState = new PauseState(this, GraphicsDevice, Content);
                 _isEscapedPressed = true;
                 _gameState = GameState.MainMenu;
+                IsMouseVisible = true;
             }
             else if (!keyboardState.IsKeyDown(Keys.Escape) && _isEscapedPressed)
             {
@@ -448,6 +490,9 @@ namespace Semester2Prototype
         static void SetClueLocation(FloorLevel floorLevel)
         {
             List<Clue> clues = _sprites.OfType<Clue>().ToList();
+            List<NPC> npcs = _sprites.OfType<NPC>().ToList();
+
+
 
             //clues[0] Knife
             //clues[1] Photo
@@ -462,9 +507,31 @@ namespace Semester2Prototype
             {
                 clue._position = new Vector2(2000, 2000);
             }
+            foreach (NPC npc in npcs)
+            {
+                npc._position = new Vector2(2000, 2000);
+            }
             switch (floorLevel)
             {
                 case FloorLevel.GroundFLoor:
+
+
+                    npcs[0]._position = _sprites.OfType<Tile>().First(tile => tile._point == new Point(9,19))._position;
+                    npcs[1]._position = _sprites.OfType<Tile>().First(tile => tile._point == new Point(11,17))._position;
+                    npcs[2]._position = _sprites.OfType<Tile>().First(tile => tile._point == new Point(15,19))._position;
+                    npcs[3]._position = _sprites.OfType<Tile>().First(tile => tile._point == new Point(10,6))._position;
+                    npcs[4]._position = _sprites.OfType<Tile>().First(tile => tile._point == new Point(15,9))._position;
+                    npcs[5]._position = _sprites.OfType<Tile>().First(tile => tile._point == new Point(1,16))._position;
+                    npcs[6]._position = _sprites.OfType<Tile>().First(tile => tile._point == new Point(3,19))._position;
+                    npcs[7]._position = _sprites.OfType<Tile>().First(tile => tile._point == new Point(26,12))._position;
+                    npcs[8]._position = _sprites.OfType<Tile>().First(tile => tile._point == new Point(22,6))._position;
+                    npcs[9]._position = _sprites.OfType<Tile>().First(tile => tile._point == new Point(21,15))._position;
+
+                    foreach(NPC npc in npcs)
+                    {
+                        npc.Update(_sprites);
+                    }
+
                     clues[2]._position = _sprites.OfType<Tile>().First(tile => tile._point == new Point(7, 1))._position;
                     clues[3]._position = _sprites.OfType<Tile>().First(tile => tile._point == new Point(28, 23))._position;
                     clues[4]._position = _sprites.OfType<Tile>().First(tile => tile._point == new Point(8, 17))._position;

@@ -8,18 +8,36 @@ using Semester2Prototype.Controls;
 
 namespace Semester2Prototype.States
 {
-    internal class OptionState : State
+    internal class MenuOptionState : State
     {
         private List<Component> _components;
 
         Texture2D _rectangleTxr, _backgroundTxr, _buttonTexture;
-        SpriteFont _buttonFont;
-        Point _screenSize = new Point(800, 800);
-        public OptionState(Game1 game, GraphicsDevice graphicsDevice, ContentManager content)
+        SpriteFont _buttonFont, _titleFont;
+        static Point _screenSize = new Point(800, 800);
+
+
+
+        Rectangle rect;
+        public MenuOptionState(Game1 game, GraphicsDevice graphicsDevice, ContentManager content)
           : base(game, graphicsDevice, content)
         {
+
+            // Get the screen dimensions
+            int screenWidth = graphicsDevice.Viewport.Width;
+            int screenHeight = graphicsDevice.Viewport.Height;
+
+            // Calculate the rectangle position
+            int rectWidth = 300; // set the width of the rectangle
+            int rectHeight = 1000; // set the height of the rectangle
+            int rectX = screenWidth / 2 - rectWidth / 2;
+            int rectY = screenHeight / 2 - rectHeight / 2;
+
+            rect = new Rectangle(rectX, rectY, rectWidth, rectHeight);
+
             _buttonTexture = _content.Load<Texture2D>("UI/Controls/Button");
             _buttonFont = _content.Load<SpriteFont>("UI/Fonts/Font");
+            _titleFont = _content.Load<SpriteFont>("UI/Fonts/TitleMoldyen");
             _rectangleTxr = _content.Load<Texture2D>("UI/RectangleTxr");
             _backgroundTxr = _content.Load<Texture2D>("UI/Txr_Background");
 
@@ -27,7 +45,7 @@ namespace Semester2Prototype.States
             var keybindsGameButton = new Button(_buttonTexture, _buttonFont)
             {
                 Text = "Keybinds",
-                Position = new Vector2((_screenSize.X - _buttonTexture.Width) / 2, 200)
+                Position = new Vector2((rect.X + _titleFont.MeasureString("New Game").X / 2), 200),
             };
 
 
@@ -35,7 +53,7 @@ namespace Semester2Prototype.States
 
             var SoundGameButton = new Button(_buttonTexture, _buttonFont)
             {
-                Position = new Vector2((_screenSize.X - _buttonTexture.Width) / 2, 250),
+                Position = new Vector2((rect.X + _titleFont.MeasureString("New Game").X / 2), 275),
                 Text = "Sound",
             };
 
@@ -43,7 +61,7 @@ namespace Semester2Prototype.States
 
             var exitGameButton = new Button(_buttonTexture, _buttonFont)
             {
-                Position = new Vector2((_screenSize.X - _buttonTexture.Width) / 2, 300),
+                Position = new Vector2((rect.X + _titleFont.MeasureString("New Game").X / 2), 350),
                 Text = "Back",
             };
 
@@ -60,19 +78,18 @@ namespace Semester2Prototype.States
         public override void Draw(GameTime gameTime, SpriteBatch spriteBatch)
         {
 
-
-
             Color tDimGrey = new Color(Color.Black, 175);
 
-            int rectWidth = 300; // set the width of the rectangle
-            int rectHeight = 500; // set the height of the rectangle
 
-            int rectX = (_screenSize.X - rectWidth) / 2; // calculate the X coordinate to center the rectangle
-            int rectY = 0; // set the Y coordinate of the rectangle position
-
-            Rectangle rect = new Rectangle(rectX, rectY, rectWidth, rectHeight); // create the rectangle
 
             spriteBatch.Draw(_rectangleTxr, rect, tDimGrey); // draw the rectangle centered on the screen along the X-axis
+
+            Vector2 textSize = _titleFont.MeasureString("Title");
+            spriteBatch.DrawString(_titleFont,
+                "Options",
+                new Vector2(rect.X + rect.Width / 2 - _titleFont.MeasureString("Options").X / 2, 100),
+                Color.White);
+            // 800 x 600 window size
 
 
 
@@ -84,12 +101,14 @@ namespace Semester2Prototype.States
 
         private void KeybindsGameButton_Click(object sender, EventArgs e)
         {
-            _game.ChangeState(new KeybindState(_game, _graphicsDevice, _content));
+            _game._buttonPressInstance.Play();
+            _game.ChangeState(new MenuKeybindState(_game, _graphicsDevice, _content));
         }
 
         private void SoundGameButton_Click(object sender, EventArgs e)
         {
-            _game.ChangeState(new SoundState(_game, _graphicsDevice, _content));
+            _game._buttonPressInstance.Play();
+            _game.ChangeState(new MenuSoundState(_game, _graphicsDevice, _content));
         }
 
 
@@ -121,9 +140,11 @@ namespace Semester2Prototype.States
 
         private void ExitGameButton_Click(object sender, EventArgs e)
         {
-            _game.ChangeState(new PauseState(_game, _graphicsDevice, _content));
+            _game._buttonPressInstance.Play();
+            _game.ChangeState(new MenuState(_game, _graphicsDevice, _content));
         }
     }
 }
+
 
 

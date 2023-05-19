@@ -17,10 +17,10 @@ namespace Semester2Prototype
         static List<NPC> _npcList;
         bool DebugBounds;
         Texture2D _debugImage;
-        static Rectangle detection;
+        static Rectangle _detection;
         static int _animationCount = 0, tickCount;
         public MessageBox _messageBox;
-        static bool _isSpacePressed, _isPPressed, _isKeysPressed;
+        static bool _isSpacePressed, _isQPressed, _isKeysPressed;
         public Journal _journal;
         static List<Tile> tiles;
         public GameState _gameState = GameState.GamePlaying;
@@ -91,7 +91,7 @@ namespace Semester2Prototype
             }
             else if (Keyboard.GetState().IsKeyDown(Keys.Space) && !_isSpacePressed)
             {
-                _messageBox.AddMessage($"player Point: {_sprites.OfType<Tile>().FirstOrDefault()._position.ToString()} & Player Position {player._position.ToString()}");
+                _messageBox.AddMessage($"{_game1.GraphicsDevice.Viewport.ToString()}");
                 _isSpacePressed = true;
             }
             if (!Keyboard.GetState().IsKeyDown(Keys.Space) && _isSpacePressed)
@@ -124,43 +124,44 @@ namespace Semester2Prototype
                     _journal._goals["Test"] = true;
                 }
             }
-            if (Keyboard.GetState().IsKeyDown(Keys.P) && !_isPPressed && !_journal._isJournalDisplayed)
+            if (Keyboard.GetState().IsKeyDown(Keys.Q) && !_isQPressed && !_journal._isJournalDisplayed)
             {
                 _journal._isKeysPressed = true;
                 _journal.DisplayJournal();
 
-                _isPPressed = true;
+                _isQPressed = true;
                 _game1._gameState = GameState.JournalScreen;
             }
-            else if (Keyboard.GetState().IsKeyDown(Keys.P) && !_isPPressed && _journal._isJournalDisplayed)
+            else if (Keyboard.GetState().IsKeyDown(Keys.Q) && !_isQPressed && _journal._isJournalDisplayed)
             {
                 _journal._isJournalDisplayed = false;
-                _isPPressed = true;
+                _isQPressed = true;
             }
-            else if (!Keyboard.GetState().IsKeyDown(Keys.P) && _isPPressed)
+            else if (!Keyboard.GetState().IsKeyDown(Keys.Q) && _isQPressed)
             {
-                _isPPressed = false;
+                _isQPressed = false;
             }
 
             if (Keyboard.GetState().IsKeyDown(Keys.E) && !_isKeysPressed)
             {
-                DebugBounds = true;
-                detection = _bounds;
+                DebugBounds = false;
+                _detection = _bounds;
                 _isKeysPressed = true;
 
                 switch (_playerFacing)
                 {
                     case Facing.Up:
-                        detection.Y -= 50;
+                        _detection.Height *= 2;
+                        _detection.Y -= 100;
                         break;
                     case Facing.Down:
-                        detection.Y += 50;
+                        _detection.Y += 50;
                         break;
                     case Facing.Right:
-                        detection.X += 50;
+                        _detection.X += 50;
                         break;
                     case Facing.Left:
-                        detection.X -= 50;
+                        _detection.X -= 50;
                         break;
                     default:
                         break;
@@ -168,7 +169,7 @@ namespace Semester2Prototype
                 List<NPC> npcList = _sprites.OfType<NPC>().ToList();
                 foreach (NPC npc in npcList)
                 {
-                    if (detection.Contains(npc._center))
+                    if (_detection.Contains(npc._center))
                     {
                         npc.StartDialog();
                         _dialoge = new Dialoge(player, npc, _messageBox._image, _messageBox._messageBoxFont);
@@ -179,7 +180,7 @@ namespace Semester2Prototype
                 List<Clue> clues = _sprites.OfType<Clue>().ToList();
                 foreach (Clue clue in clues)
                 {
-                    if (detection.Contains(clue._center))
+                    if (_detection.Contains(clue._center))
                     {
                         clue.FoundClue(_messageBox, _journal);
 
@@ -414,7 +415,7 @@ namespace Semester2Prototype
         {
             if (DebugBounds)
             {
-                spriteBatch.Draw(_debugImage, detection, Color.Red);
+                spriteBatch.Draw(_debugImage, _detection, Color.Red);
             }
             base.Draw(spriteBatch);
         }

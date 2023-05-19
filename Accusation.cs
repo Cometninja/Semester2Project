@@ -67,6 +67,7 @@ namespace Semester2Prototype
                 if (_charSelect < 0)
                 {
                     _charSelect = _options.Count - 1;
+
                 }
             }
             if (Keyboard.GetState().IsKeyDown(Keys.S) && !_isButtonDown && !_decisionMade)
@@ -95,6 +96,7 @@ namespace Semester2Prototype
                     _options.Clear();
                     _options.Add("yes");
                     _options.Add("no");
+
                 }
                 else if (_charSelect == 0)
                 {
@@ -120,8 +122,9 @@ namespace Semester2Prototype
             {
                 _tickCount++;
                 _text = PrintString(GetText(4), _tickCount);
-
             }
+
+
             if (_displayFinalMessage)
             {
                 if (Keyboard.GetState().IsKeyDown(Keys.Enter) && !_isButtonDown)
