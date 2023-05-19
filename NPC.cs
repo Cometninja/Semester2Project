@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
 
 namespace Semester2Prototype
@@ -73,6 +72,7 @@ namespace Semester2Prototype
         }
         public void NPC_Move()
         {
+            NPC_Controls();
             switch (_moving)
             {
                 case Moving.Up:
@@ -110,7 +110,6 @@ namespace Semester2Prototype
                     _animationCount++;
                 }
             }
-            NPC_Controls();
         }
         public void NPC_Controls()
         {
@@ -131,6 +130,7 @@ namespace Semester2Prototype
                 {
                     this._NPCPoint = tile._point;
                     nextTilePoint = _NPCPoint;
+
                     break;
                 }
             }
@@ -150,7 +150,7 @@ namespace Semester2Prototype
                     break;
             }
 
-            Tile nextTile = _sprites.OfType<Tile>().Where(tile => tile._point == nextTilePoint).First();
+            Tile nextTile = _sprites.OfType<Tile>().Where(tile => tile._point == nextTilePoint).FirstOrDefault();
 
             if (nextTile != null)
             {
@@ -179,7 +179,7 @@ namespace Semester2Prototype
 
             _journal = _sprites.OfType<Journal>().FirstOrDefault();
             _spokenTo = true;
-            
+
             switch (_NPCCharacter)
             {
                 case NPCCharacter.Manager:

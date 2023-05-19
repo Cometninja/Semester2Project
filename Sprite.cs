@@ -11,6 +11,8 @@ namespace Semester2Prototype
         public Color _color = Color.White;
         public Rectangle _bounds;
         public Rectangle _sourceRect;
+        public MessageBox messageBox;
+
 
         public Sprite(Texture2D image, Vector2 position)
         {

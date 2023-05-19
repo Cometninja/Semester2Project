@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Reflection.Metadata;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
@@ -15,12 +14,32 @@ namespace Semester2Prototype.States
 
         Texture2D _rectangleTxr, _backgroundTxr, _buttonTexture, _keybindTxr;
         SpriteFont _titleFont, _buttonFont;
-        Point _screenSize = new Point(800, 800);
+
+        static Point _screenSize = new Point(800, 800);
+
+        Rectangle rect;
 
         public KeybindState(Game1 game, GraphicsDevice graphicsDevice, ContentManager content)
           : base(game, graphicsDevice, content)
         {
+
+            // Get the screen dimensions
+            int screenWidth = graphicsDevice.Viewport.Width;
+            int screenHeight = graphicsDevice.Viewport.Height;
+
+            // Calculate the rectangle position
+            int rectWidth = 600; // set the width of the rectangle
+            int rectHeight = 1000; // set the height of the rectangle
+            int rectX = screenWidth / 2 - rectWidth / 2;
+            int rectY = screenHeight / 2 - rectHeight / 2;
+
+            rect = new Rectangle(rectX, rectY, rectWidth, rectHeight);
+
+            rect = new Rectangle(rectX, rectY, rectWidth, rectHeight);
+
             _rectangleTxr = _content.Load<Texture2D>("UI/RectangleTxr");
+            _keybindTxr = _content.Load<Texture2D>("UI/KeybindTxr");
+
             _titleFont = _content.Load<SpriteFont>("UI/Fonts/TitleMoldyen");
             _buttonFont = _content.Load<SpriteFont>("UI/Fonts/Font");
             _buttonTexture = _content.Load<Texture2D>("UI/Controls/Button");
@@ -28,9 +47,10 @@ namespace Semester2Prototype.States
 
             var exitGameButton = new Button(_buttonTexture, _buttonFont)
             {
-                Position = new Vector2((_screenSize.X - _buttonTexture.Width) / 2, 300),
+                Position = new Vector2(rect.X + rect.Width / 2 - _titleFont.MeasureString("Options").X / 2, 350),
                 Text = "Back",
             };
+
 
             exitGameButton.Click += ExitGameButton_Click;
 
@@ -43,39 +63,26 @@ namespace Semester2Prototype.States
 
         public override void Draw(GameTime gameTime, SpriteBatch spriteBatch)
         {
-
             Color tDimGrey = new Color(Color.Black, 175);
 
-            int rectWidth = 600; // set the width of the rectangle
-            int rectHeight = 500; // set the height of the rectangle
-
-            int rectX = (_screenSize.X - rectWidth) / 2; // calculate the X coordinate to center the rectangle
-            int rectY = 0; // set the Y coordinate of the rectangle position
-
-            Rectangle rect = new Rectangle(rectX, rectY, rectWidth, rectHeight); // create the rectangle
 
             spriteBatch.Draw(_rectangleTxr, rect, tDimGrey); // draw the rectangle centered on the screen along the X-axis
 
-            Vector2 textSize = _titleFont.MeasureString("Keybinds");
+            Vector2 textSize = _titleFont.MeasureString("Title");
             spriteBatch.DrawString(_titleFont,
                 "Keybinds",
-                new Vector2(_screenSize.X / 2 - textSize.X / 2, _screenSize.Y / 10 - textSize.Y / 2),
+                new Vector2(rect.X + rect.Width / 2 - _titleFont.MeasureString("Keybinds").X / 2, 100),
                 Color.White);
 
-
-            spriteBatch.Draw(_keybindTxr, new Rectangle(0, 0, _screenSize.X / 5, _screenSize.Y / 5), Color.White);
 
 
             foreach (var component in _components)
                 component.Draw(gameTime, spriteBatch);
-
-
         }
-
-
 
         private void ExitGameButton_Click(object sender, EventArgs e)
         {
+            _game._buttonPressInstance.Play();
             _game.ChangeState(new OptionState(_game, _graphicsDevice, _content));
         }
 

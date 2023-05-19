@@ -28,7 +28,9 @@ namespace Semester2Prototype
         bool _displayEnter;
         public List<List<string>> _dialogs;
         static Point _dialogPos = new Point(0, 50);
-        static Point _dialogWindowSize = new Point(400, 100);
+        static Point _dialogWindowSize = new Point(400, 200);
+        bool _finalQuestion;
+        List<Vector2> _optionPos = new List<Vector2>();
 
         static Rectangle _playerDialogBox = new Rectangle(
             _dialogPos,
@@ -54,31 +56,42 @@ namespace Semester2Prototype
 
         public void DialogeUpdate(GameTime gameTime)
         {
-            if (Keyboard.GetState().IsKeyDown(Keys.Down) && !_ButtonPressed)
+            if ((Keyboard.GetState().IsKeyDown(Keys.Down) || Keyboard.GetState().IsKeyDown(Keys.S))
+                && !_ButtonPressed)
             {
                 _ButtonPressed = true;
                 _question++;
-                _cursorPos.Y += _spacing;
+                if (_question > (_playerDialoge.Count - 1))
+                {
+                    _question = 0;
+                }
+                _cursorPos = _optionPos[_question];
             }
-            else if (Keyboard.GetState().IsKeyDown(Keys.Up) && !_ButtonPressed)
+            else if ((Keyboard.GetState().IsKeyDown(Keys.Up) || Keyboard.GetState().IsKeyDown(Keys.W))
+                && !_ButtonPressed)
             {
                 _ButtonPressed = true;
-                _cursorPos.Y -= _spacing;
                 _question--;
+                if (_question < 0)
+                {
+                    _question = _playerDialoge.Count - 1;
+                }
+                _cursorPos = _optionPos[_question];
+
             }
             if (Keyboard.GetState().GetPressedKeyCount() == 0 && !_printing)
             {
                 _ButtonPressed = false;
             }
-            if (_question < 0)
+            if (_finalQuestion)
             {
-                _question = _playerDialoge.Count;
-                _cursorPos.Y += (_spacing * _playerDialoge.Count);
-            }
-            else if (_question > (_playerDialoge.Count - 1))
-            {
-                _question = 0;
-                _cursorPos.Y -= (_spacing * _playerDialoge.Count);
+                _displayEnter = false;
+                _playerDialoge.Clear();
+                _npcDialoge.Clear();
+                _playerDialoge.Add("yes");
+                _npcDialoge.Add("Very well I will Gather the Guests in the Lounge.");
+                _playerDialoge.Add("no");
+                _npcDialoge.Add("Please come see me when you are ready.");
             }
 
             if (Keyboard.GetState().IsKeyDown(Keys.Enter) && !_ButtonPressed)
@@ -92,14 +105,9 @@ namespace Semester2Prototype
                     {
                         game._gameState = GameState.GamePlaying;
                     }
-                    if (_playerDialoge[_question] == "I am ready to make my Decision!")
+                    if (_playerDialoge[0] == "I am ready to make my Decision!")
                     {
-                        _playerDialoge.Clear();
-                        _npcDialoge.Clear();
-                        _playerDialoge.Add("yes");
-                        _npcDialoge.Add("Very well I will Gather the Guests in the Lounge.");
-                        _playerDialoge.Add("no");
-                        _npcDialoge.Add("Please come see me when you are ready.");
+                        _finalQuestion = true;
                     }
                     if (_playerDialoge[_question] == "yes")
                     {
@@ -138,8 +146,10 @@ namespace Semester2Prototype
 
             if (!_displayEnter)
             {
+                _optionPos.Clear();
                 foreach (string s in _playerDialoge)
                 {
+                    _optionPos.Add(new Vector2(_playerDialogBox.X + 5, numb));
                     spriteBatch.DrawString(_font, s, new Vector2(_playerDialogBox.X + 25, numb), Color.White);
                     numb += _spacing;
                 }
@@ -180,7 +190,14 @@ namespace Semester2Prototype
                 tickCount = 0;
                 if (count == splitAnswer.Length)
                 {
-                    _displayEnter = true;
+                    if (!_finalQuestion)
+                    {
+                        _displayEnter = true;
+                    }
+                    else
+                    {
+                        _displayEnter = false;
+                    }
                     count = 0;
                     _answer++;
                     _printing = false;

@@ -116,11 +116,29 @@
 /processorParam:TextureFormat=Color
 /build:NPCspritesheet.png
 
-#begin Song.mp3
+#begin Sounds/ButtonPress.mp3
+/importer:Mp3Importer
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Sounds/ButtonPress.mp3
+
+#begin Sounds/ButtonPressOld.mp3
+/importer:Mp3Importer
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Sounds/ButtonPressOld.mp3
+
+#begin Sounds/ClueFindSound.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Sounds/ClueFindSound.wav
+
+#begin Sounds/Song.mp3
 /importer:Mp3Importer
 /processor:SongProcessor
 /processorParam:Quality=Best
-/build:Song.mp3
+/build:Sounds/Song.mp3
 
 #begin UI/Controls/Button.png
 /importer:TextureImporter
@@ -153,6 +171,13 @@
 /processorParam:TextureFormat=Compressed
 /build:UI/Fonts/Font.spritefont
 
+#begin UI/Fonts/LargeFont.spritefont
+/importer:FontDescriptionImporter
+/processor:FontDescriptionProcessor
+/processorParam:PremultiplyAlpha=True
+/processorParam:TextureFormat=Compressed
+/build:UI/Fonts/LargeFont.spritefont
+
 #begin UI/Fonts/Moldyen.spritefont
 /importer:FontDescriptionImporter
 /processor:FontDescriptionProcessor
@@ -173,6 +198,18 @@
 /processorParam:PremultiplyAlpha=True
 /processorParam:TextureFormat=Compressed
 /build:UI/Fonts/TitleMoldyen.spritefont
+
+#begin UI/KeybindTxr.PNG
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:UI/KeybindTxr.PNG
 
 #begin UI/RectangleTxr.png
 /importer:TextureImporter

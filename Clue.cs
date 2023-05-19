@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
-using System.Security.Cryptography;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
 
 
@@ -8,11 +8,19 @@ namespace Semester2Prototype
 {
     internal class Clue : Sprite
     {
-        ClueType _clueType;
+        public ClueType _clueType;
         public bool _found = false;
+        public Game1 _game1;
 
-        public Clue(Texture2D image,Vector2 pos,ClueType clueType) :base(image,pos)
-        { 
+        public SoundEffect _clueFound;
+        public SoundEffectInstance _clueFoundInstance;
+
+
+
+
+
+        public Clue(Texture2D image, ClueType clueType) : base(image, Vector2.Zero)
+        {
             _clueType = clueType;
             _center = new Vector2(_position.X + 16, _position.Y + 30);
         }
@@ -22,7 +30,7 @@ namespace Semester2Prototype
             _center = new Vector2(_position.X + 16, _position.Y + 30);
             if (!_found)
             {
-                _color = Color.Yellow;
+                _color = new Color(Color.Yellow, 0.1f);
             }
             else
             {
@@ -32,7 +40,16 @@ namespace Semester2Prototype
         }
         public override void Draw(SpriteBatch spriteBatch)
         {
-            base.Draw(spriteBatch);
+            spriteBatch.Draw(
+                _image,
+                _position,
+                _sourceRect,
+                _color,
+                0f,
+                new Vector2(_sourceRect.Width / 2, _sourceRect.Height / 2),
+                1f,
+                SpriteEffects.None,
+                1f);
         }
 
         public void FoundClue(MessageBox messageBox, Journal journal)
@@ -41,12 +58,15 @@ namespace Semester2Prototype
             {
                 _found = true;
                 journal._cluesFound++;
-
+                if (journal._cluesFound == 8)
+                {
+                    journal._allFound = true;
+                }
                 switch (_clueType)
                 {
                     case ClueType.ChefKnife:
                         journal._goals["FoundKnife"] = true;
-                        journal._journalClues.Add("The murder weapon A blood stained 13-inch knife. "  +
+                        journal._journalClues.Add("The murder weapon A blood stained 13-inch knife. " +
                             "Its labelled as property of the hotel kitchen. " +
                             "The Murderer must have had access to the area around the kitchen at some point.");
                         break;
@@ -82,7 +102,7 @@ namespace Semester2Prototype
                         journal._goals["KitchenChecks"] = true;
                         journal._journalClues.Add("Checks from yesterday's dinners and when they were served. " +
                             "Mr Richards [Victim], Mrs Park, and Ms Mayflower served at 19:00. " +
-                            "Mr Montgomery at 22:00 " );
+                            "Mr Montgomery at 22:00 ");
                         break;
                     case ClueType.FinancialDocuments:
                         journal._goals["FinancialDocuments"] = true;
