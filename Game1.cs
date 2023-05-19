@@ -38,7 +38,7 @@ namespace Semester2Prototype
         public State _menuState;
         public SpriteFont _mainFont, buttonFont;
 
-        public GameState _gameState = GameState.Accusation;
+        public GameState _gameState = GameState.MainMenu;
         
         public FloorLevel _floorLevel = FloorLevel.GroundFLoor;
         public Point _windowSize = new Point(800, 500);
@@ -73,6 +73,8 @@ namespace Semester2Prototype
 
         protected override void LoadContent()
         {
+            _sprites = new List<Sprite>();
+            _floorLevel = FloorLevel.GroundFLoor;
             _menuState = new MenuState(this, GraphicsDevice, Content);
             // Create a new SpriteBatch, which can be used to draw textures.
             _spriteBatch = new SpriteBatch(GraphicsDevice);

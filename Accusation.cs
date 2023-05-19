@@ -23,8 +23,6 @@ namespace Semester2Prototype
         string _text;
         bool _decisionMade, _cursorVisable = true;
         List<string> options = new List<string>();
-        NPC _theAccused;
-        Game1 _game;
         Journal _journal;
         Game1 _game1;
         NPC _accused;
