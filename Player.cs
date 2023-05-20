@@ -2,6 +2,7 @@
 using System.Diagnostics;
 using System.Linq;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
@@ -26,11 +27,13 @@ namespace Semester2Prototype
         public GameState _gameState = GameState.GamePlaying;
         public Dialoge _dialoge;
         public Game1 _game1;
+        SoundEffectInstance _clueSound;
 
         public List<string> _playerDialoge = new List<string>();
 
-        public Player(Texture2D image, Vector2 position, Point point, Game1 game1) : base(image, position)
+        public Player(Texture2D image, Vector2 position, Point point, Game1 game1,SoundEffectInstance clueSound) : base(image, position)
         {
+            _clueSound = clueSound;
             _game1 = game1;
             _point = point;
             _sourceRect = GetPlayerImage()[0][0];
@@ -183,7 +186,8 @@ namespace Semester2Prototype
                     if (_detection.Contains(clue._center))
                     {
                         clue.FoundClue(_messageBox, _journal);
-
+                        _clueSound.Play();
+                        _journal._newInfo = true;
                         Debug.WriteLine("you found a clue!!!!");
                     }
                 }

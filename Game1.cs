@@ -126,7 +126,7 @@ namespace Semester2Prototype
 
             MakeFloorPlan();
 
-            _player = new Player(playerSpriteSheet, new Vector2(400, 250), _playerPoint, this);
+            _player = new Player(playerSpriteSheet, new Vector2(400, 250), _playerPoint, this, _clueFoundInstance);
 
             _sprites.Add(new MessageBox(_messageBoxImage, new Vector2(0, 0), _mainFont));
             _sprites.Add(_player);
@@ -160,7 +160,7 @@ namespace Semester2Prototype
             SetClueLocation(_floorLevel);
             SetTileFurniture(_sprites, _furnitureLocations);
 
-            _sprites.Add(new Journal(_journalImage, new Vector2(0, 0), _mainFont, this));
+            _sprites.Add(new Journal(_journalImage, new Vector2(0, 0), _mainFont, this,_exclamationPoint));
             _player.GetDebugImage(_square);
         }
         void MediaPlayer_MediaStateChanged(object sender, System.

@@ -28,10 +28,12 @@ namespace Semester2Prototype
 
         public string[] _tasks;
         public List<string> _clueMessages = new List<string>();
+        public bool _newInfo;
+        Texture2D _exclamation;
 
-
-        public Journal(Texture2D image, Vector2 position, SpriteFont font, Game1 game1) : base(image, position)
+        public Journal(Texture2D image, Vector2 position, SpriteFont font, Game1 game1, Texture2D exclamation) : base(image, position)
         {
+            _exclamation = exclamation;
             _windowSize = new Vector2(game1.GraphicsDevice.Viewport.Width, game1.GraphicsDevice.Viewport.Height);
             _font = font;
             _goals = SetGoals();
@@ -58,6 +60,7 @@ namespace Semester2Prototype
 
             if (_isJournalDisplayed)
             {
+                _newInfo = false;
                 spriteBatch.Draw(_image,
                     _windowBounds,
                     null,
@@ -132,13 +135,56 @@ namespace Semester2Prototype
                                 $"Found Clues {_cluesFound}/8",
                                 new Vector2(page.X, page.Y + spacing),
                                 Color.Black);
+                        number = 20;
+                        
+                        if(_journalClues.Count >= 7)
+                        {
+                            string[] split = _journalClues[6].Split(' ');
+                            string result = string.Empty;
+                            foreach (string s2 in split)
+                            {
+                                if (_font.MeasureString(result + s2 + " ").X > page.Width)
+                                {
+                                    result += "\n" + s2 + " ";
+                                }
+                                else result += s2 + " ";
 
+                            }
+
+                            spriteBatch.DrawString(_font,
+                                result,
+                                new Vector2(page.X, page.Y + spacing + number),
+                                Color.Black);
+                            number += _font.MeasureString(result).Y + spacing;
+                        }
+                        if (_journalClues.Count == 8)
+                        {
+                            string[] split = _journalClues[6].Split(' ');
+                            string result = string.Empty;
+                            foreach (string s2 in split)
+                            {
+                                if (_font.MeasureString(result + s2 + " ").X > page.Width)
+                                {
+                                    result += "\n" + s2 + " ";
+                                }
+                                else result += s2 + " ";
+
+                            }
+                            spriteBatch.DrawString(_font,
+                                result,
+                                new Vector2(page.X, page.Y + spacing + number),
+                                Color.Black);
+                        }
                         break;
                 }
             }
             else
             {
                 spriteBatch.Draw(_image, new Rectangle(0, 0, 50, 50), null, Color.White);
+                if (_newInfo)
+                {
+                    spriteBatch.Draw(_exclamation, new Vector2(16,4), null, Color.White);
+                }
             }
         }
         public void LoadJournalMessages()

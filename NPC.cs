@@ -235,7 +235,6 @@ namespace Semester2Prototype
                                 "I was umm...#" +
                                 "OK YES I LEFT THE DESK AT 9PM TO GO TO THE CHANGING ROOM WITH THE COOK! OK!#" +
                                 "NOW LEAVE ME AND MY PRIVATE LIFE ALONE!");
-                            _journal._goals["lockedRecepionist"] = true;
                         }
 
                         playerDialog.Add("Goodbye");
@@ -320,12 +319,11 @@ namespace Semester2Prototype
 
                         if (_journal._goals["ChangingRoomClue"])
                         {
-                            playerDialog.Add("");
-                            npcDialog.Add("Oh - that… Hehe#" +
+                            playerDialog.Add("You said that you didn't leave the Kitchen desk all evening, yet I found this piece of your uniform showing you left the desk at least once yesterday.");
+                            npcDialog.Add("Oh - that... Hehe#" +
                                 "Yea I wasn't entirely honest about staying in the kitchen all evening#" +
                                 "I went to the changing room at 9pm with the receptionist, for you know, privacy#" +
                                 "I'm going to just go back to work, please don't tell anyone else about this");
-                            _journal._goals["CookLocked"] = true;
                         }
                         playerDialog.Add("Goodbye");
                         npcDialog.Add("Goodbye");

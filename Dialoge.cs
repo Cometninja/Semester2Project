@@ -97,6 +97,15 @@ namespace Semester2Prototype
 
             if (Keyboard.GetState().IsKeyDown(Keys.Enter) && !_ButtonPressed)
             {
+                if (_playerDialoge[_question] == "You said that you didn't leave the Kitchen desk all evening, yet I found this piece of your uniform showing you left the desk at least once yesterday.")
+                {
+                    _player._journal._goals["CookLocked"] = true;
+                }
+                if (_playerDialoge[_question] == "You said that you didn't leave the reception desk all evening, yet I found this piece of your uniform showing you left the desk at least once yesterday.")
+                {
+                    _player._journal._goals["lockedRecepionist"] = true;
+
+                }
                 _ButtonPressed = true;
                 string[] responce = _npcDialoge[_question].Split('#');
                 if (_answer == responce.Count())
