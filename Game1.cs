@@ -228,7 +228,13 @@ namespace Semester2Prototype
                 case GameState.GameStart:
                     break;
                 case GameState.GamePlaying:
-                    IsMouseVisible = false;                  
+
+                    IsMouseVisible = false;
+                    if (Keyboard.GetState().IsKeyUp(Keys.Escape) && _isEscapedPressed)
+                    {
+                        _isEscapedPressed = false;
+                    }
+
 
                     if (_player._position.X % 50 == 0 && _sprites.OfType<Tile>().FirstOrDefault()._position.X % 50 == 0)
                     {
