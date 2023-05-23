@@ -46,7 +46,7 @@ namespace Semester2Prototype.States
 
             var exitGameButton = new Button(_buttonTexture, _buttonFont)
             {
-                Position = new Vector2(rect.X + rect.Width / 2 - _titleFont.MeasureString("Options").X / 2, 350),
+                Position = new Vector2(rect.X + rect.Width / 2 - _titleFont.MeasureString("Options").X / 2, 425),
                 Text = "Back",
             };
 
