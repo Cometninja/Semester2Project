@@ -12,7 +12,7 @@ namespace Semester2Prototype.States
     {
         private List<Component> _components;
 
-        Texture2D _rectangleTxr, _buttonTexture;
+        Texture2D _rectangleTxr, _buttonTexture, _keybindTxr;
         SpriteFont _titleFont, _buttonFont;
 
         static Point _screenSize = new Point(800, 800);
@@ -35,10 +35,8 @@ namespace Semester2Prototype.States
 
             rect = new Rectangle(rectX, rectY, rectWidth, rectHeight);
 
-            rect = new Rectangle(rectX, rectY, rectWidth, rectHeight);
-
             _rectangleTxr = _content.Load<Texture2D>("UI/RectangleTxr");
-
+            _keybindTxr = _content.Load<Texture2D>("UI/KeybindTxr");
             _titleFont = _content.Load<SpriteFont>("UI/Fonts/TitleMoldyen");
             _buttonFont = _content.Load<SpriteFont>("UI/Fonts/Font");
             _buttonTexture = _content.Load<Texture2D>("UI/Controls/Button");
@@ -46,7 +44,7 @@ namespace Semester2Prototype.States
 
             var exitGameButton = new Button(_buttonTexture, _buttonFont)
             {
-                Position = new Vector2(rect.X + rect.Width / 2 - _titleFont.MeasureString("Options").X / 2, 350),
+                Position = new Vector2(rect.X + rect.Width / 2 - _titleFont.MeasureString("Options").X / 2, 425),
                 Text = "Back",
             };
 
@@ -73,6 +71,11 @@ namespace Semester2Prototype.States
                 new Vector2(rect.X + rect.Width / 2 - _titleFont.MeasureString("Keybinds").X / 2, 100),
                 Color.White);
 
+            spriteBatch.Draw(_keybindTxr, new Vector2(rect.X, 150), Color.White);
+
+            spriteBatch.Draw(_keybindTxr, new Rectangle(rect.X, 150, rect.Width, rect.Height / 6), Color.White);
+            foreach (var component in _components)
+                component.Draw(gameTime, spriteBatch);
 
 
             foreach (var component in _components)
