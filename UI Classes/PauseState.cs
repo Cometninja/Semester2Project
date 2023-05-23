@@ -13,14 +13,30 @@ namespace Semester2Prototype.States
         private List<Component> _components;
 
         Texture2D _rectangleTxr, _buttonTexture;
-        SpriteFont _buttonFont;
+        SpriteFont _buttonFont, _titleFont;
         Point _screenSize = new Point(800, 800);
+
+        Rectangle rect;
+
         public PauseState(Game1 game, GraphicsDevice graphicsDevice, ContentManager content)
           : base(game, graphicsDevice, content)
         {
+            // Get the screen dimensions
+            int screenWidth = graphicsDevice.Viewport.Width;
+            int screenHeight = graphicsDevice.Viewport.Height;
+
+            // Calculate the rectangle position
+            int rectWidth = 300; // set the width of the rectangle
+            int rectHeight = 1000; // set the height of the rectangle
+            int rectX = screenWidth / 2 - rectWidth / 2;
+            int rectY = screenHeight / 2 - rectHeight / 2;
+
+            rect = new Rectangle(rectX, rectY, rectWidth, rectHeight);
+
             _buttonTexture = _content.Load<Texture2D>("UI/Controls/Button");
             _buttonFont = _content.Load<SpriteFont>("UI/Fonts/Font");
             _rectangleTxr = _content.Load<Texture2D>("UI/RectangleTxr");
+            _titleFont = _content.Load<SpriteFont>("UI/Fonts/TitleMoldyen");
 
 
             var resumeGameButton = new Button(_buttonTexture, _buttonFont)
@@ -34,7 +50,7 @@ namespace Semester2Prototype.States
 
             var optionGameButton = new Button(_buttonTexture, _buttonFont)
             {
-                Position = new Vector2((_screenSize.X - _buttonTexture.Width) / 2, 250),
+                Position = new Vector2((_screenSize.X - _buttonTexture.Width) / 2, 275),
                 Text = "Options",
             };
 
@@ -42,7 +58,7 @@ namespace Semester2Prototype.States
 
             var exitGameButton = new Button(_buttonTexture, _buttonFont)
             {
-                Position = new Vector2((_screenSize.X - _buttonTexture.Width) / 2, 300),
+                Position = new Vector2((_screenSize.X - _buttonTexture.Width) / 2, 350),
                 Text = "Main menu",
             };
 
@@ -63,7 +79,7 @@ namespace Semester2Prototype.States
             Color tDimGrey = new Color(Color.Black, 175);
 
             int rectWidth = 300; // set the width of the rectangle
-            int rectHeight = 500; // set the height of the rectangle
+            int rectHeight = 1000; // set the height of the rectangle
 
             int rectX = (_screenSize.X - rectWidth) / 2; // calculate the X coordinate to center the rectangle
             int rectY = 0; // set the Y coordinate of the rectangle position
@@ -72,6 +88,11 @@ namespace Semester2Prototype.States
 
             spriteBatch.Draw(_rectangleTxr, rect, tDimGrey); // draw the rectangle centered on the screen along the X-axis
 
+            Vector2 textSize = _titleFont.MeasureString("Title");
+            spriteBatch.DrawString(_titleFont,
+                "Paused",
+                new Vector2(rect.X + rect.Width / 2 - _titleFont.MeasureString("Paused").X / 2, 100),
+                Color.White);
 
 
             foreach (var component in _components)

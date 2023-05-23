@@ -51,7 +51,7 @@ namespace Semester2Prototype.States
 
             var SoundGameButton = new Button(_buttonTexture, _buttonFont)
             {
-                Position = new Vector2((rect.X + _titleFont.MeasureString("New Game").X / 2), 275),
+                Position = new Vector2((rect.X + _titleFont.MeasureString("New Game").X / 2), 312.5f),
                 Text = "Sound",
             };
 
@@ -59,7 +59,7 @@ namespace Semester2Prototype.States
 
             var exitGameButton = new Button(_buttonTexture, _buttonFont)
             {
-                Position = new Vector2((rect.X + _titleFont.MeasureString("New Game").X / 2), 350),
+                Position = new Vector2((rect.X + _titleFont.MeasureString("New Game").X / 2), 425),
                 Text = "Back",
             };
 
