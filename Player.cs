@@ -270,7 +270,7 @@ namespace Semester2Prototype
                     break;
                 case Moving.Right:
                     player._sourceRect = GetPlayerImage()[2][_animationCount];
-                    if (player._position.X == 500)
+                    if (player._position.X >= 500)
                     {
                         foreach (Tile tile in tiles)
                         {
@@ -297,7 +297,7 @@ namespace Semester2Prototype
                     break;
                 case Moving.Left:
                     player._sourceRect = GetPlayerImage()[3][_animationCount];
-                    if (player._position.X == 300)
+                    if (player._position.X <= 300)
                     {
                         foreach (Tile tile in tiles)
                         {

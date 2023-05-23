@@ -84,6 +84,7 @@ namespace Semester2Prototype
 
         protected override void LoadContent()
         {
+            _gameState = GameState.MainMenu;
             _sprites = new List<Sprite>();
             _floorLevel = FloorLevel.GroundFLoor;
             _menuState = new MenuState(this, GraphicsDevice, Content);
@@ -217,6 +218,11 @@ namespace Semester2Prototype
             foreach (Sprite sprite in _sprites)
             {
                 sprite.Update(_sprites);
+            }
+
+            if (Keyboard.GetState().IsKeyDown(Keys.P))
+            {
+                ResetGame();
             }
 
             switch (_gameState)
@@ -458,7 +464,7 @@ namespace Semester2Prototype
             List<Tile> tiles = _sprites.OfType<Tile>().ToList();
             foreach (Tile t in tiles)
             {
-                t.SetUpFLoorPlan(_clues);
+                t.SetUpFLoorPlan(_sprites);
             }
         }
         public void ChangeState(State state)
@@ -481,7 +487,7 @@ namespace Semester2Prototype
                 }
 
                 tile.SetFurniture();
-                tile.SetUpFLoorPlan(_clues);
+                tile.SetUpFLoorPlan(sprites);
                 tile.ContainsNPC(sprites);
             }
         }
@@ -504,6 +510,7 @@ namespace Semester2Prototype
             foreach (Clue clue in clues)
             {
                 clue._position = new Vector2(2000, 2000);
+                clue.Update(_sprites);
             }
             foreach (NPC npc in npcs)
             {
@@ -547,6 +554,14 @@ namespace Semester2Prototype
 
                     break;
             }
+            foreach(Clue clue in clues) 
+            {
+                clue.Update(_sprites);
+            }
+        }
+        public void ResetGame()
+        {
+            LoadContent();
         }
     }
 }

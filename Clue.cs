@@ -14,7 +14,7 @@ namespace Semester2Prototype
 
         public SoundEffect _clueFound;
         public SoundEffectInstance _clueFoundInstance;
-
+        public bool _drawImage = true;
 
 
 
@@ -40,16 +40,19 @@ namespace Semester2Prototype
         }
         public override void Draw(SpriteBatch spriteBatch)
         {
-            spriteBatch.Draw(
-                _image,
-                _position,
-                _sourceRect,
-                _color,
-                0f,
-                new Vector2(_sourceRect.Width / 2, _sourceRect.Height / 2),
-                1f,
-                SpriteEffects.None,
-                1f);
+            if (_drawImage)
+            {
+                spriteBatch.Draw(
+                    _image,
+                    _position,
+                    _sourceRect,
+                    _color,
+                    0f,
+                    new Vector2(_sourceRect.Width / 2, _sourceRect.Height / 2),
+                    1f,
+                    SpriteEffects.None,
+                    1f);
+            }
         }
 
         public void FoundClue(MessageBox messageBox, Journal journal)

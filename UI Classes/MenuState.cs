@@ -79,8 +79,8 @@ namespace Semester2Prototype.States
 
             Vector2 textSize = _titleFont.MeasureString("Title");
             spriteBatch.DrawString(_titleFont,
-                "10 SUSpects",
-                new Vector2(rect.X + rect.Width / 2 - _titleFont.MeasureString("10 SUSpects").X / 2, 100),
+                "The Tenth Suspect",
+                new Vector2(rect.X + rect.Width / 2 - _titleFont.MeasureString("The Tenth Suspect").X / 2, 100),
                 Color.Red);
 
             foreach (var component in _components)
