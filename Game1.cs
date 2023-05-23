@@ -229,9 +229,7 @@ namespace Semester2Prototype
                     break;
                 case GameState.GamePlaying:
                     IsMouseVisible = false;
-                    if (Keyboard.GetState().IsKeyDown(Keys.Escape) && !_isEscapedPressed)
-                        Exit();
-                    else if (Keyboard.GetState().IsKeyUp(Keys.Escape) && _isEscapedPressed)
+                    if (Keyboard.GetState().IsKeyUp(Keys.Escape) && _isEscapedPressed)
                     {
                         _isEscapedPressed = false;
                     }
