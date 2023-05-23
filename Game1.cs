@@ -266,6 +266,11 @@ namespace Semester2Prototype
                         int X = 1;
                         int Y = 15;
                         Vector2 playerFinalPos = _player._position - _sprites.OfType<Tile>().First(tile => tile._point == new Point(3, 17))._position;
+                        foreach(Clue clue in _sprites.OfType<Clue>().ToList()) 
+                        {
+                            clue._drawImage = false;
+                        }
+
 
                         foreach (Tile tile in _sprites.OfType<Tile>().ToList())
                         {

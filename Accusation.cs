@@ -132,7 +132,10 @@ namespace Semester2Prototype
                     _centerText = true;
                     _isButtonDown = true;
                     _text = GetText(5);
+
+
                 }
+
             }
             if (_decisionMade)
             {
