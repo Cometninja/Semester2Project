@@ -18,8 +18,11 @@ namespace Semester2Prototype
         public Furniture _furniture = Furniture.None;
         public Rectangle _furnitureImage;
         public bool _flipped;
+        public Rectangle _drawRect;
+
         public Tile(Texture2D image, Texture2D furnitureSheet, Vector2 position, Point point, Game1 game1) : base(image, position)
         {
+            _drawRect = new Rectangle((int)_position.X - 25, (int)_position.Y - 25, 50, 50);
             _game1 = game1;
             _sourceRect = new Rectangle(45, 55, 8, 8);
             _bounds = new Rectangle((int)_position.X, (int)_position.Y, _image.Width, _image.Height);
@@ -31,6 +34,7 @@ namespace Semester2Prototype
         }
         public override void Update(List<Sprite> sprites)
         {
+            _drawRect = new Rectangle((int)_position.X - 25, (int)_position.Y - 25, 50, 50);
             _centerBox = new Rectangle((int)(_position.X), (int)(_position.Y), 50, 50);
             Player player = sprites.OfType<Player>().First();
             if (_centerBox.Contains(player._center))
@@ -60,7 +64,7 @@ namespace Semester2Prototype
                         flipped = SpriteEffects.FlipHorizontally;
 
                     spriteBatch.Draw(_furnitureSheet,
-                        new Rectangle((int)_position.X - 25, (int)_position.Y - 25, 50, 50),
+                       _drawRect,
                         _furnitureImage,
                         Color.White,
                         0f,
@@ -418,6 +422,13 @@ namespace Semester2Prototype
                     break;
                 case Furniture.Sink:
                     _furnitureImage = new Rectangle(101, 254, 16, 17);
+                    break;
+                case Furniture.StairsUp:
+                    _flipped = true;
+                    _furnitureImage = new Rectangle(578,0,16,16);
+                    break;
+                case Furniture.StairsDown:
+                    _furnitureImage = new Rectangle(578,0,16,16);
                     break;
                 default:
                     _furnitureImage = Rectangle.Empty;

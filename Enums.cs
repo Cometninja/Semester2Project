@@ -89,6 +89,9 @@
         CoffeeTable,
         Wardrobe,
         Sink,
+        Cuboard,
+        StairsUp,
+        StairsDown,
         None
 
     } //TODO add in more furniture
