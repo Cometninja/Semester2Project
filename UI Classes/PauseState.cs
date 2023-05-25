@@ -138,6 +138,7 @@ namespace Semester2Prototype.States
 
         private void ExitGameButton_Click(object sender, EventArgs e)
         {
+            _game.ResetGame();
             _game.ChangeState(new MenuState(_game, _graphicsDevice, _content));
         }
     }

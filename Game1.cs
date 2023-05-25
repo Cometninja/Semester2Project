@@ -76,7 +76,7 @@ namespace Semester2Prototype
             _graphics.PreferredBackBufferWidth = _windowSize.X;
             _graphics.PreferredBackBufferHeight = _windowSize.Y;
 
-            _graphics.IsFullScreen = false;
+            _graphics.IsFullScreen = true;
             _graphics.ApplyChanges();
 
             base.Initialize();
@@ -223,6 +223,7 @@ namespace Semester2Prototype
             if (Keyboard.GetState().IsKeyDown(Keys.P))
             {
                 ResetGame();
+
             }
 
             switch (_gameState)
