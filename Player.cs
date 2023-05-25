@@ -208,7 +208,7 @@ namespace Semester2Prototype
             tiles = _sprites.OfType<Tile>().ToList();
             _npcList = _sprites.OfType<NPC>().ToList();
             List<Clue> clues = _sprites.OfType<Clue>().ToList();
-
+            int speed = 2;
 
             switch (_moving)
             {
@@ -220,20 +220,20 @@ namespace Semester2Prototype
                     {
                         foreach (Tile tile in tiles)
                         {
-                            tile._position.Y++;
+                            tile._position.Y+= speed;
                         }
                         foreach (NPC npc in _npcList)
                         {
-                            npc._position.Y++;
+                            npc._position.Y+=speed;
                         }
                         foreach (Clue clue in clues)
                         {
-                            clue._position.Y++;
+                            clue._position.Y += speed;
                         }
                     }
                     else
                     {
-                        player._position.Y--;
+                        player._position.Y-= speed;
                     }
                     if (player._position.Y % 50 == 0 && sourceTile._position.Y % 50 == 0)
                     {
@@ -247,20 +247,20 @@ namespace Semester2Prototype
                     {
                         foreach (Tile tile in tiles)
                         {
-                            tile._position.Y--;
+                            tile._position.Y-= speed;
                         }
                         foreach (NPC npc in _npcList)
                         {
-                            npc._position.Y--;
+                            npc._position.Y -= speed;
                         }
                         foreach (Clue clue in clues)
                         {
-                            clue._position.Y--;
+                            clue._position.Y -= speed;
                         }
                     }
                     else
                     {
-                        player._position.Y++;
+                        player._position.Y += speed;
                     }
                     if (player._position.Y % 50 == 0 && sourceTile._position.Y % 50 == 0)
                     {
@@ -274,20 +274,20 @@ namespace Semester2Prototype
                     {
                         foreach (Tile tile in tiles)
                         {
-                            tile._position.X--;
+                            tile._position.X-= speed;
                         }
                         foreach (NPC npc in _npcList)
                         {
-                            npc._position.X--;
+                            npc._position.X -= speed;
                         }
                         foreach (Clue clue in clues)
                         {
-                            clue._position.X--;
+                            clue._position.X -= speed;
                         }
                     }
                     else
                     {
-                        player._position.X++;
+                        player._position.X+= speed;
                     }
                     if (player._position.X % 50 == 0 && sourceTile._position.X % 50 == 0)
                     {
@@ -301,21 +301,21 @@ namespace Semester2Prototype
                     {
                         foreach (Tile tile in tiles)
                         {
-                            tile._position.X++;
+                            tile._position.X+= speed;
                         }
 
                         foreach (NPC npc in _npcList)
                         {
-                            npc._position.X++;
+                            npc._position.X+= speed;
                         }
                         foreach (Clue clue in clues)
                         {
-                            clue._position.X++;
+                            clue._position.X+= speed;
                         }
                     }
                     else
                     {
-                        player._position.X--;
+                        player._position.X-= speed;
                     }
                     if (player._position.X % 50 == 0 && sourceTile._position.X % 50 == 0)
                     {
@@ -381,10 +381,10 @@ namespace Semester2Prototype
             animations[2].Add(new Rectangle(72, 106, 36, 52));
 
             // Left animation
-            animations[3].Add(new Rectangle(0, 158, 36, 52));
-            animations[3].Add(new Rectangle(36, 158, 36, 52));
-            animations[3].Add(new Rectangle(0, 158, 36, 52));
-            animations[3].Add(new Rectangle(72, 158, 36, 52));
+            animations[3].Add(new Rectangle(0, 159, 36, 52));
+            animations[3].Add(new Rectangle(36, 159, 36, 52));
+            animations[3].Add(new Rectangle(0, 159, 36, 52));
+            animations[3].Add(new Rectangle(72, 159, 36, 52));
 
             return animations;
         }
