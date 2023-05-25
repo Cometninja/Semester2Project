@@ -22,8 +22,7 @@ namespace Semester2Prototype
         JournalPage _journalPage;
         public bool _isKeysPressed;
         public int _cluesFound = 0;
-        // Debug
-        public bool _allFound = true;
+        public bool _allFound = false;
         string[] _titles = new string[] { "Tasks", "Clues", "Suspects", "page4" };
 
         public string[] _tasks;
@@ -121,12 +120,14 @@ namespace Semester2Prototype
                                 else result += s2 + " ";
 
                             }
-
-                            spriteBatch.DrawString(_font,
-                                result,
-                                new Vector2(page.X, page.Y + spacing + number),
-                                Color.Black);
-                            number += _font.MeasureString(result).Y + spacing;
+                            if (entryCount <= 6)
+                            { 
+                                spriteBatch.DrawString(_font,
+                                    result,
+                                    new Vector2(page.X, page.Y + spacing + number),
+                                    Color.Black);
+                                number += _font.MeasureString(result).Y + spacing;
+                            }
                         }
                         break;
                     case JournalPage.Suspects: break;

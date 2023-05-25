@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -69,21 +70,37 @@ namespace Semester2Prototype
                 }
             }
         }
-        public void SetUpFLoorPlan(List<Clue> clues)
+        public void SetUpFLoorPlan(List<Sprite> sprites)
         {
+            List<Clue> clues = sprites.OfType<Clue>().ToList();
+            List<NPC> npcs = sprites.OfType<NPC>().ToList();
             _floorLevel = _game1._floorLevel;
             List<List<int>> ints = LayoutRoom(_floorLevel);
             _tileState = TileState.Empty;
             _sourceRect = new Rectangle(45, 55, 8, 8);
 
-            foreach (Clue clue in clues)
+
+            foreach (NPC npc in npcs)
             {
-                if (_position == clue._position)
+                if (npc._position == _position)
                 {
                     _tileState = TileState.Wall;
-                    break;
+                    if (_point == new Point(19, 20))
+                        Debug.WriteLine(npc._NPCCharacter.ToString());
+
                 }
             }
+
+            foreach (Clue clue in clues)
+            {
+                if (_centerBox.Contains(clue._center))
+                {
+                    if (_point == new Point(19, 20))
+                        Debug.WriteLine(clue._clueType.ToString());
+                    _tileState = TileState.Wall;
+                }
+            }
+
 
             if (_point.X == 0 || _point.X == 29 || _point.Y == 0 || _point.Y == 24)
             {
@@ -107,9 +124,9 @@ namespace Semester2Prototype
 
         public void ContainsNPC(List<Sprite> sprites)
         {
-            List<NPC> npcs = sprites.OfType<NPC>().ToList();
             List<Clue> clues = sprites.OfType<Clue>().ToList();
 
+            List<NPC> npcs = sprites.OfType<NPC>().ToList();
             foreach (NPC npc in npcs)
             {
                 if (_centerBox.Contains(npc._center))
@@ -168,7 +185,7 @@ namespace Semester2Prototype
                     X6 = new int[] { 5, 10, 15, 20, 24 };
                     X7 = new int[] { 10, 20, 24 };
                     X8 = new int[] { 5, 10, 15, 20, 24, 25, 26, 27, 28 };
-                    X9 = new int[] { 5, 10 };
+                    X9 = new int[] { 5, 10,15,20 };
                     X10 = new int[] { 1, 2, 3, 4, 5, 6, 8, 9, 10, 11, 12, 13, 14, 15, 16, 18, 19, 20 };
                     X11 = new int[] { };
                     X12 = new int[] { 24, 25, 26, 27, 28 };
@@ -195,7 +212,7 @@ namespace Semester2Prototype
                     X6 = new int[] { 5, 10, 15, 20, 24 };
                     X7 = new int[] { 10, 20, 24 };
                     X8 = new int[] { 5, 10, 15, 20, 24, 25, 26, 27, 28 };
-                    X9 = new int[] { 5, 10, 24 };
+                    X9 = new int[] { 5, 10,15,20,24 };
                     X10 = new int[] { 1, 2, 3, 4, 5, 6, 8, 9, 10, 11, 12, 13, 14, 15, 16, 18, 19, 20, 24 };
                     X11 = new int[] { 24 };
                     X12 = new int[] { 24, 25, 26, 27, 28 };

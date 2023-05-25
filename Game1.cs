@@ -84,6 +84,7 @@ namespace Semester2Prototype
 
         protected override void LoadContent()
         {
+            _gameState = GameState.MainMenu;
             _sprites = new List<Sprite>();
             _floorLevel = FloorLevel.GroundFLoor;
             _menuState = new MenuState(this, GraphicsDevice, Content);
@@ -219,6 +220,11 @@ namespace Semester2Prototype
                 sprite.Update(_sprites);
             }
 
+            if (Keyboard.GetState().IsKeyDown(Keys.P))
+            {
+                ResetGame();
+            }
+
             switch (_gameState)
             {
                 case GameState.MainMenu:
@@ -228,13 +234,13 @@ namespace Semester2Prototype
                 case GameState.GameStart:
                     break;
                 case GameState.GamePlaying:
+
                     IsMouseVisible = false;
-                    if (Keyboard.GetState().IsKeyDown(Keys.Escape) && !_isEscapedPressed)
-                        Exit();
-                    else if (Keyboard.GetState().IsKeyUp(Keys.Escape) && _isEscapedPressed)
+                    if (Keyboard.GetState().IsKeyUp(Keys.Escape) && _isEscapedPressed)
                     {
                         _isEscapedPressed = false;
                     }
+
 
                     if (_player._position.X % 50 == 0 && _sprites.OfType<Tile>().FirstOrDefault()._position.X % 50 == 0)
                     {
@@ -260,6 +266,11 @@ namespace Semester2Prototype
                         int X = 1;
                         int Y = 15;
                         Vector2 playerFinalPos = _player._position - _sprites.OfType<Tile>().First(tile => tile._point == new Point(3, 17))._position;
+                        foreach(Clue clue in _sprites.OfType<Clue>().ToList()) 
+                        {
+                            clue._drawImage = false;
+                        }
+
 
                         foreach (Tile tile in _sprites.OfType<Tile>().ToList())
                         {
@@ -460,7 +471,7 @@ namespace Semester2Prototype
             List<Tile> tiles = _sprites.OfType<Tile>().ToList();
             foreach (Tile t in tiles)
             {
-                t.SetUpFLoorPlan(_clues);
+                t.SetUpFLoorPlan(_sprites);
             }
         }
         public void ChangeState(State state)
@@ -483,7 +494,7 @@ namespace Semester2Prototype
                 }
 
                 tile.SetFurniture();
-                tile.SetUpFLoorPlan(_clues);
+                tile.SetUpFLoorPlan(sprites);
                 tile.ContainsNPC(sprites);
             }
         }
@@ -506,6 +517,7 @@ namespace Semester2Prototype
             foreach (Clue clue in clues)
             {
                 clue._position = new Vector2(2000, 2000);
+                clue.Update(_sprites);
             }
             foreach (NPC npc in npcs)
             {
@@ -549,6 +561,14 @@ namespace Semester2Prototype
 
                     break;
             }
+            foreach(Clue clue in clues) 
+            {
+                clue.Update(_sprites);
+            }
+        }
+        public void ResetGame()
+        {
+            LoadContent();
         }
     }
 }

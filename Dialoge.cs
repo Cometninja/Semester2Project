@@ -97,7 +97,7 @@ namespace Semester2Prototype
 
             if (Keyboard.GetState().IsKeyDown(Keys.Enter) && !_ButtonPressed)
             {
-                if (_playerDialoge[_question] == "You said that you didn't leave the Kitchen desk all evening, yet I found this piece of your uniform showing you left the desk at least once yesterday.")
+                if (_playerDialoge[_question] == "You said that you didn't leave the Kitchen desk all evening, yet I found this piece of your uniform showing you left the kitchen at least once yesterday.")
                 {
                     _player._journal._goals["CookLocked"] = true;
                 }
