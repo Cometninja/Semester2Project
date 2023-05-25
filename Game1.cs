@@ -111,9 +111,6 @@ namespace Semester2Prototype
             _messageBoxImage = Content.Load<Texture2D>("MessageBox");
             _exclamationPoint = Content.Load<Texture2D>("Exclamation");
 
-
-
-
             var buttonTexture = Content.Load<Texture2D>("UI/Controls/Button");
             var buttonFont = Content.Load<SpriteFont>("UI/Fonts/Font");
             _rectangleTxr = Content.Load<Texture2D>("UI/RectangleTxr");
@@ -287,7 +284,6 @@ namespace Semester2Prototype
                             }
                         }
 
-
                         _accusation = new Accusation(_messageBoxImage, _mainFont, this, npcs, _sprites.OfType<Journal>().First());
                         _startAccusation = true;
                     }
@@ -321,7 +317,7 @@ namespace Semester2Prototype
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.SandyBrown);
-            _spriteBatch.Begin(samplerState: SamplerState.PointClamp);
+            _spriteBatch.Begin(SpriteSortMode.Deferred);
             foreach (Sprite sprite in _sprites)
             {
                 sprite.Draw(_spriteBatch);
@@ -466,7 +462,7 @@ namespace Semester2Prototype
             _player._position.X -= 50;
             _player._moving = Moving.Still;
             _player._playerFacing = Facing.Left;
-            _player._sourceRect = new Rectangle(0, 104, 36, 52);
+            _player._sourceRect = new Rectangle(0, 159, 36, 52);
 
             List<Tile> tiles = _sprites.OfType<Tile>().ToList();
             foreach (Tile t in tiles)

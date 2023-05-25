@@ -68,8 +68,8 @@
     {
         Tasks,
         Clues,
-        Suspects,
-        page4
+        page4,
+        Suspects
     }
     public enum Furniture
     {
