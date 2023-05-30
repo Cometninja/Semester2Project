@@ -20,7 +20,9 @@ namespace Semester2Prototype
         public bool _flipped;
         public Rectangle _drawRect;
         int _imageDrawHeight = 50;
+        int _imageDrawWidth = 50;
         float _imageDepth = 0f;
+        int _offSet = 0;
 
         public Tile(Texture2D image, Texture2D furnitureSheet, Vector2 position, Point point, Game1 game1) : base(image, position)
         {
@@ -36,7 +38,7 @@ namespace Semester2Prototype
         }
         public override void Update(List<Sprite> sprites)
         {
-            _drawRect = new Rectangle((int)_position.X - 25, (int)_position.Y - 25, 50, _imageDrawHeight);
+            _drawRect = new Rectangle((int)_position.X - 25, (int)_position.Y - 25 + _offSet, _imageDrawWidth, _imageDrawHeight);
             _centerBox = new Rectangle((int)(_position.X), (int)(_position.Y), 50, 50);
             Player player = sprites.OfType<Player>().First();
             if (_centerBox.Contains(player._center))
@@ -46,7 +48,7 @@ namespace Semester2Prototype
         }
         public override void Draw(SpriteBatch spriteBatch)
         {
-            if (_position.X < 1050 && _position.X > -50 && _position.Y < 700 && _position.Y > -50)
+            if (_position.X < 1050 && _position.X > -50 && _position.Y < 700 && _position.Y > -150)
             {
                 spriteBatch.Draw(
                     _image,
@@ -433,12 +435,18 @@ namespace Semester2Prototype
                     break;
                 case Furniture.StairsUp:
                     _flipped = true;
-                    _imageDrawHeight = 150;
                     _imageDepth = 0.1f;
-                    _furnitureImage = new Rectangle(578,0,16,48);
+                    _offSet = -10;
+                    _imageDrawHeight = 150 - _offSet;
+                    _imageDrawWidth = 200;
+                    _furnitureImage = new Rectangle(578,0,40,50);
                     break;
                 case Furniture.StairsDown:
-                    _furnitureImage = new Rectangle(578,0,16,16);
+                    _imageDepth = 0.1f;
+                    _offSet = 0;
+                    _imageDrawHeight = 150 - _offSet;
+                    _imageDrawWidth = 200;
+                    _furnitureImage = new Rectangle(578, 0, 40, 50);
                     break;
                 default:
                     _furnitureImage = Rectangle.Empty;

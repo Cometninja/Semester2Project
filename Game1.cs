@@ -31,6 +31,9 @@ namespace Semester2Prototype
         static Point _point = new Point(1500, 1250);
         static List<Clue> _clues;
 
+
+        Texture2D _spongebobMovie;
+
         public FurnitureFunctions _furnitureFunctions;
         public bool _isEscapedPressed;
         public float _volume = 1f;
@@ -132,7 +135,7 @@ namespace Semester2Prototype
             // add in the NPCs
 
 
-
+            
             _sprites.Add(new NPC(Content.Load<Texture2D>("ManagerSprite"), new Vector2(600, 250), NPCCharacter.Manager));
             _sprites.Add(new NPC(Content.Load<Texture2D>("ReceptionistSprite"), new Vector2(650, 250), NPCCharacter.Receptionist));
             _sprites.Add(new NPC(Content.Load<Texture2D>("CleanerSprite"), new Vector2(700, 250), NPCCharacter.Cleaner));
@@ -317,10 +320,18 @@ namespace Semester2Prototype
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.SandyBrown);
-            _spriteBatch.Begin(SpriteSortMode.Deferred);
+            _spriteBatch.Begin(SpriteSortMode.Immediate);
             foreach (Sprite sprite in _sprites)
             {
                 sprite.Draw(_spriteBatch);
+            }
+            foreach (Tile tile in _sprites.OfType<Tile>().Where(tile => tile._furniture != Furniture.None))
+            {
+                tile.Draw(_spriteBatch);
+            }
+            foreach(Clue clue in _clues)
+            {
+                clue.Draw(_spriteBatch);
             }
             switch (_gameState)
             {

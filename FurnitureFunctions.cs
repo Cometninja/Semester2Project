@@ -34,7 +34,7 @@ namespace Semester2Prototype
             //cupboard
             //stairs 17
             //
-            for (int i = 0; i <= 17; i++)
+            for (int i = 0; i <= 18; i++)
             {
                 furniture.Add(new List<Point>());
             }
@@ -147,13 +147,8 @@ namespace Semester2Prototype
                     furniture[10].Add(new Point(8, 11));
                     furniture[10].Add(new Point(26, 23));
 
-                    //stairs
+                    //stairs up
                     furniture[17].Add(new Point(25, 17));
-                    furniture[17].Add(new Point(25, 18));
-                    furniture[17].Add(new Point(25, 19));
-                    furniture[17].Add(new Point(26, 18));
-                    furniture[17].Add(new Point(26, 19));
-                    furniture[17].Add(new Point(27, 19));
 
 
                     break;
@@ -312,7 +307,8 @@ namespace Semester2Prototype
                     furniture[16].Add(new Point(28, 21));
 
 
-
+                    furniture[17].Add(new Point(25, 9));
+                    furniture[18].Add(new Point(25, 13));
 
 
 
@@ -448,6 +444,8 @@ namespace Semester2Prototype
                     furniture[16].Add(new Point(6, 18));
                     furniture[16].Add(new Point(16, 18));
                     furniture[16].Add(new Point(19, 23));
+
+                    furniture[18].Add(new Point(25, 13));
 
                     //table 0
                     //chair left 2
