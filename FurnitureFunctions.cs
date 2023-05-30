@@ -32,8 +32,9 @@ namespace Semester2Prototype
             //Wardrobe 14 
             //Sink 15
             //cupboard
+            //stairs 17
             //
-            for (int i = 0; i <= 16; i++)
+            for (int i = 0; i <= 17; i++)
             {
                 furniture.Add(new List<Point>());
             }
@@ -145,6 +146,15 @@ namespace Semester2Prototype
                     furniture[10].Add(new Point(7, 11));
                     furniture[10].Add(new Point(8, 11));
                     furniture[10].Add(new Point(26, 23));
+
+                    //stairs
+                    furniture[17].Add(new Point(25, 17));
+                    furniture[17].Add(new Point(25, 18));
+                    furniture[17].Add(new Point(25, 19));
+                    furniture[17].Add(new Point(26, 18));
+                    furniture[17].Add(new Point(26, 19));
+                    furniture[17].Add(new Point(27, 19));
+
 
                     break;
                 case FloorLevel.FirstFloor:
