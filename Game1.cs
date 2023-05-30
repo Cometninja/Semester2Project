@@ -270,8 +270,6 @@ namespace Semester2Prototype
                         {
                             clue._drawImage = false;
                         }
-
-
                         foreach (Tile tile in _sprites.OfType<Tile>().ToList())
                         {
                             tile._position += playerFinalPos;
@@ -286,8 +284,6 @@ namespace Semester2Prototype
                                 Y = 16;
                             }
                         }
-
-
                         _accusation = new Accusation(_messageBoxImage, _mainFont, this, npcs, _sprites.OfType<Journal>().First());
                         _startAccusation = true;
                     }
