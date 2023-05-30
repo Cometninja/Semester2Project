@@ -255,7 +255,7 @@ namespace Semester2Prototype
                 case GameState.Accusation:
                     if (_startAccusation)
                     {
-                        _accusation.Update();
+                        _accusation.Update(gameTime);
                     }
                     else
                     {
@@ -315,7 +315,7 @@ namespace Semester2Prototype
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.SandyBrown);
-            _spriteBatch.Begin(SpriteSortMode.Deferred);
+            _spriteBatch.Begin(SpriteSortMode.Deferred, samplerState: SamplerState.PointClamp);
             foreach (Sprite sprite in _sprites)
             {
                 sprite.Draw(_spriteBatch);

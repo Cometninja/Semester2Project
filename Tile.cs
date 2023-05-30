@@ -94,9 +94,6 @@ namespace Semester2Prototype
                 if (npc._position == _position)
                 {
                     _tileState = TileState.Wall;
-                    if (_point == new Point(19, 20))
-                        Debug.WriteLine(npc._NPCCharacter.ToString());
-
                 }
             }
 
@@ -104,8 +101,6 @@ namespace Semester2Prototype
             {
                 if (_centerBox.Contains(clue._center))
                 {
-                    if (_point == new Point(19, 20))
-                        Debug.WriteLine(clue._clueType.ToString());
                     _tileState = TileState.Wall;
                 }
             }

@@ -180,7 +180,7 @@ namespace Semester2Prototype
             }
             else
             {
-                _cursorPos = new Vector2(5, 10);
+                _cursorPos = new Vector2(_playerDialogBox.X + 5, numb);
                 spriteBatch.DrawString(_font, "PRESS ENTER TO CONTINUE...", new Vector2(_playerDialogBox.X + 25, numb), Color.White);
             }
 

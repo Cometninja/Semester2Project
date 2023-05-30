@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using Microsoft.VisualBasic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
@@ -16,8 +17,9 @@ namespace Semester2Prototype
         Vector2 _cursorPos = new Vector2(-20, 0);
         List<Vector2> _namePos = new List<Vector2>();
         int _charSelect = 0;
-        bool _isButtonDown, _confirmingChoice;
+        bool _isButtonDown = true, _confirmingChoice;
         string _text;
+        private bool _startTimer;
         bool _decisionMade;
         List<string> _options = new List<string>();
         Journal _journal;
@@ -27,7 +29,6 @@ namespace Semester2Prototype
         bool _printing;
         bool _displayFinalMessage;
         bool _centerText;
-
         public Accusation(Texture2D messageBoxImage, SpriteFont font, Game1 game1, List<NPC> npcs, Journal journal)
         {
             _journal = journal;
@@ -56,7 +57,7 @@ namespace Semester2Prototype
             _text = GetText(0);
         }
 
-        public void Update()
+        public void Update(GameTime gameTime)
         {
             Rectangle window = _game1.GraphicsDevice.Viewport.Bounds;
             _textBoxRect = new Rectangle(window.X, (int)(window.Height * 0.6), window.Width, (int)(window.Height * 0.4));
@@ -123,18 +124,34 @@ namespace Semester2Prototype
                 _tickCount++;
                 _text = PrintString(GetText(4), _tickCount);
             }
-
-
             if (_displayFinalMessage)
             {
                 if (Keyboard.GetState().IsKeyDown(Keys.Enter) && !_isButtonDown)
                 {
-                    _centerText = true;
                     _isButtonDown = true;
-                    _text = GetText(5);
-
+                    if (!_displayRestart) 
+                    { 
+                        _centerText = true;
+                        numb = 0;
+                        _text = GetText(5);
+                        _startTimer = true;
+                    }
+                    else
+                    {
+                        _game1.ResetGame();
+                    }
 
                 }
+                if (_startTimer)
+                {
+                    if(TimePassed(gameTime, 5))
+                    {
+                        _displayRestart = true;
+                        _text = "Press Enter to Restart Game";
+                        
+                    }
+                }
+                
 
             }
             if (_decisionMade)
@@ -310,6 +327,17 @@ namespace Semester2Prototype
                 }
             }
             return _displayText;
+        }
+
+        double numb = 0;
+        private bool _displayRestart;
+
+        public bool TimePassed(GameTime gameTime, int seconds)
+        {
+            numb += gameTime.ElapsedGameTime.TotalSeconds;
+            if (seconds < numb) 
+                return true;
+            else return false;
         }
     }
 }
