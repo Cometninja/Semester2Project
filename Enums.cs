@@ -69,7 +69,6 @@
         Tasks,
         Clues,
         page4,
-        Suspects
     }
     public enum Furniture
     {

@@ -22,6 +22,7 @@ namespace Semester2Prototype
         public bool _dialoge = false;
         static Journal _journal;
         public bool _spokenTo = false;
+        private bool _findCluesAdded;
 
         public NPC(Texture2D image, Vector2 position, NPCCharacter character) : base(image, position)
         {
@@ -248,6 +249,7 @@ namespace Semester2Prototype
                             "The body was discovered in the morning by the cleaner, so you might want to talk to them first#" +
                             "That's we know. good luck, it would be nice to get some closer");
                         _journal._goals["IntroReceptionist"] = true;
+                        _journal._journalTasks.Add(_journal._tasks[2]);
                     }
                     else
                     {
@@ -266,6 +268,11 @@ namespace Semester2Prototype
                         playerDialog.Add("What did you see other people do yesterday, anything unusual?");
                         npcDialog.Add("I saw little of other people yesterday, I barely talked or saw anyone, I was off working the whole evening#" +
                             "Though I did catch a glimpse Mr Montgomery come back to the hotel at 1am");
+                        if (!_findCluesAdded) 
+                        { 
+                            _journal._journalTasks.Add(_journal._tasks[3]);
+                            _findCluesAdded = true;
+                        }
                         if (_journal._goals["FoundMasterKey"])
                         {
                             playerDialog.Add("I found this master key in the storage closet, A place I thought only you would access. Can you tell me something?");

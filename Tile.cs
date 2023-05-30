@@ -52,7 +52,7 @@ namespace Semester2Prototype
             {
                 spriteBatch.Draw(
                     _image,
-                    new Rectangle((int)_position.X,(int)_position.Y,52,52),
+                    new Rectangle((int)_position.X,(int)_position.Y,50,50),
                     _sourceRect,
                     _color,
                     0f,
@@ -101,7 +101,7 @@ namespace Semester2Prototype
 
             foreach (Clue clue in clues)
             {
-                if (_centerBox.Contains(clue._center))
+                if (_position == clue._position)
                 {
                     _tileState = TileState.Wall;
                 }
@@ -373,7 +373,9 @@ namespace Semester2Prototype
 
         public void SetFurniture()
         {
-
+            _imageDrawHeight = 50;
+            _imageDrawWidth = 50;
+            _offSet = 0;
             switch (_furniture)
             {
                 case Furniture.Table:
@@ -384,6 +386,7 @@ namespace Semester2Prototype
                     _furnitureImage = new Rectangle(272, 205, 18, 18);
                     break;
                 case Furniture.ChairRight:
+                    _flipped = false;
                     _furnitureImage = new Rectangle(272, 205, 18, 18);
                     break;
                 case Furniture.ChairDown:
@@ -393,7 +396,12 @@ namespace Semester2Prototype
                     _furnitureImage = new Rectangle(272, 222, 18, 18);
                     break;
                 case Furniture.Sofa:
-                    _furnitureImage = new Rectangle(255, 51, 31, 15);
+                    if (_point == new Point(26, 11) || _point == new Point(26,15) || _point == new Point(17,1))
+                    {
+                        _furnitureImage = new Rectangle(255, 51, 31, 15); 
+                        _imageDrawWidth = 100;
+                    }
+
                     break;
                 case Furniture.Toilet:
                     _furnitureImage = new Rectangle(544, 300, 14, 23);

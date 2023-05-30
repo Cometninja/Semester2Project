@@ -111,8 +111,6 @@ namespace Semester2Prototype
                     //Sofa
                     furniture[6].Add(new Point(26, 11));
                     furniture[6].Add(new Point(27, 11));
-                    furniture[6].Add(new Point(24, 12));
-                    furniture[6].Add(new Point(24, 13));
                     furniture[6].Add(new Point(26, 15));
                     furniture[6].Add(new Point(27, 15));
 

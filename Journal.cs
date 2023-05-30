@@ -23,7 +23,7 @@ namespace Semester2Prototype
         public bool _isKeysPressed;
         public int _cluesFound = 0;
         public bool _allFound = false;
-        string[] _titles = new string[] { "Tasks", "Clues", "Suspects", "page4" };
+        string[] _titles = new string[] { "Tasks", "Clues", "Clues Cont.." };
 
         public string[] _tasks;
         public List<string> _clueMessages = new List<string>();
@@ -43,7 +43,9 @@ namespace Semester2Prototype
             "Speak to the Manager",
             "Speak to the Receptionist",
             "Speak to the Cleaner",
-            $"find clues {_cluesFound}"};
+            $"Find clues and Speak to all Guests",
+            "Speak to the Manager and Make a desicion"
+            };
             _journalTasks.Add(_tasks[0]);
         }
         public override void Update(List<Sprite> sprites)
@@ -130,7 +132,6 @@ namespace Semester2Prototype
                             }
                         }
                         break;
-                    case JournalPage.Suspects: break;
                     case JournalPage.page4:
                         spriteBatch.DrawString(_font,
                                 $"Found Clues {_cluesFound}/8",
@@ -247,21 +248,6 @@ namespace Semester2Prototype
                 _windowBounds.Width / 3,
                 (int)(_windowBounds.Height / 1.15f));
 
-
-            switch (_journalPage)
-            {
-                case JournalPage.Tasks:
-
-                    break;
-                case JournalPage.Clues:
-
-                    break;
-                case JournalPage.Suspects:
-                    break;
-                case JournalPage.page4:
-                    break;
-            }
-
             if (_goals["IntroManager"])
             {
                 CurrentMessage(1);
@@ -278,7 +264,7 @@ namespace Semester2Prototype
             {
                 _isKeysPressed = true;
                 _journalPage++;
-                if ((int)_journalPage == 4)
+                if ((int)_journalPage == 3)
                 {
                     _journalPage = 0;
                 }
@@ -290,7 +276,7 @@ namespace Semester2Prototype
                 _journalPage--;
                 if ((int)_journalPage < 0)
                 {
-                    _journalPage = (JournalPage)3;
+                    _journalPage = (JournalPage)2;
                 }
                 DisplayJournal();
             }
