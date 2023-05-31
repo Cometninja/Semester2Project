@@ -142,17 +142,23 @@ namespace Semester2Prototype
                     }
 
                 }
-                if (_startTimer)
+            }
+            if (_startTimer)
+            {
+                if(TimePassed(gameTime, 5))
                 {
-                    if(TimePassed(gameTime, 5))
+                    _displayRestart = true;
+                    _text = "Press Enter to Restart Game";
+
+                    if (Keyboard.GetState().IsKeyDown(Keys.Enter))
                     {
-                        _displayRestart = true;
-                        _text = "Press Enter to Restart Game";
-                        
+                        _isButtonDown = true;
+                        _game1.ResetGame();
                     }
+
                 }
             }
-            if (_decisionMade)
+            else if (_decisionMade)
             {
                 switch (_accused._NPCCharacter)
                 {
@@ -160,6 +166,7 @@ namespace Semester2Prototype
                         if (!_journal._allFound)
                         {
                             _text = GetText(3);
+                            _startTimer = true;
                         }
                         else
                         {
@@ -169,32 +176,9 @@ namespace Semester2Prototype
                             }
                         }
                         break;
-                    case NPCCharacter.Receptionist:
+                    default:
                         _text = GetText(3);
-                        break;
-                    case NPCCharacter.Cleaner:
-                        _text = GetText(3);
-                        break;
-                    case NPCCharacter.Chef:
-                        _text = GetText(3);
-                        break;
-                    case NPCCharacter.Cook:
-                        _text = GetText(3);
-                        break;
-                    case NPCCharacter.MrMontgomery:
-                        _text = GetText(3);
-                        break;
-                    case NPCCharacter.MrsPark:
-                        _text = GetText(3);
-                        break;
-                    case NPCCharacter.MsMayflower:
-                        _text = GetText(3);
-                        break;
-                    case NPCCharacter.MrSanders:
-                        _text = GetText(3);
-                        break;
-                    case NPCCharacter.MrRoss:
-                        _text = GetText(3);
+                        _startTimer = true;
                         break;
                 }
             }

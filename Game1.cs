@@ -32,7 +32,6 @@ namespace Semester2Prototype
         static List<Clue> _clues;
 
 
-        Texture2D _spongebobMovie;
 
         public FurnitureFunctions _furnitureFunctions;
         public bool _isEscapedPressed;
@@ -79,7 +78,7 @@ namespace Semester2Prototype
             _graphics.PreferredBackBufferWidth = _windowSize.X;
             _graphics.PreferredBackBufferHeight = _windowSize.Y;
 
-            _graphics.IsFullScreen = false;
+            _graphics.IsFullScreen = true;
             _graphics.ApplyChanges();
 
             base.Initialize();
@@ -323,7 +322,7 @@ namespace Semester2Prototype
             {
                 sprite.Draw(_spriteBatch);
             }
-            foreach (Tile tile in _sprites.OfType<Tile>().Where(tile => tile._furniture != Furniture.None))
+            foreach (Tile tile in _sprites.OfType<Tile>().Where(tile => tile._furniture != Furniture.None && tile._furnitureImage != new Rectangle()))
             {
                 tile.Draw(_spriteBatch);
             }
@@ -331,6 +330,8 @@ namespace Semester2Prototype
             {
                 clue.Draw(_spriteBatch);
             }
+            _sprites.OfType<Journal>().First().Draw(_spriteBatch);
+
             switch (_gameState)
             {
                 case GameState.MainMenu:

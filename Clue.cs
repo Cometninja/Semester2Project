@@ -57,9 +57,12 @@ namespace Semester2Prototype
             {
                 _found = true;
                 journal._cluesFound++;
+                
+
                 if (journal._cluesFound == 8)
                 {
                     journal._allFound = true;
+                    journal._journalTasks.Add(journal._tasks[4]);
                 }
                 switch (_clueType)
                 {
