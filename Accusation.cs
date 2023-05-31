@@ -151,8 +151,6 @@ namespace Semester2Prototype
                         
                     }
                 }
-                
-
             }
             if (_decisionMade)
             {
