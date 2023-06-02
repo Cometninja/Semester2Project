@@ -13,10 +13,7 @@ namespace Semester2Prototype
         public Moving _moving = Moving.Still;
         public Moving _lastMove;
         public Facing _facing = Facing.Down;
-        public Point _NPCPoint;
         public NPCCharacter _NPCCharacter;
-        float _speed = 0.5f;
-        static int _animationCount = 0, tickCount;
         static List<Sprite> _sprites = new List<Sprite>();
         public bool _dialoge = false;
         static Journal _journal;

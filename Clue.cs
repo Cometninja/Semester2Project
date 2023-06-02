@@ -10,9 +10,6 @@ namespace Semester2Prototype
     {
         public ClueType _clueType;
         public bool _found = false;
-        public Game1 _game1;
-        public SoundEffect _clueFound;
-        public SoundEffectInstance _clueFoundInstance;
         public bool _drawImage = true;
 
         public Clue(Texture2D image, ClueType clueType) : base(image, Vector2.Zero)

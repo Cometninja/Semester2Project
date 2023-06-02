@@ -12,10 +12,9 @@ namespace Semester2Prototype.States
     {
         private List<Component> _components;
 
-        Texture2D _rectangleTxr, _backgroundTxr, _buttonTexture, _keybindTxr;
+        Texture2D _rectangleTxr, _buttonTexture, _keybindTxr;
         SpriteFont _titleFont, _buttonFont;
 
-        static Point _screenSize = new Point(800, 800);
 
 
         Rectangle rect;
