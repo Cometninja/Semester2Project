@@ -75,7 +75,7 @@ namespace Semester2Prototype.States
 
             spriteBatch.Draw(_keybindTxr, new Vector2(rect.X, 150), Color.White);
 
-            spriteBatch.Draw(_keybindTxr, new Rectangle(rect.X,150, rect.Width, rect.Height / 6), Color.White);
+            spriteBatch.Draw(_keybindTxr, new Rectangle(rect.X, 150, rect.Width, rect.Height / 6), Color.White);
             foreach (var component in _components)
                 component.Draw(gameTime, spriteBatch);
         }

@@ -20,15 +20,5 @@ namespace Semester2Prototype
         {
 
         }
-
-        public void AddMessage(string message)
-        {
-            _messages.Add(message);
-        }
-        public void ClearMessage()
-        {
-            _messages.Clear();
-        }
-
     }
 }

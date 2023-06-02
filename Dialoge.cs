@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -17,7 +16,6 @@ namespace Semester2Prototype
         string _cursor = ">>";
         SpriteFont _font;
         bool _ButtonPressed = false;
-        int _spacing = 15;
         int _answer = 0;
         bool _npcAnswer = false;
         string _npcMessage = string.Empty;
@@ -28,7 +26,7 @@ namespace Semester2Prototype
         bool _displayEnter;
         public List<List<string>> _dialogs;
         static Point _dialogPos = new Point(0, 325);
-        Vector2 _cursorPos = new Vector2(_dialogPos.X +5,_dialogPos.Y+10);
+        Vector2 _cursorPos = new Vector2(_dialogPos.X + 5, _dialogPos.Y + 10);
         static Point _dialogWindowSize = new Point(400, 175);
         bool _finalQuestion;
         List<Vector2> _optionPos = new List<Vector2>();
@@ -161,11 +159,11 @@ namespace Semester2Prototype
                 {
                     string[] splitQuestion = s.Split(' ');
                     string result = string.Empty;
-                    foreach (string s2 in splitQuestion) 
-                    { 
+                    foreach (string s2 in splitQuestion)
+                    {
                         if (_font.MeasureString(result + " " + s2).X > (_playerDialogBox.Width - 50))
                         {
-                            result += ("\n" +s2 + " ");
+                            result += ("\n" + s2 + " ");
                         }
                         else
                         {

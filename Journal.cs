@@ -24,7 +24,6 @@ namespace Semester2Prototype
         public int _cluesFound = 0;
         public bool _allFound = false;
         string[] _titles = new string[] { "Tasks", "Clues", "Clues Cont.." };
-
         public string[] _tasks;
         public List<string> _clueMessages = new List<string>();
         public bool _newInfo;
@@ -123,7 +122,7 @@ namespace Semester2Prototype
 
                             }
                             if (entryCount <= 6)
-                            { 
+                            {
                                 spriteBatch.DrawString(_font,
                                     result,
                                     new Vector2(page.X, page.Y + spacing + number),
@@ -138,8 +137,8 @@ namespace Semester2Prototype
                                 new Vector2(page.X, page.Y + spacing),
                                 Color.Black);
                         number = 20;
-                        
-                        if(_journalClues.Count >= 7)
+
+                        if (_journalClues.Count >= 7)
                         {
                             string[] split = _journalClues[6].Split(' ');
                             string result = string.Empty;
@@ -152,7 +151,6 @@ namespace Semester2Prototype
                                 else result += s2 + " ";
 
                             }
-
                             spriteBatch.DrawString(_font,
                                 result,
                                 new Vector2(page.X, page.Y + spacing + number),
@@ -185,7 +183,7 @@ namespace Semester2Prototype
                 spriteBatch.Draw(_image, new Rectangle(0, 0, 50, 50), null, Color.White);
                 if (_newInfo)
                 {
-                    spriteBatch.Draw(_exclamation, new Vector2(16,4), null, Color.White);
+                    spriteBatch.Draw(_exclamation, new Vector2(16, 4), null, Color.White);
                 }
             }
         }

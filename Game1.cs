@@ -112,29 +112,23 @@ namespace Semester2Prototype
             _furnitureSheet = Content.Load<Texture2D>("furniture spritesheet");
             _messageBoxImage = Content.Load<Texture2D>("MessageBox");
             _exclamationPoint = Content.Load<Texture2D>("Exclamation");
-
             var buttonTexture = Content.Load<Texture2D>("UI/Controls/Button");
             var buttonFont = Content.Load<SpriteFont>("UI/Fonts/Font");
             _rectangleTxr = Content.Load<Texture2D>("UI/RectangleTxr");
             _backgroundTxr = Content.Load<Texture2D>("UI/Txr_Background");
-
             _buttonPress = Content.Load<SoundEffect>("Sounds/ButtonPressOld");
             _clueFound = Content.Load<SoundEffect>("Sounds/ClueFindSound");
-
             _buttonPressInstance = _buttonPress.CreateInstance();
             _clueFoundInstance = _clueFound.CreateInstance();
 
             MakeFloorPlan();
 
             _player = new Player(playerSpriteSheet, new Vector2(400, 250), _playerPoint, this, _clueFoundInstance);
-
             _sprites.Add(new MessageBox(_messageBoxImage, new Vector2(0, 0), _mainFont));
             _sprites.Add(_player);
 
             // add in the NPCs
 
-
-            
             _sprites.Add(new NPC(Content.Load<Texture2D>("ManagerSprite"), new Vector2(600, 250), NPCCharacter.Manager));
             _sprites.Add(new NPC(Content.Load<Texture2D>("ReceptionistSprite"), new Vector2(650, 250), NPCCharacter.Receptionist));
             _sprites.Add(new NPC(Content.Load<Texture2D>("CleanerSprite"), new Vector2(700, 250), NPCCharacter.Cleaner));
@@ -160,7 +154,7 @@ namespace Semester2Prototype
             SetClueLocation(_floorLevel);
             SetTileFurniture(_sprites, _furnitureLocations);
 
-            _sprites.Add(new Journal(_journalImage, new Vector2(0, 0), _mainFont, this,_exclamationPoint));
+            _sprites.Add(new Journal(_journalImage, new Vector2(0, 0), _mainFont, this, _exclamationPoint));
             _player.GetDebugImage(_square);
         }
         void MediaPlayer_MediaStateChanged(object sender, System.
@@ -184,8 +178,6 @@ namespace Semester2Prototype
             }
             // Set volume for MediaPlayer
             MediaPlayer.Volume = _volume;
-
-
         }
         public void AdjustSoundVolume(float change)
         {
@@ -230,8 +222,6 @@ namespace Semester2Prototype
                     IsMouseVisible = true;
                     _menuState.Update(gameTime);
                     break;
-                case GameState.GameStart:
-                    break;
                 case GameState.GamePlaying:
 
                     IsMouseVisible = false;
@@ -239,8 +229,6 @@ namespace Semester2Prototype
                     {
                         _isEscapedPressed = false;
                     }
-
-
                     if (_player._position.X % 50 == 0 && _sprites.OfType<Tile>().FirstOrDefault()._position.X % 50 == 0)
                     {
                         CheckChangeLevel();
@@ -265,7 +253,7 @@ namespace Semester2Prototype
                         int X = 1;
                         int Y = 15;
                         Vector2 playerFinalPos = _player._position - _sprites.OfType<Tile>().First(tile => tile._point == new Point(3, 17))._position;
-                        foreach(Clue clue in _sprites.OfType<Clue>().ToList()) 
+                        foreach (Clue clue in _sprites.OfType<Clue>().ToList())
                         {
                             clue._drawImage = false;
                         }
@@ -326,7 +314,7 @@ namespace Semester2Prototype
             {
                 tile.Draw(_spriteBatch);
             }
-            foreach(Clue clue in _clues)
+            foreach (Clue clue in _clues)
             {
                 clue.Draw(_spriteBatch);
             }
@@ -336,12 +324,6 @@ namespace Semester2Prototype
             {
                 case GameState.MainMenu:
                     _menuState.Draw(gameTime, _spriteBatch);
-                    break;
-                case GameState.GameStart:
-                    break;
-                case GameState.GamePlaying:
-                    break;
-                case GameState.JournalScreen:
                     break;
                 case GameState.Dialoge:
                     _player._dialoge.DialogeDraw(_spriteBatch);
@@ -399,12 +381,9 @@ namespace Semester2Prototype
                             tile._furniture = Furniture.None;
                             tile.SetFurniture();
                         }
-
-
                         SetClueLocation(_floorLevel);
                         SetTileFurniture(_sprites, _furnitureFunctions.PlaceFurniture());
                         ChangeLevel();
-
                     }
 
                     break;
@@ -498,7 +477,6 @@ namespace Semester2Prototype
                         tile._furniture = (Furniture)i;
                     }
                 }
-
                 tile.SetFurniture();
                 tile.SetUpFLoorPlan(sprites);
                 tile.ContainsNPC(sprites);
@@ -508,8 +486,6 @@ namespace Semester2Prototype
         {
             List<Clue> clues = _sprites.OfType<Clue>().ToList();
             List<NPC> npcs = _sprites.OfType<NPC>().ToList();
-
-
 
             //clues[0] Knife
             //clues[1] Photo
@@ -532,20 +508,18 @@ namespace Semester2Prototype
             switch (floorLevel)
             {
                 case FloorLevel.GroundFLoor:
+                    npcs[0]._position = _sprites.OfType<Tile>().First(tile => tile._point == new Point(9, 19))._position;
+                    npcs[1]._position = _sprites.OfType<Tile>().First(tile => tile._point == new Point(11, 17))._position;
+                    npcs[2]._position = _sprites.OfType<Tile>().First(tile => tile._point == new Point(15, 19))._position;
+                    npcs[3]._position = _sprites.OfType<Tile>().First(tile => tile._point == new Point(10, 6))._position;
+                    npcs[4]._position = _sprites.OfType<Tile>().First(tile => tile._point == new Point(15, 9))._position;
+                    npcs[5]._position = _sprites.OfType<Tile>().First(tile => tile._point == new Point(1, 16))._position;
+                    npcs[6]._position = _sprites.OfType<Tile>().First(tile => tile._point == new Point(3, 19))._position;
+                    npcs[7]._position = _sprites.OfType<Tile>().First(tile => tile._point == new Point(26, 12))._position;
+                    npcs[8]._position = _sprites.OfType<Tile>().First(tile => tile._point == new Point(22, 6))._position;
+                    npcs[9]._position = _sprites.OfType<Tile>().First(tile => tile._point == new Point(21, 15))._position;
 
-
-                    npcs[0]._position = _sprites.OfType<Tile>().First(tile => tile._point == new Point(9,19))._position;
-                    npcs[1]._position = _sprites.OfType<Tile>().First(tile => tile._point == new Point(11,17))._position;
-                    npcs[2]._position = _sprites.OfType<Tile>().First(tile => tile._point == new Point(15,19))._position;
-                    npcs[3]._position = _sprites.OfType<Tile>().First(tile => tile._point == new Point(10,6))._position;
-                    npcs[4]._position = _sprites.OfType<Tile>().First(tile => tile._point == new Point(15,9))._position;
-                    npcs[5]._position = _sprites.OfType<Tile>().First(tile => tile._point == new Point(1,16))._position;
-                    npcs[6]._position = _sprites.OfType<Tile>().First(tile => tile._point == new Point(3,19))._position;
-                    npcs[7]._position = _sprites.OfType<Tile>().First(tile => tile._point == new Point(26,12))._position;
-                    npcs[8]._position = _sprites.OfType<Tile>().First(tile => tile._point == new Point(22,6))._position;
-                    npcs[9]._position = _sprites.OfType<Tile>().First(tile => tile._point == new Point(21,15))._position;
-
-                    foreach(NPC npc in npcs)
+                    foreach (NPC npc in npcs)
                     {
                         npc.Update(_sprites);
                     }
@@ -567,7 +541,7 @@ namespace Semester2Prototype
 
                     break;
             }
-            foreach(Clue clue in clues) 
+            foreach (Clue clue in clues)
             {
                 clue.Update(_sprites);
             }

@@ -31,7 +31,7 @@ namespace Semester2Prototype
 
         public List<string> _playerDialoge = new List<string>();
 
-        public Player(Texture2D image, Vector2 position, Point point, Game1 game1,SoundEffectInstance clueSound) : base(image, position)
+        public Player(Texture2D image, Vector2 position, Point point, Game1 game1, SoundEffectInstance clueSound) : base(image, position)
         {
             _clueSound = clueSound;
             _game1 = game1;
@@ -91,11 +91,6 @@ namespace Semester2Prototype
                 {
                     _moving = Moving.Left;
                 }
-            }
-            else if (Keyboard.GetState().IsKeyDown(Keys.Space) && !_isSpacePressed)
-            {
-                _messageBox.AddMessage($"{_game1.GraphicsDevice.Viewport.ToString()}");
-                _isSpacePressed = true;
             }
             if (!Keyboard.GetState().IsKeyDown(Keys.Space) && _isSpacePressed)
             {
@@ -220,11 +215,11 @@ namespace Semester2Prototype
                     {
                         foreach (Tile tile in tiles)
                         {
-                            tile._position.Y+= speed;
+                            tile._position.Y += speed;
                         }
                         foreach (NPC npc in _npcList)
                         {
-                            npc._position.Y+=speed;
+                            npc._position.Y += speed;
                         }
                         foreach (Clue clue in clues)
                         {
@@ -233,7 +228,7 @@ namespace Semester2Prototype
                     }
                     else
                     {
-                        player._position.Y-= speed;
+                        player._position.Y -= speed;
                     }
                     if (player._position.Y % 50 == 0 && sourceTile._position.Y % 50 == 0)
                     {
@@ -247,7 +242,7 @@ namespace Semester2Prototype
                     {
                         foreach (Tile tile in tiles)
                         {
-                            tile._position.Y-= speed;
+                            tile._position.Y -= speed;
                         }
                         foreach (NPC npc in _npcList)
                         {
@@ -274,7 +269,7 @@ namespace Semester2Prototype
                     {
                         foreach (Tile tile in tiles)
                         {
-                            tile._position.X-= speed;
+                            tile._position.X -= speed;
                         }
                         foreach (NPC npc in _npcList)
                         {
@@ -287,7 +282,7 @@ namespace Semester2Prototype
                     }
                     else
                     {
-                        player._position.X+= speed;
+                        player._position.X += speed;
                     }
                     if (player._position.X % 50 == 0 && sourceTile._position.X % 50 == 0)
                     {
@@ -301,25 +296,25 @@ namespace Semester2Prototype
                     {
                         foreach (Tile tile in tiles)
                         {
-                            tile._position.X+= speed;
+                            tile._position.X += speed;
                         }
 
                         foreach (NPC npc in _npcList)
                         {
-                            npc._position.X+= speed;
+                            npc._position.X += speed;
                         }
                         foreach (Clue clue in clues)
                         {
-                            clue._position.X+= speed;
+                            clue._position.X += speed;
                         }
                     }
                     else
                     {
-                        player._position.X-= speed;
+                        player._position.X -= speed;
                     }
                     if (player._position.X % 50 == 0 && sourceTile._position.X % 50 == 0)
                     {
-                        if(_moving == Moving.Left ||  _moving == Moving.Right)
+                        if (_moving == Moving.Left || _moving == Moving.Right)
                         {
                             player._sourceRect = GetPlayerImage()[3][0];
                         }

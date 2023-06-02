@@ -15,7 +15,6 @@ namespace Semester2Prototype
         public Facing _facing = Facing.Down;
         public Point _NPCPoint;
         public NPCCharacter _NPCCharacter;
-        Random _random = new Random();
         float _speed = 0.5f;
         static int _animationCount = 0, tickCount;
         static List<Sprite> _sprites = new List<Sprite>();
@@ -70,100 +69,6 @@ namespace Semester2Prototype
             animations[1].Add(new Rectangle(72, 52, 36, 52));
 
             return animations;
-        }
-        public void NPC_Move()
-        {
-            NPC_Controls();
-            switch (_moving)
-            {
-                case Moving.Up:
-                    _sourceRect = GetNPCImage()[1][_animationCount];
-                    _facing = Facing.Up;
-                    _position.Y -= _speed;
-                    break;
-                case Moving.Down:
-                    _sourceRect = GetNPCImage()[0][_animationCount];
-                    _facing = Facing.Down;
-                    _position.Y += _speed;
-                    break;
-                case Moving.Left:
-                    _sourceRect = GetNPCImage()[3][_animationCount];
-                    _facing = Facing.Left;
-                    _position.X -= _speed;
-                    break;
-                case Moving.Right:
-                    _sourceRect = GetNPCImage()[2][_animationCount];
-                    _facing = Facing.Right;
-                    _position.X += _speed;
-                    break;
-                default:
-                    break;
-            }
-            tickCount++;
-            if (tickCount % 10 == 0)
-            {
-                if (_animationCount == 3)
-                {
-                    _animationCount = 0;
-                }
-                else
-                {
-                    _animationCount++;
-                }
-            }
-        }
-        public void NPC_Controls()
-        {
-            Player player = _sprites.OfType<Player>().FirstOrDefault();
-            Tile tile = _sprites.OfType<Tile>().FirstOrDefault();
-            //TODO add in NPC Moving
-            if ((_position.X - tile._position.X) % 50 == 0 && (_position.Y - tile._position.Y) % 50 == 0)
-            {
-                CheckNextTile();
-            }
-        }
-        public void CheckNextTile()
-        {
-            Point nextTilePoint = Point.Zero;
-            foreach (Tile tile in _sprites.OfType<Tile>().ToList())
-            {
-                if (tile._centerBox.Contains(this._center))
-                {
-                    this._NPCPoint = tile._point;
-                    nextTilePoint = _NPCPoint;
-
-                    break;
-                }
-            }
-            switch (this._facing)
-            {
-                case Facing.Up:
-                    nextTilePoint.Y--;
-                    break;
-                case Facing.Down:
-                    nextTilePoint.Y++;
-                    break;
-                case Facing.Left:
-                    nextTilePoint.X--;
-                    break;
-                case Facing.Right:
-                    nextTilePoint.X++;
-                    break;
-            }
-
-            Tile nextTile = _sprites.OfType<Tile>().Where(tile => tile._point == nextTilePoint).FirstOrDefault();
-
-            if (nextTile != null)
-            {
-                if (nextTile._tileState != TileState.Empty)
-                {
-                    Moving placeholder = _moving;
-                    while (_moving == placeholder)
-                    {
-                        _moving = (Moving)_random.Next(1, 5);
-                    }
-                }
-            }
         }
 
         public void StartDialog()
@@ -268,8 +173,8 @@ namespace Semester2Prototype
                         playerDialog.Add("What did you see other people do yesterday, anything unusual?");
                         npcDialog.Add("I saw little of other people yesterday, I barely talked or saw anyone, I was off working the whole evening#" +
                             "Though I did catch a glimpse Mr Montgomery come back to the hotel at 1am");
-                        if (!_findCluesAdded) 
-                        { 
+                        if (!_findCluesAdded)
+                        {
                             _journal._journalTasks.Add(_journal._tasks[3]);
                             _findCluesAdded = true;
                         }

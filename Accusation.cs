@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using Microsoft.VisualBasic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
@@ -129,8 +128,8 @@ namespace Semester2Prototype
                 if (Keyboard.GetState().IsKeyDown(Keys.Enter) && !_isButtonDown)
                 {
                     _isButtonDown = true;
-                    if (!_displayRestart) 
-                    { 
+                    if (!_displayRestart)
+                    {
                         _centerText = true;
                         numb = 0;
                         _text = GetText(5);
@@ -145,7 +144,7 @@ namespace Semester2Prototype
             }
             if (_startTimer)
             {
-                if(TimePassed(gameTime, 5))
+                if (TimePassed(gameTime, 5))
                 {
                     _displayRestart = true;
                     _text = "Press Enter to Restart Game";
@@ -155,7 +154,6 @@ namespace Semester2Prototype
                         _isButtonDown = true;
                         _game1.ResetGame();
                     }
-
                 }
             }
             else if (_decisionMade)
@@ -310,14 +308,12 @@ namespace Semester2Prototype
             }
             return _displayText;
         }
-
         double numb = 0;
         private bool _displayRestart;
-
         public bool TimePassed(GameTime gameTime, int seconds)
         {
             numb += gameTime.ElapsedGameTime.TotalSeconds;
-            if (seconds < numb) 
+            if (seconds < numb)
                 return true;
             else return false;
         }

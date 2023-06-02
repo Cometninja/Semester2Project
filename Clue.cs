@@ -57,7 +57,6 @@ namespace Semester2Prototype
             {
                 _found = true;
                 journal._cluesFound++;
-                
 
                 if (journal._cluesFound == 8)
                 {

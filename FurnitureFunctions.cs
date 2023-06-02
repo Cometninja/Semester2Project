@@ -151,9 +151,6 @@ namespace Semester2Prototype
 
                     break;
                 case FloorLevel.FirstFloor:
-
-
-
                     //table 0
                     furniture[0].Add(new Point(1, 4));
                     furniture[0].Add(new Point(9, 5));
@@ -308,8 +305,6 @@ namespace Semester2Prototype
                     furniture[17].Add(new Point(25, 9));
                     furniture[18].Add(new Point(25, 13));
 
-
-
                     break;
                 case FloorLevel.SecondFLoor:
 
@@ -457,15 +452,9 @@ namespace Semester2Prototype
                     //wardrobe 14
                     //sink 15
                     //cuboard 16
-
-
                     break;
-
             }
             return furniture;
         }
-
-
-
     }
 }

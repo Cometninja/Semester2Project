@@ -52,11 +52,11 @@ namespace Semester2Prototype
             {
                 spriteBatch.Draw(
                     _image,
-                    new Rectangle((int)_position.X,(int)_position.Y,50,50),
+                    new Rectangle((int)_position.X, (int)_position.Y, 50, 50),
                     _sourceRect,
                     _color,
                     0f,
-                    new Vector2(4,4),
+                    new Vector2(4, 4),
                     SpriteEffects.None,
                     0f);
                 if (_furniture != Furniture.None)
@@ -191,7 +191,7 @@ namespace Semester2Prototype
                     X6 = new int[] { 5, 10, 15, 20, 24 };
                     X7 = new int[] { 10, 20, 24 };
                     X8 = new int[] { 5, 10, 15, 20, 24, 25, 26, 27, 28 };
-                    X9 = new int[] { 5, 10,15,20 };
+                    X9 = new int[] { 5, 10, 15, 20 };
                     X10 = new int[] { 1, 2, 3, 4, 5, 6, 8, 9, 10, 11, 12, 13, 14, 15, 16, 18, 19, 20 };
                     X11 = new int[] { };
                     X12 = new int[] { 24, 25, 26, 27, 28 };
@@ -218,7 +218,7 @@ namespace Semester2Prototype
                     X6 = new int[] { 5, 10, 15, 20, 24 };
                     X7 = new int[] { 10, 20, 24 };
                     X8 = new int[] { 5, 10, 15, 20, 24, 25, 26, 27, 28 };
-                    X9 = new int[] { 5, 10,15,20,24 };
+                    X9 = new int[] { 5, 10, 15, 20, 24 };
                     X10 = new int[] { 1, 2, 3, 4, 5, 6, 8, 9, 10, 11, 12, 13, 14, 15, 16, 18, 19, 20, 24 };
                     X11 = new int[] { 24 };
                     X12 = new int[] { 24, 25, 26, 27, 28 };
@@ -256,7 +256,7 @@ namespace Semester2Prototype
                     X17 = new int[] { 7, 17 };
                     X18 = new int[] { 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17 };
                     X19 = new int[] { 0 };
-                    X20 = new int[] { 24,25, 26, 27, 28 };
+                    X20 = new int[] { 24, 25, 26, 27, 28 };
                     X21 = new int[] { 24 };
                     X22 = new int[] { 0 };
                     X23 = new int[] { 24 };
@@ -396,9 +396,9 @@ namespace Semester2Prototype
                     _furnitureImage = new Rectangle(272, 222, 18, 18);
                     break;
                 case Furniture.Sofa:
-                    if (_point == new Point(26, 11) || _point == new Point(26,15) || _point == new Point(17,1))
+                    if (_point == new Point(26, 11) || _point == new Point(26, 15) || _point == new Point(17, 1))
                     {
-                        _furnitureImage = new Rectangle(255, 51, 31, 15); 
+                        _furnitureImage = new Rectangle(255, 51, 31, 15);
                         _imageDrawWidth = 100;
                     }
 
@@ -442,7 +442,7 @@ namespace Semester2Prototype
                     _offSet = -10;
                     _imageDrawHeight = 150 - _offSet;
                     _imageDrawWidth = 200;
-                    _furnitureImage = new Rectangle(578,0,40,50);
+                    _furnitureImage = new Rectangle(578, 0, 40, 50);
                     break;
                 case Furniture.StairsDown:
                     _imageDepth = 0.1f;
